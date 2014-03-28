@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>MVC</title>
+    <meta charset="utf-8" />
+    <link href="@Url.Content("~/Content/admin.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/normalize.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/kendo/2013.2.716/jquery.min.js")"> </script>
+    <script src="@Url.Content("~/Scripts/jquery-migrate-1.2.1.js")"> </script>
+
+    <link href="@Url.Content("~/Content/kendo/2013.2.716/kendo.zb.common.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2013.2.716/kendo.dataviz.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2013.2.716/kendo.zb.default.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2013.2.716/kendo.dataviz.default.min.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/kendo/2013.2.716/kendo.all.min.js")"> </script>
+    <script src="@Url.Content("~/Scripts/kendo/2013.2.716/kendo.aspnetmvc.min.js")"> </script>
+    <script src="@Url.Content("~/Scripts/kendo/2013.2.716/cultures/kendo.culture.zh-CN.min.js")"> </script>
+    <script src="@Url.Content("~/Scripts/admin.js")"> </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $(".g-size > ul > li").hover(function (e) {
+                $(this).find(".sys-list").show();
+                $(this).css("background", "#ffffff");
+                $(this).find("b").css("border", "#ffffff");
+            }, function () {
+                $(this).find(".sys-list").hide();
+                $(this).css("background", "");
+                $(this).find("b").css("border", "");
+            });
+        });
+    </script>
+</head>
+<body>
+    @RenderBody()
+
+    @Html.Hidden("cmid", ViewData["MenuId"])
+    <script type="text/javascript">
+        $(function () {
+            (function (M, $) {
+                iv.init();
+            })(Xwb, jQuery);
+        })
+    </script>
+</body>
+</html>

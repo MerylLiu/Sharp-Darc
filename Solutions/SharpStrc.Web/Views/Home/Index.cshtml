@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+}
+
+@model IList<SharpStrc.Web.Common.ViewModels.UserRowModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>View1</title>
+</head>
+<body>
+    <div>
+        @foreach (var item in Model)
+        {
+            @item.DisplayName
+        }
+    </div>
+</body>
+</html>
