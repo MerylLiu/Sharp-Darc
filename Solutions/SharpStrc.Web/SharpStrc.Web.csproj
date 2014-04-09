@@ -131,7 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="CastleWindsor\ComponentRegistrar.cs" />
+    <Compile Include="CastleWindsor\ComponentRegistrer.cs" />
     <Compile Include="CastleWindsor\WindsorControllerFactory.cs" />
     <Compile Include="CastleWindsor\WindsorExtension.cs" />
     <Compile Include="Global.asax.cs">

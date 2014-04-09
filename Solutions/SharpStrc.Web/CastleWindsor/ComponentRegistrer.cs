@@ -5,7 +5,7 @@
     using Darc.Dapper;
     using Domain;
 
-    public class ComponentRegistrar
+    public class ComponentRegistrer
     {
         public static void AddComponentsTo(IWindsorContainer container)
         {

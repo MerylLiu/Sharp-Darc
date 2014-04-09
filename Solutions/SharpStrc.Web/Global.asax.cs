@@ -34,7 +34,7 @@
 
             container.RegisterControllers(typeof (HomeController).Assembly);
             container.RegisterControllers(typeof (ExampleController).Assembly);
-            ComponentRegistrar.AddComponentsTo(container);
+            ComponentRegistrer.AddComponentsTo(container);
 
             var windsorServiceLocator = new WindsorServiceLocator(container);
             ServiceLocator.SetLocatorProvider(() => windsorServiceLocator);
