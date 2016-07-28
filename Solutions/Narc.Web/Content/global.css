@@ -1,0 +1,160 @@
+﻿@charset "utf-8";
+/** 清除内外边距**/
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,div,/* 结构元素 */
+dl,dt,dd,ul,ol,li,/* 列表元素 */
+form,fieldset,legend,button,input,textarea,option,select,/* 表单元素 */
+pre,/* 文本格式元素 */
+tr,td,/* 表格元素 */
+img{ margin:0; padding:0;}
+
+/** 设置默认字体 **/
+body,button,input,select,textarea{ font:12px "宋体"; line-height:22px;}
+h1,h2,h3,h4,h5,h6{font-size:12px;}
+em{font-weight:normal;}
+
+/** 重置列表元素 **/
+ul,ol{ list-style:none;}
+
+/** 重置图片元素 **/
+img{ border:0px;}
+
+/**div居中**/
+div{margin:0 auto;}
+
+/** 重置表格元素 **/
+table {border-collapse:collapse;border-spacing:0;}
+
+/**重置表格元素**/
+button,input{height:22px;vertical-align:middle}
+
+/** 以下为简写通用样式 **/
+/*全局类*/
+.cb{clear:both; height:0px; margin:0; padding:0; width:0; border:none; overflow:hidden;}
+.cl{clear:left;}
+.cr{clear:right;}
+.fl{float:left;}
+.fr{float:right;}
+.dis{display:block;}
+.ndis{display:none;}
+.disin{display:inline;}
+.pointer{cursor:pointer;}
+/*链接类*/
+a.link000:link,a.link000:visited{font-size:12px; text-decoration:none; color:#000;font-weight:normal}
+a.link000:hover{font-size:12px; text-decoration:underline; color:#000;font-weight:normal}
+a.linkfff:link,a.linkfff:visited{font-size:12px; text-decoration:none; color:#fff;font-weight:normal}
+a.linkfff:hover{font-size:12px; text-decoration:underline; color:#fff;font-weight:normal}
+a.link666:link,a.link666:visited{font-size:12px; text-decoration:none; color:#666;font-weight:normal}
+a.link666:hover{font-size:12px; text-decoration:underline; color:#666;font-weight:normal}
+a.link666no:link,a.link666no:visited{font-size:12px; text-decoration:none; color:#666;font-weight:normal}
+a.link666no:hover{font-size:12px; text-decoration:none; color:#666;font-weight:normal}
+a.link666_f30:link,a.link666_f30:visited{font-size:12px; text-decoration:none; color:#666;font-weight:normal}
+a.link666_f30:hover{font-size:12px; text-decoration:underline; color:#f30;font-weight:normal}
+a.link990:link,a.link990:visited{font-size:12px; text-decoration:none; color:#990000; font-weight:normal;}
+a.link990:hover{font-size:12px; text-decoration:underline; color:#990000; font-weight:normal;}
+a.link06c:link,a.link06c:visited{font-size:12px; color:#06c; text-decoration:none;font-weight:normal}
+a.link06c:hover{font-size:12px; color:#06c; text-decoration:underline;font-weight:normal}
+/*间距类*/
+.m5{margin:5px;}
+.mv5{margin:5px 0;}
+.mh5{margin:0 5px;}
+.ml5{margin-left:5px;}
+.mr5{margin-right:5px;}
+.mt5{margin-top:5px;}
+.mb5{margin-bottom:5px;}
+.m10{margin:10px;}
+.mv10{margin:10px 0;}
+.mh10{margin:0 10px;}
+.ml10{margin-left:10px;}
+.mr10{margin-right:10px;}
+.mt10{margin-top:10px;}
+.mb10{margin-bottom:10px;}
+.m15{margin:15px;}
+.mv15{margin:15px 0;}
+.mh15{margin:0 15px;}
+.ml15{margin-left:15px;}
+.mr15{margin-right:15px;}
+.mt15{margin-top:15px;}
+.mb15{margin-bottom:15px;}
+.m20{margin:20px;}
+.mv20{margin:20px 0;}
+.mh20{margin:0 20px;}
+.ml20{margin-left:20px;}
+.mr20{margin-right:20px;}
+.mt20{margin-top:20px;}
+.mb20{margin-bottom:20px;}
+.p5{padding:5px;}
+.pv5{padding:5px 0;}
+.ph5{padding:0 5px;}
+.pl5{padding-left:5px;}
+.pr5{padding-right:5px;}
+.pt5{padding-top:5px;}
+.pb5{padding-bottom:5px;}
+.p10{padding:10px;}
+.pv10{padding:10px 0;}
+.ph10{padding:0 10px;}
+.pl10{padding-left:10px;}
+.pr10{padding-right:10px;}
+.pt10{padding-top:10px;}
+.pb10{padding-bottom:10px;}
+.p15{padding:15px;}
+.pv15{padding:15px 0;}
+.ph15{padding:0 15px;}
+.pl15{padding-left:15px;}
+.pr15{padding-right:15px;}
+.pt15{padding-top:15px;}
+.pb15{padding-bottom:15px;}
+.p20{padding:20px;}
+.pv20{padding:20px 0;}
+.ph20{padding:0 20px;}
+.pl20{padding-left:20px;}
+.pr20{padding-right:20px;}
+.pt20{padding-top:20px;}
+.pb20{padding-bottom:20px;}
+/*边框类*/
+.bor_ccc{ border:1px solid #ccc;}
+.bor_ddd{ border:1px solid #ddd;}
+/*位置类*/
+.pr{position:relative;}
+.pa{position:absolute;}
+.tr{text-align:right;}
+.tl{text-align:left;}
+.tc{text-align:center;}
+.tj{text-align:justify;}
+.ti2{text-indent:2em;}
+.vat{vertical-align:top;}
+.vab{vertical-align:bottom;}
+.vam{vertical-align:middle;}
+.vatt{vertical-align:text-top}
+.vatb{vertical-align:text-bottom}
+/*字体类*/
+.b{font-weight:bold;}
+.f12{font-size:12px;}
+.f14{font-size:14px;}
+.f16{font-size:16px;}
+.f18{font-size:18px;}
+.f20{font-size:20px;}
+.f22{font-size:22px;}
+.f24{font-size:24px;}
+.f26{font-size:26px;}
+.f28{font-size:28px;}
+.f30{font-size:30px;}
+.lh22{line-height:22px;}
+.lh24{line-height:24px;}
+.lh25{line-height:25px;}
+.lh28{line-height:28px;}
+.lh30{line-height:30px;}
+.lh35{line-height:35px;}
+/*颜色类*/
+.white{color:#fff;}
+.black{color:#000;}
+.gray{color:#ccc;}
+.col666{color:#666;}
+.red{color:#ff0000;}
+.blue{color:#3a8ecf;}
+.orange{color:#ff7200;}
+/*表单类*/
+.inptut_fff{background-color:#fff; height:22px; line-height:22px; padding-left:5px; border:1px solid #ddd}
+
+
+
+

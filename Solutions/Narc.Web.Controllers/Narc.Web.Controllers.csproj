@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B5EE3F68-7E7B-43CD-9997-F0A906F2173E}</ProjectGuid>
+    <ProjectGuid>{1D7217F5-A0A2-4F2F-8C0A-24C5BF82911A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dapper</RootNamespace>
-    <AssemblyName>Dapper</AssemblyName>
+    <RootNamespace>Narc.Web.Controllers</RootNamespace>
+    <AssemblyName>Narc.Web.Controllers</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,7 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,8 +42,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SqlMapper.cs" />
+    <Compile Include="HomeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Narc.Domain\Narc.Domain.csproj">
+      <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
+      <Name>Narc.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Narc.Framework\Narc.Framework.csproj">
+      <Project>{38970678-4D76-46E2-A85B-75C22EA5E5F8}</Project>
+      <Name>Narc.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Narc.Tasks\Narc.Tasks.csproj">
+      <Project>{b3b434c0-e0e8-4ec6-9173-28a7cba29fcb}</Project>
+      <Name>Narc.Tasks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Narc.Web.Common\Narc.Web.Common.csproj">
+      <Project>{00245CEC-2F95-435E-8FEC-C3DF9A4C1E64}</Project>
+      <Name>Narc.Web.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
