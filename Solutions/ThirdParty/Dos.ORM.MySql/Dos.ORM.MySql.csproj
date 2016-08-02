@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EF017214-86C2-4F41-B1B6-3372C908692A}</ProjectGuid>
+    <ProjectGuid>{54954798-4117-45FE-92F8-2B32A62E7FBC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Narc.Web.Areas.Admin.Conrtollers</RootNamespace>
-    <AssemblyName>Narc.Web.Areas.Admin.Conrtollers</AssemblyName>
+    <RootNamespace>Dos.ORM.MySql</RootNamespace>
+    <AssemblyName>Dos.ORM.MySql</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Dos.ORM.MySql.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,38 +30,28 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Dos.ORM.MySql.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Narc.Tasks">
-      <HintPath>..\Narc.Tasks\bin\Debug\Narc.Tasks.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Lib\MySql.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExampleController.cs" />
+    <Compile Include="MySqlProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Narc.Domain\Narc.Domain.csproj">
-      <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
-      <Name>Narc.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Narc.Framework\Narc.Framework.csproj">
-      <Project>{38970678-4D76-46E2-A85B-75C22EA5E5F8}</Project>
-      <Name>Narc.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Narc.Web.Common\Narc.Web.Common.csproj">
-      <Project>{00245CEC-2F95-435E-8FEC-C3DF9A4C1E64}</Project>
-      <Name>Narc.Web.Common</Name>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dos.ORM\Dos.ORM.csproj">
+      <Project>{b2457283-955c-425d-8565-0329430748fd}</Project>
+      <Name>Dos.ORM</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

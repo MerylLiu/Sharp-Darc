@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -802,10 +803,6 @@
     <Content Include="Scripts\kendo\2013.2.716\jquery.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ThirdParty\Narc.Dapper\Narc.Dapper.csproj">
-      <Project>{87AC7B72-44A8-4B1B-A96D-6217E757AAFB}</Project>
-      <Name>Narc.Dapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Narc.Domain\Narc.Domain.csproj">
       <Project>{e034be8b-3957-45ac-b63b-2485b02a501e}</Project>
       <Name>Narc.Domain</Name>
