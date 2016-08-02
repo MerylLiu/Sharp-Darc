@@ -41,7 +41,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -55,16 +57,6 @@
     <Compile Include="Queries\ExampleQuery.cs" />
     <Compile Include="Queries\IExampleQuery.cs" />
     <Compile Include="ViewModels\ExampleModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
-      <Project>{b5ee3f68-7e7b-43cd-9997-f0a906f2173e}</Project>
-      <Name>Dapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThirdParty\Narc.Dapper\Narc.Dapper.csproj">
-      <Project>{87ac7b72-44a8-4b1b-a96d-6217e757aafb}</Project>
-      <Name>Narc.Dapper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />

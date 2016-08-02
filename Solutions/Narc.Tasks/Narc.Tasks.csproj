@@ -46,14 +46,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
-      <Project>{b5ee3f68-7e7b-43cd-9997-f0a906f2173e}</Project>
-      <Name>Dapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThirdParty\Narc.Dapper\Narc.Dapper.csproj">
-      <Project>{87AC7B72-44A8-4B1B-A96D-6217E757AAFB}</Project>
-      <Name>Narc.Dapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Narc.Domain\Narc.Domain.csproj">
       <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
       <Name>Narc.Domain</Name>
