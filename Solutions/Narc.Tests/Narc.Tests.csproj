@@ -30,6 +30,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator.WindsorAdapter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\CommonServiceLocator.WindsorAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\Lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -42,7 +58,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceLocatorInitializer.cs" />
+    <Compile Include="Test.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Narc.Domain\Narc.Domain.csproj">
+      <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
+      <Name>Narc.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Narc.Infrastructure\Narc.Infrastructure.csproj">
+      <Project>{605E8A65-4870-41FD-AC67-0E06165104CC}</Project>
+      <Name>Narc.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Narc.Web.Common\Narc.Web.Common.csproj">
+      <Project>{00245CEC-2F95-435E-8FEC-C3DF9A4C1E64}</Project>
+      <Name>Narc.Web.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Dos.ORM.MySql\Dos.ORM.MySql.csproj">
+      <Project>{54954798-4117-45fe-92f8-2b32a62e7fbc}</Project>
+      <Name>Dos.ORM.MySql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Dos.ORM.PostgreSql\Dos.ORM.PostgreSql.csproj">
+      <Project>{86f95784-a739-41ef-9724-909126c11800}</Project>
+      <Name>Dos.ORM.PostgreSql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Dos.ORM\Dos.ORM.csproj">
+      <Project>{B2457283-955C-425D-8565-0329430748FD}</Project>
+      <Name>Dos.ORM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,6 +3,7 @@
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
     using Domain;
+    using Infrastructure.DbContext;
 
     public class ComponentRegistrar
     {
@@ -43,10 +44,10 @@
 
         private static void AddQueryObjectsTo(IWindsorContainer container)
         {
-            //container.Register(
-            //    AllTypes.FromAssemblyNamed("Narc.Web.Common")
-            //            .BasedOn(typeof(DapperQuery))
-            //            .WithService.DefaultInterfaces());
+            container.Register(
+                AllTypes.FromAssemblyNamed("Narc.Web.Common")
+                        .BasedOn(typeof(CommonQuery))
+                        .WithService.DefaultInterfaces());
         }
 
         private static void AddHandlersTo(IWindsorContainer container)

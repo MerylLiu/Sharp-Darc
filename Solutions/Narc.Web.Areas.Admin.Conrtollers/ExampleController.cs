@@ -16,7 +16,7 @@
 
         public ActionResult Query()
         {
-            List<string> data = ExampleQuery.GetQueries();
+            List<MyTest> data = ExampleQuery.GetQueries();
 
             return View(data);
         }

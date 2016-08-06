@@ -61,6 +61,20 @@
   <ItemGroup>
     <Folder Include="Exceptions\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Narc.Domain\Narc.Domain.csproj">
+      <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
+      <Name>Narc.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Narc.Infrastructure\Narc.Infrastructure.csproj">
+      <Project>{605e8a65-4870-41fd-ac67-0e06165104cc}</Project>
+      <Name>Narc.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Dos.ORM\Dos.ORM.csproj">
+      <Project>{B2457283-955C-425D-8565-0329430748FD}</Project>
+      <Name>Dos.ORM</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

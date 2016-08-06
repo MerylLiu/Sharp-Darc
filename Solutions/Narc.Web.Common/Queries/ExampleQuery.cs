@@ -1,12 +1,15 @@
 ﻿namespace Narc.Web.Common.Queries
 {
     using System.Collections.Generic;
+    using Domain;
+    using Infrastructure.DbContext;
 
-    public class ExampleQuery : IExampleQuery
+    public class ExampleQuery : CommonQuery, IExampleQuery
     {
-        public List<string> GetQueries()
+        public List<MyTest> GetQueries()
         {
-            throw new System.NotImplementedException();
+            var data = NaSession.Context.From<MyTest>().Select(d => new {d.Id, d.Name, d.Age}).ToList();
+            return data;
         }
     }
 }

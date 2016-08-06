@@ -1,4 +1,5 @@
 ﻿#region << 版 本 注 释 >>
+
 /****************************************************
 * 文 件 名：
 * Copyright(c) ITdos
@@ -13,51 +14,58 @@
 * 修改日期：
 * 备注描述：
 *******************************************************/
-#endregion
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using Dos.ORM.Common;
-using Dos;
-using Dos.ORM;
-using Dos.ORM.Common;
+#endregion
 
 namespace Dos.ORM
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Data;
+    using System.Data.Common;
+    using System.IO;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using MsAccess;
+    using Oracle;
+    using SqlServer;
+    using SqlServer9;
+
     #region DataType
 
     /// <summary>
-    /// Type of a database.
+    ///     Type of a database.
     /// </summary>
     public enum DatabaseType
     {
         /// <summary>
-        /// SQL Server 2000
+        ///     SQL Server 2000
         /// </summary>
         SqlServer = 0,
+
         /// <summary>
-        /// MsAccess
+        ///     MsAccess
         /// </summary>
         MsAccess = 1,
+
         /// <summary>
-        /// SQL Server 2005
+        ///     SQL Server 2005
         /// </summary>
         SqlServer9 = 2,
+
         /// <summary>
-        /// Oracle
+        ///     Oracle
         /// </summary>
         Oracle = 3,
+
         /// <summary>
-        /// Sqlite
+        ///     Sqlite
         /// </summary>
         Sqlite3 = 4,
+
         /// <summary>
-        /// MySql
+        ///     MySql
         /// </summary>
         MySql = 5
     }
@@ -65,25 +73,50 @@ namespace Dos.ORM
     #endregion
 
     /// <summary>
-    /// DbSession
+    ///     DbSession
     /// </summary>
     public sealed class DbSession
     {
         /// <summary>
-        /// 
         /// </summary>
-        private Database db;
+        private readonly Database db;
 
         /// <summary>
-        /// 
         /// </summary>
         private CommandCreator cmdCreator;
 
+        #region 存储过程
+
+        /// <summary>
+        ///     存储过程查询
+        /// </summary>
+        /// <param name="procName"></param>
+        /// <returns></returns>
+        public ProcSection FromProc(string procName)
+        {
+            return new ProcSection(this, procName);
+        }
+
+        #endregion
+
+        #region sql语句
+
+        /// <summary>
+        ///     sql查询
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public SqlSection FromSql(string sql)
+        {
+            return new SqlSection(this, sql);
+        }
+
+        #endregion
 
         #region Cache
 
         /// <summary>
-        /// 开启缓存
+        ///     开启缓存
         /// </summary>
         public void TurnOnCache()
         {
@@ -95,7 +128,7 @@ namespace Dos.ORM
 
 
         /// <summary>
-        /// 关闭缓存
+        ///     关闭缓存
         /// </summary>
         public void TurnOffCache()
         {
@@ -110,7 +143,7 @@ namespace Dos.ORM
         #region batch
 
         /// <summary>
-        /// 开始批处理，默认10条sql组合
+        ///     开始批处理，默认10条sql组合
         /// </summary>
         public DbBatch BeginBatchConnection()
         {
@@ -118,7 +151,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 开始批处理
+        ///     开始批处理
         /// </summary>
         /// <param name="batchSize">sql组合条数</param>
         public DbBatch BeginBatchConnection(int batchSize)
@@ -127,7 +160,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 开始批处理
+        ///     开始批处理
         /// </summary>
         /// <param name="batchSize">sql组合条数</param>
         /// <param name="tran">事务</param>
@@ -137,7 +170,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 开始批处理
+        ///     开始批处理
         /// </summary>
         /// <param name="batchSize">sql组合条数</param>
         /// <param name="il">事务</param>
@@ -146,31 +179,29 @@ namespace Dos.ORM
             return new DbBatch(cmdCreator, new BatchCommander(db, batchSize, il));
         }
 
-
         #endregion
 
         #region Default
 
-
         /// <summary>
-        /// Get the default gateway, which mapping to the default Database.
+        ///     Get the default gateway, which mapping to the default Database.
         /// </summary>
         public static DbSession Default = new DbSession(Database.Default);
 
         /// <summary>
-        /// Sets the default DbSession.
+        ///     Sets the default DbSession.
         /// </summary>
         /// <param name="dt">The dt.</param>
         /// <param name="connStr">The conn STR.</param>
         public static void SetDefault(DatabaseType dt, string connStr)
         {
-            DbProvider provider = CreateDbProvider(dt, connStr);
+            var provider = CreateDbProvider(dt, connStr);
 
             Default = new DbSession(new Database(provider));
         }
 
         /// <summary>
-        /// Creates the db provider.
+        ///     Creates the db provider.
         /// </summary>
         /// <param name="dt">The dt.</param>
         /// <param name="connStr">The conn STR.</param>
@@ -181,22 +212,24 @@ namespace Dos.ORM
             switch (dt)
             {
                 case DatabaseType.SqlServer9:
-                    provider = ProviderFactory.CreateDbProvider(null, typeof(SqlServer9.SqlServer9Provider).FullName, connStr, dt);
+                    provider = ProviderFactory.CreateDbProvider(null, typeof (SqlServer9Provider).FullName, connStr, dt);
                     break;
                 case DatabaseType.SqlServer:
-                    provider = ProviderFactory.CreateDbProvider(null, typeof(SqlServer.SqlServerProvider).FullName, connStr, dt);
+                    provider = ProviderFactory.CreateDbProvider(null, typeof (SqlServerProvider).FullName, connStr, dt);
                     break;
                 case DatabaseType.Oracle:
-                    provider = ProviderFactory.CreateDbProvider(null, typeof(Oracle.OracleProvider).FullName, connStr, dt);
+                    provider = ProviderFactory.CreateDbProvider(null, typeof (OracleProvider).FullName, connStr, dt);
                     break;
                 case DatabaseType.MySql:
-                    provider = ProviderFactory.CreateDbProvider("Dos.ORM.MySql", "Dos.ORM.MySql.MySqlProvider", connStr, dt);
+                    provider = ProviderFactory.CreateDbProvider("Dos.ORM.MySql", "Dos.ORM.MySql.MySqlProvider", connStr,
+                        dt);
                     break;
                 case DatabaseType.Sqlite3:
-                    provider = ProviderFactory.CreateDbProvider("Dos.ORM.Sqlite", "Dos.ORM.Sqlite.SqliteProvider", connStr, dt);
+                    provider = ProviderFactory.CreateDbProvider("Dos.ORM.Sqlite", "Dos.ORM.Sqlite.SqliteProvider",
+                        connStr, dt);
                     break;
                 case DatabaseType.MsAccess:
-                    provider = ProviderFactory.CreateDbProvider(null, typeof(MsAccess.MsAccessProvider).FullName, connStr, dt);
+                    provider = ProviderFactory.CreateDbProvider(null, typeof (MsAccessProvider).FullName, connStr, dt);
                     break;
             }
             //2015-08-12新增
@@ -208,34 +241,36 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// Sets the default DbSession.
+        ///     Sets the default DbSession.
         /// </summary>
         /// <param name="assemblyName">Name of the assembly.</param>
         /// <param name="className">Name of the class.</param>
         /// <param name="connStr">The conn STR.</param>
         public static void SetDefault(string assemblyName, string className, string connStr)
         {
-            DbProvider provider = ProviderFactory.CreateDbProvider(assemblyName, className, connStr, null);
+            var provider = ProviderFactory.CreateDbProvider(assemblyName, className, connStr, null);
             if (provider == null)
             {
-                throw new NotSupportedException(string.Format("Cannot construct DbProvider by specified parameters: {0}, {1}, {2}",
-                    assemblyName, className, connStr));
+                throw new NotSupportedException(
+                    string.Format("Cannot construct DbProvider by specified parameters: {0}, {1}, {2}",
+                        assemblyName, className, connStr));
             }
 
             Default = new DbSession(new Database(provider));
         }
 
         /// <summary>
-        /// Sets the default DbSession.
+        ///     Sets the default DbSession.
         /// </summary>
         /// <param name="connStrName">Name of the conn STR.</param>
         public static void SetDefault(string connStrName)
         {
-            DbProvider provider = ProviderFactory.CreateDbProvider(connStrName);
+            var provider = ProviderFactory.CreateDbProvider(connStrName);
             provider.ConnectionStringsName = connStrName;
             if (provider == null)
             {
-                throw new NotSupportedException(string.Format("Cannot construct DbProvider by specified ConnectionStringName: {0}", connStrName));
+                throw new NotSupportedException(
+                    string.Format("Cannot construct DbProvider by specified ConnectionStringName: {0}", connStrName));
             }
 
             Default = new DbSession(new Database(provider));
@@ -245,47 +280,46 @@ namespace Dos.ORM
 
         #region 构造函数
 
-
-
         private void initDbSesion()
         {
             cmdCreator = new CommandCreator(db);
 
-            object cacheConfig = System.Configuration.ConfigurationManager.GetSection("DosCacheConfig");
+            var cacheConfig = ConfigurationManager.GetSection("DosCacheConfig");
 
             if (null != cacheConfig)
             {
-                db.DbProvider.CacheConfig = (CacheConfiguration)cacheConfig;
+                db.DbProvider.CacheConfig = (CacheConfiguration) cacheConfig;
 
-                Dictionary<string, CacheInfo> entitiesCache = new Dictionary<string, CacheInfo>();
+                var entitiesCache = new Dictionary<string, CacheInfo>();
 
                 //获取缓存配制
-                foreach (string key in db.DbProvider.CacheConfig.Entities.AllKeys)
+                foreach (var key in db.DbProvider.CacheConfig.Entities.AllKeys)
                 {
                     if (key.IndexOf('.') > 0)
                     {
-                        string[] splittedKey = key.Split('.');
+                        var splittedKey = key.Split('.');
                         if (splittedKey[0].Trim() == db.DbProvider.ConnectionStringsName)
                         {
-                            int expireSeconds = 0;
-                            CacheInfo cacheInfo = new CacheInfo();
+                            var expireSeconds = 0;
+                            var cacheInfo = new CacheInfo();
                             if (int.TryParse(db.DbProvider.CacheConfig.Entities[key].Value, out expireSeconds))
                             {
                                 cacheInfo.TimeOut = expireSeconds;
                             }
                             else
                             {
-                                string tempFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, db.DbProvider.CacheConfig.Entities[key].Value);
+                                var tempFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                    db.DbProvider.CacheConfig.Entities[key].Value);
                                 if (File.Exists(tempFilePath))
                                 {
                                     cacheInfo.FilePath = tempFilePath;
                                 }
-
                             }
 
                             if (!cacheInfo.IsNullOrEmpty())
                             {
-                                string entityName = string.Concat(db.DbProvider.ConnectionStringsName, splittedKey[1].Trim());
+                                var entityName = string.Concat(db.DbProvider.ConnectionStringsName,
+                                    splittedKey[1].Trim());
                                 if (entitiesCache.ContainsKey(entityName))
                                     entitiesCache.Remove(entityName);
 
@@ -297,13 +331,11 @@ namespace Dos.ORM
 
                 db.DbProvider.EntitiesCache = entitiesCache;
             }
-
-
         }
 
 
         /// <summary>
-        /// 构造函数    使用默认  DbSession.Default
+        ///     构造函数    使用默认  DbSession.Default
         /// </summary>
         public DbSession()
         {
@@ -313,18 +345,18 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="connStrName">config文件中connectionStrings节点的name</param>
         public DbSession(string connStrName)
         {
-            this.db = new Database(ProviderFactory.CreateDbProvider(connStrName));
-            this.db.DbProvider.ConnectionStringsName = connStrName;
+            db = new Database(ProviderFactory.CreateDbProvider(connStrName));
+            db.DbProvider.ConnectionStringsName = connStrName;
             initDbSesion();
         }
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="db">已知的Database</param>
         public DbSession(Database db)
@@ -335,35 +367,36 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="dt">数据库类别</param>
         /// <param name="connStr">连接字符串</param>
         public DbSession(DatabaseType dt, string connStr)
         {
-            DbProvider provider = CreateDbProvider(dt, connStr);
+            var provider = CreateDbProvider(dt, connStr);
 
-            this.db = new Database(provider);
+            db = new Database(provider);
 
             initDbSesion();
         }
 
         /// <summary>
-        /// 构造函数
+        ///     构造函数
         /// </summary>
         /// <param name="assemblyName">程序集</param>
         /// <param name="className">类名</param>
         /// <param name="connStr">连接字符串</param>
         public DbSession(string assemblyName, string className, string connStr)
         {
-            DbProvider provider = ProviderFactory.CreateDbProvider(assemblyName, className, connStr, null);
+            var provider = ProviderFactory.CreateDbProvider(assemblyName, className, connStr, null);
             if (provider == null)
             {
-                throw new NotSupportedException(string.Format("Cannot construct DbProvider by specified parameters: {0}, {1}, {2}",
-                    assemblyName, className, connStr));
+                throw new NotSupportedException(
+                    string.Format("Cannot construct DbProvider by specified parameters: {0}, {1}, {2}",
+                        assemblyName, className, connStr));
             }
 
-            this.db = new Database(provider);
+            db = new Database(provider);
 
             cmdCreator = new CommandCreator(db);
         }
@@ -372,9 +405,8 @@ namespace Dos.ORM
 
         #region 查询
 
-
         /// <summary>
-        /// 查询
+        ///     查询
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
@@ -385,7 +417,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 查询
+        ///     查询
         /// </summary>
         /// <param name="tableName"></param>
         /// <returns></returns>
@@ -393,8 +425,9 @@ namespace Dos.ORM
         {
             return new FromSection(db, tableName);
         }
+
         /// <summary>
-        /// Sum
+        ///     Sum
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -405,8 +438,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Sum()).Where(where).ToScalar();
         }
+
         /// <summary>
-        /// Sum
+        ///     Sum
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -417,8 +451,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Sum()).Where(where).ToScalar();
         }
+
         /// <summary>
-        /// Sum
+        ///     Sum
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -429,8 +464,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Sum()).Where(lambdaWhere).ToScalar();
         }
+
         /// <summary>
-        /// Max
+        ///     Max
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -441,8 +477,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Max()).Where(where).ToScalar();
         }
+
         /// <summary>
-        /// Max
+        ///     Max
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -453,8 +490,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Max()).Where(where).ToScalar();
         }
+
         /// <summary>
-        /// Max
+        ///     Max
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -465,8 +503,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Max()).Where(lambdaWhere).ToScalar();
         }
+
         /// <summary>
-        /// Min
+        ///     Min
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -477,8 +516,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Min()).Where(where).ToScalar();
         }
+
         /// <summary>
-        /// Min
+        ///     Min
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -489,8 +529,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Min()).Where(where).ToScalar();
         }
+
         /// <summary>
-        /// Min
+        ///     Min
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -501,8 +542,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Min()).Where(lambdaWhere).ToScalar();
         }
+
         /// <summary>
-        /// Avg
+        ///     Avg
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -513,8 +555,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Avg()).Where(where).ToScalar();
         }
+
         /// <summary>
-        /// Avg
+        ///     Avg
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -525,8 +568,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Avg()).Where(where).ToScalar();
         }
+
         /// <summary>
-        /// Avg
+        ///     Avg
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -537,8 +581,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Avg()).Where(lambdaWhere).ToScalar();
         }
+
         /// <summary>
-        /// Sum
+        ///     Sum
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -550,8 +595,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Sum()).Where(where).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Sum
+        ///     Sum
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -563,8 +609,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Sum()).Where(where).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Sum
+        ///     Sum
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -576,8 +623,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Sum()).Where(lambdaWhere).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Max
+        ///     Max
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -589,8 +637,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Max()).Where(where).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Max
+        ///     Max
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -602,8 +651,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Max()).Where(where).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Max
+        ///     Max
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -615,8 +665,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Max()).Where(lambdaWhere).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Min
+        ///     Min
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -628,8 +679,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Min()).Where(where).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Min
+        ///     Min
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -641,8 +693,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Min()).Where(where).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Min
+        ///     Min
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -654,8 +707,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Min()).Where(lambdaWhere).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Avg
+        ///     Avg
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -667,8 +721,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Avg()).Where(where).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Avg
+        ///     Avg
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -680,8 +735,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Avg()).Where(where).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// Avg
+        ///     Avg
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TResult"></typeparam>
@@ -693,8 +749,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Avg()).Where(lambdaWhere).ToScalar<TResult>();
         }
+
         /// <summary>
-        /// 判断是否存在记录
+        ///     判断是否存在记录
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="where"></param>
@@ -702,7 +759,9 @@ namespace Dos.ORM
         public bool Exists<TEntity>(WhereClip where)
             where TEntity : Entity
         {
-            using (IDataReader dataReader = From<TEntity>().Where(where).Top(1).Select(EntityCache.GetFirstField<TEntity>()).ToDataReader())
+            using (
+                var dataReader =
+                    From<TEntity>().Where(where).Top(1).Select(EntityCache.GetFirstField<TEntity>()).ToDataReader())
             {
                 if (dataReader.Read())
                 {
@@ -713,11 +772,10 @@ namespace Dos.ORM
             }
 
             return false;
-
         }
 
         /// <summary>
-        /// 判断是否存在记录
+        ///     判断是否存在记录
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="lambdaWhere"></param>
@@ -727,8 +785,9 @@ namespace Dos.ORM
         {
             return Exists<TEntity>(ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        /// 判断是否存在记录
+        ///     判断是否存在记录
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="where"></param>
@@ -738,8 +797,9 @@ namespace Dos.ORM
         {
             return Exists<TEntity>(where.ToWhereClip());
         }
+
         /// <summary>
-        /// Count
+        ///     Count
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -750,8 +810,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Count()).Where(where).ToScalar<int>();
         }
+
         /// <summary>
-        /// Count
+        ///     Count
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -762,8 +823,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(field.Count()).Where(where).ToScalar<int>();
         }
+
         /// <summary>
-        /// Count
+        ///     Count
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -772,10 +834,15 @@ namespace Dos.ORM
         public int Count<TEntity>(Field field, Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
-            return From<TEntity>().Select(field.Count()).Where(ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere)).ToScalar<int>();
+            return
+                From<TEntity>()
+                    .Select(field.Count())
+                    .Where(ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere))
+                    .ToScalar<int>();
         }
+
         /// <summary>
-        /// Count
+        ///     Count
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="where"></param>
@@ -785,8 +852,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(Field.All.Count()).Where(where).ToScalar<int>();
         }
+
         /// <summary>
-        /// Count
+        ///     Count
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="where"></param>
@@ -796,8 +864,9 @@ namespace Dos.ORM
         {
             return From<TEntity>().Select(Field.All.Count()).Where(where).ToScalar<int>();
         }
+
         /// <summary>
-        /// Count
+        ///     Count
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="lambdaWhere"></param>
@@ -805,14 +874,19 @@ namespace Dos.ORM
         public int Count<TEntity>(Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
-            return From<TEntity>().Select(Field.All.Count()).Where(ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere)).ToScalar<int>();
+            return
+                From<TEntity>()
+                    .Select(Field.All.Count())
+                    .Where(ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere))
+                    .ToScalar<int>();
         }
+
         #endregion
 
         #region Database
 
         /// <summary>
-        /// Registers the SQL logger.
+        ///     Registers the SQL logger.
         /// </summary>
         /// <param name="handler">The handler.</param>
         public void RegisterSqlLogger(LogHandler handler)
@@ -821,7 +895,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// Unregisters the SQL logger.
+        ///     Unregisters the SQL logger.
         /// </summary>
         /// <param name="handler">The handler.</param>
         public void UnregisterSqlLogger(LogHandler handler)
@@ -830,19 +904,16 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// Gets the db.
+        ///     Gets the db.
         /// </summary>
         /// <value>The db.</value>
         public Database Db
         {
-            get
-            {
-                return this.db;
-            }
+            get { return db; }
         }
 
         /// <summary>
-        /// Begins the transaction.
+        ///     Begins the transaction.
         /// </summary>
         /// <returns>The begined transaction.</returns>
         public DbTrans BeginTransaction()
@@ -851,17 +922,17 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// Begins the transaction.
+        ///     Begins the transaction.
         /// </summary>
         /// <param name="il">The il.</param>
         /// <returns>The begined transaction.</returns>
-        public DbTrans BeginTransaction(System.Data.IsolationLevel il)
+        public DbTrans BeginTransaction(IsolationLevel il)
         {
             return new DbTrans(db.BeginTransaction(il), this);
         }
 
         /// <summary>
-        /// Closes the transaction.
+        ///     Closes the transaction.
         /// </summary>
         /// <param name="tran">The tran.</param>
         public void CloseTransaction(DbTransaction tran)
@@ -870,7 +941,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// Builds the name of the db param.
+        ///     Builds the name of the db param.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>The name of the db param</returns>
@@ -881,28 +952,27 @@ namespace Dos.ORM
             return db.DbProvider.BuildParameterName(name);
         }
 
-
         #endregion
 
         #region 更新操作
 
         /// <summary>
-        /// 更新全部字段  
+        ///     更新全部字段
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
         public int UpdateAll<TEntity>(TEntity entity)
             where TEntity : Entity
         {
-            WhereClip where = DataUtils.GetPrimaryKeyWhere(entity);
+            var where = DataUtils.GetPrimaryKeyWhere(entity);
 
             Check.Require(!WhereClip.IsNullOrEmpty(where), "entity must have the primarykey!");
 
-            return UpdateAll<TEntity>(entity, where);
+            return UpdateAll(entity, where);
         }
 
         /// <summary>
-        /// 更新全部字段  
+        ///     更新全部字段
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -912,16 +982,16 @@ namespace Dos.ORM
             if (null == entities || entities.Length == 0)
                 return;
 
-            using (DbTrans trans = BeginTransaction())
+            using (var trans = BeginTransaction())
             {
-                UpdateAll<TEntity>(trans, entities);
+                UpdateAll(trans, entities);
 
                 trans.Commit();
             }
         }
 
         /// <summary>
-        /// 更新全部字段
+        ///     更新全部字段
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -929,23 +999,22 @@ namespace Dos.ORM
         public int UpdateAll<TEntity>(DbTransaction tran, params TEntity[] entities)
             where TEntity : Entity
         {
-
             if (null == entities || entities.Length == 0)
                 return 0;
             var count = 0;
-            foreach (TEntity entity in entities)
+            foreach (var entity in entities)
             {
                 if (entity == null)
-                    break;//2015-08-20  break修改为continue
+                    break; //2015-08-20  break修改为continue
 
-                count += UpdateAll<TEntity>(tran, entity);
+                count += UpdateAll(tran, entity);
             }
             return count;
         }
 
 
         /// <summary>
-        /// 更新全部字段
+        ///     更新全部字段
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
@@ -957,11 +1026,12 @@ namespace Dos.ORM
             if (entity == null)
                 return 0;
 
-            return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(entity.GetFields(), entity.GetValues(), where));
+            return
+                ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(entity.GetFields(), entity.GetValues(), where));
         }
 
         /// <summary>
-        /// 更新全部字段
+        ///     更新全部字段
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -972,15 +1042,15 @@ namespace Dos.ORM
             if (entity == null)
                 return 0;
 
-            WhereClip where = DataUtils.GetPrimaryKeyWhere(entity);
+            var where = DataUtils.GetPrimaryKeyWhere(entity);
 
             Check.Require(!WhereClip.IsNullOrEmpty(where), "entity must have the primarykey!");
 
-            return UpdateAll<TEntity>(tran, entity, where);
+            return UpdateAll(tran, entity, where);
         }
 
         /// <summary>
-        /// 更新全部字段
+        ///     更新全部字段
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -992,10 +1062,12 @@ namespace Dos.ORM
             if (entity == null)
                 return 0;
 
-            return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(entity.GetFields(), entity.GetValues(), where), tran);
+            return
+                ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(entity.GetFields(), entity.GetValues(), where),
+                    tran);
         }
+
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -1009,7 +1081,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 更新  
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
@@ -1019,14 +1091,15 @@ namespace Dos.ORM
             if (!entity.IsModify())
                 return 0;
 
-            WhereClip where = DataUtils.GetPrimaryKeyWhere(entity);
+            var where = DataUtils.GetPrimaryKeyWhere(entity);
 
             Check.Require(!WhereClip.IsNullOrEmpty(where), "entity must have the primarykey!");
 
-            return Update<TEntity>(entity, where);
+            return Update(entity, where);
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -1035,16 +1108,17 @@ namespace Dos.ORM
         {
             if (null == entities || entities.Length == 0)
                 return 0;
-            int count = 0;
-            using (DbTrans trans = BeginTransaction())
+            var count = 0;
+            using (var trans = BeginTransaction())
             {
-                count = Update<TEntity>(trans, entities);
+                count = Update(trans, entities);
                 trans.Commit();
             }
             return count;
         }
+
         /// <summary>
-        /// 更新  
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -1053,8 +1127,9 @@ namespace Dos.ORM
         {
             return Update(entities.ToArray());
         }
+
         /// <summary>
-        /// 更新  
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -1063,8 +1138,9 @@ namespace Dos.ORM
         {
             return Update(entities.ToArray());
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
@@ -1074,28 +1150,28 @@ namespace Dos.ORM
             where TEntity : Entity
         {
             return !entity.IsModify()
-                ? 0 
+                ? 0
                 : ExecuteNonQuery(cmdCreator.CreateUpdateCommand(entity, @where));
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(TEntity entity, Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
-            return Update<TEntity>(entity, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
+            return Update(entity, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(TEntity entity, Where where)
             where TEntity : Entity
         {
-            return Update<TEntity>(entity, where.ToWhereClip());
+            return Update(entity, where.ToWhereClip());
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -1106,14 +1182,15 @@ namespace Dos.ORM
             if (!entity.IsModify())
                 return 0;
 
-            WhereClip where = DataUtils.GetPrimaryKeyWhere(entity);
+            var where = DataUtils.GetPrimaryKeyWhere(entity);
 
             Check.Require(!WhereClip.IsNullOrEmpty(where), "entity must have the primarykey!");
 
-            return Update<TEntity>(tran, entity, where);
+            return Update(tran, entity, where);
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -1121,21 +1198,20 @@ namespace Dos.ORM
         public int Update<TEntity>(DbTransaction tran, params TEntity[] entities)
             where TEntity : Entity
         {
-
             if (null == entities || entities.Length == 0)
                 return 0;
-            int count = 0;
-            foreach (TEntity entity in entities)
+            var count = 0;
+            foreach (var entity in entities)
             {
                 if (!entity.IsModify())
-                    continue;//2015-08-20 break修改为continue
-                count += Update<TEntity>(tran, entity, DataUtils.GetPrimaryKeyWhere(entity));
+                    continue; //2015-08-20 break修改为continue
+                count += Update(tran, entity, DataUtils.GetPrimaryKeyWhere(entity));
             }
             return count;
-
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -1144,10 +1220,10 @@ namespace Dos.ORM
             where TEntity : Entity
         {
             return Update(tran, entities.ToArray());
-
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -1157,34 +1233,36 @@ namespace Dos.ORM
         {
             return Update(tran, entities.ToArray());
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         public int Update<TEntity>(DbTransaction tran, TEntity entity, WhereClip where)
             where TEntity : Entity
         {
             if (!entity.IsModify())
                 return 0;
-            return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(entity, where), tran);
+            return ExecuteNonQuery(cmdCreator.CreateUpdateCommand(entity, where), tran);
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(DbTransaction tran, TEntity entity, Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
-            return Update<TEntity>(tran, entity, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
+            return Update(tran, entity, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(DbTransaction tran, TEntity entity, Where where)
             where TEntity : Entity
         {
-            return Update<TEntity>(tran, entity, where.ToWhereClip());
+            return Update(tran, entity, where.ToWhereClip());
         }
+
         /// <summary>
-        /// 更新单个值
+        ///     更新单个值
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -1197,26 +1275,27 @@ namespace Dos.ORM
             if (Field.IsNullOrEmpty(field))
                 return 0;
 
-            return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(new Field[] { field }, new object[] { value }, where));
+            return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(new[] {field}, new[] {value}, where));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(Field field, object value, Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
             return Update<TEntity>(field, value, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(Field field, object value, Where where)
             where TEntity : Entity
         {
             return Update<TEntity>(field, value, where.ToWhereClip());
         }
+
         /// <summary>
-        /// 更新单个值
+        ///     更新单个值
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="field"></param>
@@ -1230,18 +1309,19 @@ namespace Dos.ORM
             if (Field.IsNullOrEmpty(field))
                 return 0;
 
-            return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(new Field[] { field }, new object[] { value }, where), tran);
+            return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(new[] {field}, new[] {value}, where), tran);
         }
+
         /// <summary>
-        /// 
         /// </summary>
-        public int Update<TEntity>(DbTransaction tran, Field field, object value, Expression<Func<TEntity, bool>> lambdaWhere)
+        public int Update<TEntity>(DbTransaction tran, Field field, object value,
+            Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
             return Update<TEntity>(tran, field, value, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(DbTransaction tran, Field field, object value, Where where)
             where TEntity : Entity
@@ -1250,21 +1330,21 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 更新多个值
+        ///     更新多个值
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="fieldValue"></param>
         /// <param name="where"></param>
         /// <returns></returns>
         public int Update<TEntity>(Dictionary<Field, object> fieldValue, WhereClip where)
-              where TEntity : Entity
+            where TEntity : Entity
         {
             if (null == fieldValue || fieldValue.Count == 0)
                 return 0;
-            Field[] fields = new Field[fieldValue.Count];
-            object[] values = new object[fieldValue.Count];
-            int i = 0;
-            foreach (KeyValuePair<Field, object> kv in fieldValue)
+            var fields = new Field[fieldValue.Count];
+            var values = new object[fieldValue.Count];
+            var i = 0;
+            foreach (var kv in fieldValue)
             {
                 fields[i] = kv.Key;
                 values[i] = kv.Value;
@@ -1273,24 +1353,25 @@ namespace Dos.ORM
             }
             return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(fields, values, where));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(Dictionary<Field, object> fieldValue, Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
             return Update<TEntity>(fieldValue, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(Dictionary<Field, object> fieldValue, Where where)
             where TEntity : Entity
         {
             return Update<TEntity>(fieldValue, where.ToWhereClip());
         }
+
         /// <summary>
-        /// 更新多个值
+        ///     更新多个值
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="fieldValue"></param>
@@ -1298,17 +1379,17 @@ namespace Dos.ORM
         /// <param name="tran"></param>
         /// <returns></returns>
         public int Update<TEntity>(DbTransaction tran, Dictionary<Field, object> fieldValue, WhereClip where)
-              where TEntity : Entity
+            where TEntity : Entity
         {
             if (null == fieldValue || fieldValue.Count == 0)
                 return 0;
 
-            Field[] fields = new Field[fieldValue.Count];
-            object[] values = new object[fieldValue.Count];
+            var fields = new Field[fieldValue.Count];
+            var values = new object[fieldValue.Count];
 
-            int i = 0;
+            var i = 0;
 
-            foreach (KeyValuePair<Field, object> kv in fieldValue)
+            foreach (var kv in fieldValue)
             {
                 fields[i] = kv.Key;
                 values[i] = kv.Value;
@@ -1318,24 +1399,26 @@ namespace Dos.ORM
 
             return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(fields, values, where), tran);
         }
+
         /// <summary>
-        /// 
         /// </summary>
-        public int Update<TEntity>(DbTransaction tran, Dictionary<Field, object> fieldValue, Expression<Func<TEntity, bool>> lambdaWhere)
+        public int Update<TEntity>(DbTransaction tran, Dictionary<Field, object> fieldValue,
+            Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
             return Update<TEntity>(tran, fieldValue, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(DbTransaction tran, Dictionary<Field, object> fieldValue, Where where)
             where TEntity : Entity
         {
             return Update<TEntity>(tran, fieldValue, where.ToWhereClip());
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="fields"></param>
@@ -1345,29 +1428,29 @@ namespace Dos.ORM
         public int Update<TEntity>(Field[] fields, object[] values, WhereClip where)
             where TEntity : Entity
         {
-
             if (null == fields || fields.Length == 0)
                 return 0;
             return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(fields, values, where));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(Field[] fields, object[] values, Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
             return Update<TEntity>(fields, values, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(Field[] fields, object[] values, Where where)
             where TEntity : Entity
         {
             return Update<TEntity>(fields, values, where.ToWhereClip());
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="fields"></param>
@@ -1383,29 +1466,30 @@ namespace Dos.ORM
 
             return ExecuteNonQuery(cmdCreator.CreateUpdateCommand<TEntity>(fields, values, where), tran);
         }
+
         /// <summary>
-        /// 
         /// </summary>
-        public int Update<TEntity>(DbTransaction tran, Field[] fields, object[] values, Expression<Func<TEntity, bool>> lambdaWhere)
+        public int Update<TEntity>(DbTransaction tran, Field[] fields, object[] values,
+            Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
             return Update<TEntity>(tran, fields, values, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Update<TEntity>(DbTransaction tran, Field[] fields, object[] values, Where where)
             where TEntity : Entity
         {
             return Update<TEntity>(tran, fields, values, where.ToWhereClip());
         }
+
         #endregion
 
         #region 删除操作
 
-
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
@@ -1413,9 +1497,10 @@ namespace Dos.ORM
         public int Delete<TEntity>(TEntity entity)
             where TEntity : Entity
         {
-            Check.Require(!EntityCache.IsReadOnly<TEntity>(), string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
+            Check.Require(!EntityCache.IsReadOnly<TEntity>(),
+                string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
 
-            WhereClip where = DataUtils.GetPrimaryKeyWhere(entity);
+            var where = DataUtils.GetPrimaryKeyWhere(entity);
 
             Check.Require(!WhereClip.IsNullOrEmpty(where), "entity must have the primarykey!");
 
@@ -1440,7 +1525,7 @@ namespace Dos.ORM
 
 
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
@@ -1449,12 +1534,14 @@ namespace Dos.ORM
         public int Delete<TEntity>(DbTransaction tran, TEntity entity)
             where TEntity : Entity
         {
-            Check.Require(!EntityCache.IsReadOnly<TEntity>(), string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
+            Check.Require(!EntityCache.IsReadOnly<TEntity>(),
+                string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
 
             return Delete<TEntity>(tran, DataUtils.GetPrimaryKeyWhere(entity));
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -1482,8 +1569,9 @@ namespace Dos.ORM
                     return Delete<TEntity>(tran, where);
             }
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -1492,10 +1580,10 @@ namespace Dos.ORM
             where TEntity : Entity
         {
             return Delete(tran, entities.ToArray());
-
         }
+
         /// <summary>
-        /// 更新
+        ///     更新
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="tran"></param>
@@ -1525,39 +1613,42 @@ namespace Dos.ORM
         //}
 
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(params int[] pkValues)
             where TEntity : Entity
         {
             return DeleteByPrimaryKey<TEntity>(pkValues.ToArray());
         }
+
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(params Guid[] pkValues)
             where TEntity : Entity
         {
             return DeleteByPrimaryKey<TEntity>(pkValues.ToArray());
         }
+
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(params long[] pkValues)
             where TEntity : Entity
         {
             return DeleteByPrimaryKey<TEntity>(pkValues.ToArray());
         }
+
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(params string[] pkValues)
             where TEntity : Entity
         {
             return DeleteByPrimaryKey<TEntity>(pkValues.ToArray());
         }
+
         /// <summary>
-        /// 
         /// </summary>
         public int Delete<TEntity>(IEnumerable<TEntity> entities)
             where TEntity : Entity
@@ -1593,35 +1684,33 @@ namespace Dos.ORM
             //}
             //return count;
         }
-        /// <summary>
-        ///  删除
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="pkValues"></param>
-        /// <returns></returns>
-        //public int Delete<TEntity>(params string[] pkValues)
-        //    where TEntity : Entity
-        //{
-        //    return DeleteByPrimaryKey<TEntity>(pkValues);
-        //}
 
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="pkValues"></param>
         /// <returns></returns>
-        internal int DeleteByPrimaryKey<TEntity>(Array pkValues)//params object[] pkValues 2015-08-20
+        /// <summary>
+        ///     删除
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="pkValues"></param>
+        /// <returns></returns>
+        internal int DeleteByPrimaryKey<TEntity>(Array pkValues) //params object[] pkValues 2015-08-20
             where TEntity : Entity
         {
-            Check.Require(!EntityCache.IsReadOnly<TEntity>(), string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
+            Check.Require(!EntityCache.IsReadOnly<TEntity>(),
+                string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
 
 
-            return ExecuteNonQuery(cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(), EntityCache.GetUserName<TEntity>(), DataUtils.GetPrimaryKeyWhere<TEntity>(pkValues)));
+            return
+                ExecuteNonQuery(cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(),
+                    EntityCache.GetUserName<TEntity>(), DataUtils.GetPrimaryKeyWhere<TEntity>(pkValues)));
         }
 
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="pkValues"></param>
@@ -1632,8 +1721,9 @@ namespace Dos.ORM
         {
             return DeleteByPrimaryKey<TEntity>(tran, pkValues);
         }
+
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="pkValues"></param>
@@ -1644,8 +1734,9 @@ namespace Dos.ORM
         {
             return DeleteByPrimaryKey<TEntity>(tran, pkValues);
         }
+
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="pkValues"></param>
@@ -1658,7 +1749,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="pkValues"></param>
@@ -1672,7 +1763,7 @@ namespace Dos.ORM
 
 
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="pkValues"></param>
@@ -1681,77 +1772,96 @@ namespace Dos.ORM
         internal int DeleteByPrimaryKey<TEntity>(DbTransaction tran, params Array[] pkValues)
             where TEntity : Entity
         {
-            Check.Require(!EntityCache.IsReadOnly<TEntity>(), string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
+            Check.Require(!EntityCache.IsReadOnly<TEntity>(),
+                string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
 
 
-            return ExecuteNonQuery(cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(), EntityCache.GetUserName<TEntity>(), DataUtils.GetPrimaryKeyWhere<TEntity>(pkValues)), tran);
+            return
+                ExecuteNonQuery(
+                    cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(),
+                        EntityCache.GetUserName<TEntity>(), DataUtils.GetPrimaryKeyWhere<TEntity>(pkValues)), tran);
         }
 
 
-
-
-
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(DbTransaction tran, WhereClip where)
             where TEntity : Entity
         {
-            Check.Require(!EntityCache.IsReadOnly<TEntity>(), string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
+            Check.Require(!EntityCache.IsReadOnly<TEntity>(),
+                string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
 
-            return ExecuteNonQuery(cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(), EntityCache.GetUserName<TEntity>(), where), tran);
+            return
+                ExecuteNonQuery(
+                    cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(),
+                        EntityCache.GetUserName<TEntity>(), where), tran);
         }
+
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(DbTransaction tran, Where where)
             where TEntity : Entity
         {
-            Check.Require(!EntityCache.IsReadOnly<TEntity>(), string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
-            return ExecuteNonQuery(cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(), EntityCache.GetUserName<TEntity>(), where.ToWhereClip()), tran);
+            Check.Require(!EntityCache.IsReadOnly<TEntity>(),
+                string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
+            return
+                ExecuteNonQuery(
+                    cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(),
+                        EntityCache.GetUserName<TEntity>(), where.ToWhereClip()), tran);
         }
+
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
             return Delete<TEntity>(ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(DbTransaction tran, Expression<Func<TEntity, bool>> lambdaWhere)
             where TEntity : Entity
         {
             return Delete<TEntity>(tran, ExpressionToClip<TEntity>.ToWhereClip(lambdaWhere));
         }
+
         /// <summary>
-        ///  删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(WhereClip where)
             where TEntity : Entity
         {
-            Check.Require(!EntityCache.IsReadOnly<TEntity>(), string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
+            Check.Require(!EntityCache.IsReadOnly<TEntity>(),
+                string.Concat("Entity(", EntityCache.GetTableName<TEntity>(), ") is readonly!"));
 
-            return ExecuteNonQuery(cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(), EntityCache.GetUserName<TEntity>(), where));
+            return
+                ExecuteNonQuery(cmdCreator.CreateDeleteCommand(EntityCache.GetTableName<TEntity>(),
+                    EntityCache.GetUserName<TEntity>(), where));
         }
+
         /// <summary>
-        /// 删除
+        ///     删除
         /// </summary>
         public int Delete<TEntity>(Where where)
             where TEntity : Entity
         {
             return Delete<TEntity>(where.ToWhereClip());
         }
+
         /// <summary>
-        /// 删除整表数据
+        ///     删除整表数据
         /// </summary>
         public int DeleteAll<TEntity>()
             where TEntity : Entity
         {
             return Delete<TEntity>(d => true);
         }
+
         ///// <summary>
         ///// 
         ///// </summary>
@@ -1778,8 +1888,9 @@ namespace Dos.ORM
         #endregion
 
         #region 添加操作
+
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -1790,15 +1901,16 @@ namespace Dos.ORM
             if (null == entities || entities.Length == 0)
                 return 0;
             int count;
-            using (var trans = this.BeginTransaction())
+            using (var trans = BeginTransaction())
             {
                 count = Insert(trans, entities);
                 trans.Commit();
             }
             return count;
         }
+
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -1808,8 +1920,9 @@ namespace Dos.ORM
         {
             return Insert(entities.ToArray());
         }
+
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -1819,8 +1932,9 @@ namespace Dos.ORM
         {
             return Insert(entities.ToArray());
         }
+
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
@@ -1828,13 +1942,12 @@ namespace Dos.ORM
         public int Insert<TEntity>(TEntity entity)
             where TEntity : Entity
         {
-            return insertExecute<TEntity>(cmdCreator.CreateInsertCommand<TEntity>(entity));
+            return insertExecute<TEntity>(cmdCreator.CreateInsertCommand(entity));
         }
 
 
-
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
@@ -1843,10 +1956,11 @@ namespace Dos.ORM
         public int Insert<TEntity>(DbTransaction tran, TEntity entity)
             where TEntity : Entity
         {
-            return insertExecute<TEntity>(cmdCreator.CreateInsertCommand<TEntity>(entity), tran);
+            return insertExecute<TEntity>(cmdCreator.CreateInsertCommand(entity), tran);
         }
+
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -1857,11 +1971,11 @@ namespace Dos.ORM
         {
             if (null == entities || entities.Length == 0)
                 return 0;
-            int count = 0;
-            foreach (TEntity entity in entities)
+            var count = 0;
+            foreach (var entity in entities)
             {
                 //2015-08-20 修改为tcount判断
-                var tcount = insertExecute<TEntity>(cmdCreator.CreateInsertCommand<TEntity>(entity), tran);
+                var tcount = insertExecute<TEntity>(cmdCreator.CreateInsertCommand(entity), tran);
                 if (tcount > 1)
                     count = tcount;
                 else
@@ -1869,8 +1983,9 @@ namespace Dos.ORM
             }
             return count;
         }
+
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -1881,8 +1996,9 @@ namespace Dos.ORM
         {
             return Insert(tran, entities.ToArray());
         }
+
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entities"></param>
@@ -1893,8 +2009,9 @@ namespace Dos.ORM
         {
             return Insert(tran, entities.ToArray());
         }
+
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="fields"></param>
@@ -1907,7 +2024,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 添加
+        ///     添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="fields"></param>
@@ -1921,15 +2038,14 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="cmd"></param>
         /// <returns></returns>
         private int insertExecute<TEntity>(DbCommand cmd)
-             where TEntity : Entity
+            where TEntity : Entity
         {
-            int returnValue = 0;
+            var returnValue = 0;
 
             if (null == cmd)
                 return returnValue;
@@ -1944,105 +2060,108 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="cmd"></param>
         /// <param name="tran"></param>
         /// <returns></returns>
         private int insertExecute<TEntity>(DbCommand cmd, DbTransaction tran)
-             where TEntity : Entity
+            where TEntity : Entity
         {
             if (null == cmd)
                 return 0;
 
-            Field identity = EntityCache.GetIdentityField<TEntity>();
+            var identity = EntityCache.GetIdentityField<TEntity>();
             if (Field.IsNullOrEmpty(identity))
             {
                 return tran == null ? ExecuteNonQuery(cmd) : ExecuteNonQuery(cmd, tran);
             }
+            object scalarValue = null;
+            if (Db.DbProvider is MsAccessProvider)
+            {
+                if (tran == null)
+                {
+                    ExecuteNonQuery(cmd);
+                    scalarValue =
+                        ExecuteScalar(
+                            db.GetSqlStringCommand(string.Format("select max({0}) from {1}", identity.FieldName,
+                                identity.TableName))); //Max<TEntity, int>(identity, WhereClip.All) + 1;
+                }
+                else
+                {
+                    ExecuteNonQuery(cmd, tran);
+                    scalarValue =
+                        ExecuteScalar(
+                            db.GetSqlStringCommand(string.Format("select max({0}) from {1}", identity.FieldName,
+                                identity.TableName)), tran); //Max<TEntity, int>(identity, WhereClip.All) + 1;
+                }
+            }
+            else if (Db.DbProvider is OracleProvider)
+            {
+                if (tran == null)
+                {
+                    ExecuteNonQuery(cmd);
+                    scalarValue =
+                        ExecuteScalar(
+                            db.GetSqlStringCommand(string.Format(db.DbProvider.RowAutoID,
+                                EntityCache.GetSequence<TEntity>())));
+                }
+                else
+                {
+                    ExecuteNonQuery(cmd, tran);
+                    scalarValue =
+                        ExecuteScalar(
+                            db.GetSqlStringCommand(string.Format(db.DbProvider.RowAutoID,
+                                EntityCache.GetSequence<TEntity>())), tran);
+                }
+            }
             else
             {
-                object scalarValue = null;
-                if (Db.DbProvider is Dos.ORM.MsAccess.MsAccessProvider)
+                if (Db.DbProvider.SupportBatch)
                 {
                     if (tran == null)
                     {
-                        ExecuteNonQuery(cmd);
-                        scalarValue =
-                            ExecuteScalar(
-                                db.GetSqlStringCommand(string.Format("select max({0}) from {1}", identity.FieldName,
-                                    identity.TableName))); //Max<TEntity, int>(identity, WhereClip.All) + 1;
+                        cmd.CommandText = string.Concat(cmd.CommandText, ";", db.DbProvider.RowAutoID);
+                        scalarValue = ExecuteScalar(cmd);
                     }
                     else
                     {
-                        ExecuteNonQuery(cmd, tran);
-                        scalarValue = ExecuteScalar(db.GetSqlStringCommand(string.Format("select max({0}) from {1}", identity.FieldName, identity.TableName)), tran); //Max<TEntity, int>(identity, WhereClip.All) + 1;
-                    }
-
-                }
-                else if (Db.DbProvider is Dos.ORM.Oracle.OracleProvider)
-                {
-                    if (tran == null)
-                    {
-                        ExecuteNonQuery(cmd);
-                        scalarValue =
-                            ExecuteScalar(
-                                db.GetSqlStringCommand(string.Format(db.DbProvider.RowAutoID,
-                                    EntityCache.GetSequence<TEntity>())));
-                    }
-                    else
-                    {
-                        ExecuteNonQuery(cmd, tran);
-                        scalarValue = ExecuteScalar(db.GetSqlStringCommand(string.Format(db.DbProvider.RowAutoID, EntityCache.GetSequence<TEntity>())), tran);
+                        cmd.CommandText = string.Concat(cmd.CommandText, ";", db.DbProvider.RowAutoID);
+                        scalarValue = ExecuteScalar(cmd, tran);
                     }
                 }
                 else
                 {
-                    if (Db.DbProvider.SupportBatch)
+                    if (tran == null)
                     {
-                        if (tran == null)
-                        {
-                            cmd.CommandText = string.Concat(cmd.CommandText, ";", db.DbProvider.RowAutoID);
-                            scalarValue = ExecuteScalar(cmd);
-                        }
-                        else
-                        {
-                            cmd.CommandText = string.Concat(cmd.CommandText, ";", db.DbProvider.RowAutoID);
-                            scalarValue = ExecuteScalar(cmd, tran);
-                        }
+                        ExecuteNonQuery(cmd);
+                        scalarValue = ExecuteScalar(db.GetSqlStringCommand(Db.DbProvider.RowAutoID));
                     }
                     else
                     {
-                        if (tran == null)
-                        {
-                            ExecuteNonQuery(cmd);
-                            scalarValue = ExecuteScalar(db.GetSqlStringCommand(Db.DbProvider.RowAutoID));
-                        }
-                        else
-                        {
-                            ExecuteNonQuery(cmd, tran);
-                            scalarValue = ExecuteScalar(db.GetSqlStringCommand(Db.DbProvider.RowAutoID), tran);
-                        }
+                        ExecuteNonQuery(cmd, tran);
+                        scalarValue = ExecuteScalar(db.GetSqlStringCommand(Db.DbProvider.RowAutoID), tran);
                     }
                 }
-
-                if (null == scalarValue || Convert.IsDBNull(scalarValue))
-                    return 0;
-                return Convert.ToInt32(scalarValue);
             }
+
+            if (null == scalarValue || Convert.IsDBNull(scalarValue))
+                return 0;
+            return Convert.ToInt32(scalarValue);
         }
+
         #endregion
 
         #region Save操作
+
         /// <summary>
-        /// 将实体批量提交至数据库，内置事务。每个实体需要手动标记EntityState状态。
+        ///     将实体批量提交至数据库，内置事务。每个实体需要手动标记EntityState状态。
         /// </summary>
         public int Save<TEntity>(IEnumerable<TEntity> entities)
             where TEntity : Entity
         {
-            int count = 0;
-            using (DbTrans trans = this.BeginTransaction())
+            var count = 0;
+            using (var trans = BeginTransaction())
             {
                 foreach (var entity in entities)
                 {
@@ -2050,13 +2169,13 @@ namespace Dos.ORM
                     switch (es)
                     {
                         case EntityState.Added:
-                            count += Insert<TEntity>(trans, entity);
+                            count += Insert(trans, entity);
                             break;
                         case EntityState.Deleted:
-                            count += Delete<TEntity>(trans, entity);
+                            count += Delete(trans, entity);
                             break;
                         case EntityState.Modified:
-                            count += Update<TEntity>(trans, entity);
+                            count += Update(trans, entity);
                             break;
                     }
                 }
@@ -2064,82 +2183,85 @@ namespace Dos.ORM
             }
             return count;
         }
+
         /// <summary>
-        ///保存实体。需要手动标记EntityState状态。
+        ///     保存实体。需要手动标记EntityState状态。
         /// </summary>
         public int Save<TEntity>(TEntity entity)
             where TEntity : Entity
         {
-            int count = 0;
-            EntityState es = entity.GetEntityState();
+            var count = 0;
+            var es = entity.GetEntityState();
             switch (es)
             {
                 case EntityState.Added:
-                    count = Insert<TEntity>(entity);
+                    count = Insert(entity);
                     break;
                 case EntityState.Deleted:
-                    count = Delete<TEntity>(entity);
+                    count = Delete(entity);
                     break;
                 case EntityState.Modified:
-                    count = Update<TEntity>(entity);
+                    count = Update(entity);
                     break;
             }
             return count;
         }
+
         /// <summary>
-        /// 将实体批量提交至数据库。每个实体需要手动标记EntityState状态。
+        ///     将实体批量提交至数据库。每个实体需要手动标记EntityState状态。
         /// </summary>
         public int Save<TEntity>(DbTransaction tran, IEnumerable<TEntity> entities)
             where TEntity : Entity
         {
-            int count = 0;
+            var count = 0;
             foreach (var entity in entities)
             {
                 var es = entity.GetEntityState();
                 switch (es)
                 {
                     case EntityState.Added:
-                        count += Insert<TEntity>(tran, entity);
+                        count += Insert(tran, entity);
                         break;
                     case EntityState.Deleted:
-                        count += Delete<TEntity>(tran, entity);
+                        count += Delete(tran, entity);
                         break;
                     case EntityState.Modified:
-                        count += Update<TEntity>(tran, entity);
+                        count += Update(tran, entity);
                         break;
                 }
             }
             return count;
         }
+
         /// <summary>
-        ///保存实体。需要手动标记EntityState状态。
+        ///     保存实体。需要手动标记EntityState状态。
         /// </summary>
         public int Save<TEntity>(DbTransaction tran, TEntity entity)
             where TEntity : Entity
         {
-            int count = 0;
-            EntityState es = entity.GetEntityState();
+            var count = 0;
+            var es = entity.GetEntityState();
             switch (es)
             {
                 case EntityState.Added:
-                    count = Insert<TEntity>(tran, entity);
+                    count = Insert(tran, entity);
                     break;
                 case EntityState.Deleted:
-                    count = Delete<TEntity>(tran, entity);
+                    count = Delete(tran, entity);
                     break;
                 case EntityState.Modified:
-                    count = Update<TEntity>(tran, entity);
+                    count = Update(tran, entity);
                     break;
             }
             return count;
         }
+
         #endregion
 
         #region 执行command
 
-
         /// <summary>
-        /// 执行ExecuteNonQuery
+        ///     执行ExecuteNonQuery
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
@@ -2169,7 +2291,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 执行ExecuteNonQuery
+        ///     执行ExecuteNonQuery
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="tran"></param>
@@ -2182,7 +2304,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 执行ExecuteScalar
+        ///     执行ExecuteScalar
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="tran"></param>
@@ -2196,7 +2318,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 执行ExecuteScalar
+        ///     执行ExecuteScalar
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
@@ -2225,7 +2347,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 执行ExecuteReader
+        ///     执行ExecuteReader
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
@@ -2237,7 +2359,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 执行ExecuteReader
+        ///     执行ExecuteReader
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="tran"></param>
@@ -2250,7 +2372,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 执行ExecuteDataSet
+        ///     执行ExecuteDataSet
         /// </summary>
         /// <param name="cmd"></param>
         /// <returns></returns>
@@ -2262,7 +2384,7 @@ namespace Dos.ORM
         }
 
         /// <summary>
-        /// 执行ExecuteDataSet
+        ///     执行ExecuteDataSet
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="tran"></param>
@@ -2278,70 +2400,32 @@ namespace Dos.ORM
 
         #region 属性
 
-
         /// <summary>
-        /// 左边  
-        /// <example>例如:sqlserver   的    [</example>
+        ///     左边
+        ///     <example>例如:sqlserver   的    [</example>
         /// </summary>
         public string LeftToken
         {
-            get
-            {
-                return db.DbProvider.LeftToken.ToString();
-            }
+            get { return db.DbProvider.LeftToken.ToString(); }
         }
 
 
         /// <summary>
-        /// 右边
-        /// <example>例如:sqlserver   的    ]</example>
+        ///     右边
+        ///     <example>例如:sqlserver   的    ]</example>
         /// </summary>
         public string RightToken
         {
-            get
-            {
-                return db.DbProvider.RightToken.ToString();
-            }
+            get { return db.DbProvider.RightToken.ToString(); }
         }
 
         /// <summary>
-        /// 参数前缀
-        /// <example>例如:sqlserver 的     @</example>
+        ///     参数前缀
+        ///     <example>例如:sqlserver 的     @</example>
         /// </summary>
         public string ParamPrefix
         {
-            get
-            {
-                return db.DbProvider.ParamPrefix.ToString();
-            }
-        }
-
-        #endregion
-
-        #region 存储过程
-
-        /// <summary>
-        /// 存储过程查询
-        /// </summary>
-        /// <param name="procName"></param>
-        /// <returns></returns>
-        public ProcSection FromProc(string procName)
-        {
-            return new ProcSection(this, procName);
-        }
-
-        #endregion
-
-        #region sql语句
-
-        /// <summary>
-        /// sql查询
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <returns></returns>
-        public SqlSection FromSql(string sql)
-        {
-            return new SqlSection(this, sql);
+            get { return db.DbProvider.ParamPrefix.ToString(); }
         }
 
         #endregion

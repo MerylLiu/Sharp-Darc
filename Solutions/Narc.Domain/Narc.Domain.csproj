@@ -53,10 +53,17 @@
     <Compile Include="Handlers\ICommand.cs" />
     <Compile Include="Handlers\ICommandHandler.cs" />
     <Compile Include="Handlers\ICommandProcessor.cs" />
+    <Compile Include="MyTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contracts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdParty\Dos.ORM\Dos.ORM.csproj">
+      <Project>{B2457283-955C-425D-8565-0329430748FD}</Project>
+      <Name>Dos.ORM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

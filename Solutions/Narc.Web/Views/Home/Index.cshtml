@@ -2,7 +2,7 @@
     Layout = null;
 }
 
-@model IList<Narc.Web.Common.ViewModels.UserRowModel>
+@model IList<Narc.Domain.MyTest>
 
 <!DOCTYPE html>
 
@@ -15,7 +15,7 @@
     <div>
         @foreach (var item in Model)
         {
-            @item.DisplayName
+            @item.Id <span>:</span> @item.Name<br />
         }
     </div>
 </body>

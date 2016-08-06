@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Narc.Web.Common.Queries
+﻿namespace Narc.Web.Common.Queries
 {
+    using System.Collections.Generic;
+    using Domain;
+
     public interface IExampleQuery
     {
-        List<string> GetQueries();
+        List<MyTest> GetQueries();
     }
 }

@@ -61,6 +61,10 @@
       <Project>{00245CEC-2F95-435E-8FEC-C3DF9A4C1E64}</Project>
       <Name>Narc.Web.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Dos.ORM\Dos.ORM.csproj">
+      <Project>{B2457283-955C-425D-8565-0329430748FD}</Project>
+      <Name>Dos.ORM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
