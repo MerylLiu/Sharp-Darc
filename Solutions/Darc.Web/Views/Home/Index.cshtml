@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Model IList<string>
+
+<h2>My MVC</h2>
+
+<div>
+    @foreach (var item in Model)
+    {
+        @item<br/>
+    }
+</div>
