@@ -1,5 +1,6 @@
 ﻿namespace Darc.Domain
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -15,6 +16,16 @@
             var validationResults = new List<ValidationResult>();
             Validator.TryValidateObject(this, new ValidationContext(this, null, null), validationResults, true);
             return validationResults;
+        }
+
+        public virtual void Handle()
+        {
+            throw new CommandHandlerNotFoundException(typeof(ICommand));
+        }
+
+        public virtual TResult Handle<TResult>()
+        {
+            throw new CommandHandlerNotFoundException(typeof(ICommand));
         }
     }
 }

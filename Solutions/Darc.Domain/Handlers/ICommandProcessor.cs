@@ -1,14 +1,13 @@
 ﻿namespace Darc.Domain
 {
     using System;
-    using System.Collections.Generic;
 
     public interface ICommandProcessor
     {
         void Process<TCommand>(TCommand command) where TCommand : ICommand;
 
-        IEnumerable<TResult> Process<TCommand, TResult>(TCommand command) where TCommand : ICommand;
+        TResult Process<TResult>(ICommand command);
 
-        void Process<TCommand, TResult>(TCommand command, Action<TResult> resultHandler) where TCommand : ICommand;
+        void Process<TResult>(ICommand command, Action<TResult> resultHandler);
     }
 }

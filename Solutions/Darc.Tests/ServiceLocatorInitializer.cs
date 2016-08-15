@@ -1,11 +1,12 @@
-﻿using Castle.MicroKernel.Registration;
-using Castle.Windsor;
-using CommonServiceLocator.WindsorAdapter;
-using Microsoft.Practices.ServiceLocation;
-
-namespace Darc.Tests
+﻿namespace Darc.Tests
 {
-    using Darc.Dapper;
+    using Castle.MicroKernel.Registration;
+    using Castle.Windsor;
+    using CommonServiceLocator.WindsorAdapter;
+    using Dapper;
+    using Domain;
+    using Infrastructure.Castle;
+    using Microsoft.Practices.ServiceLocation;
 
     public class ServiceLocatorInitializer
     {
@@ -13,7 +14,9 @@ namespace Darc.Tests
         {
             IWindsorContainer container = new WindsorContainer();
             //AddCustomRepositoriesTo(container);
+            AddGenericRepositoriesTo(container);
             AddQueryObjectsTo(container);
+            AddHandlersTo(container);
 
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
@@ -27,12 +30,34 @@ namespace Darc.Tests
         //                .WithService.DefaultInterfaces());
         //}
 
+        private static void AddGenericRepositoriesTo(IWindsorContainer container)
+        {
+            container.Register(
+                Component.For(typeof (ICommandProcessor))
+                    .ImplementedBy(typeof (CommandProcessor))
+                    .Named("commandProcessor"));
+        }
+
         private static void AddQueryObjectsTo(IWindsorContainer container)
         {
             container.Register(
-                AllTypes.FromAssemblyNamed("Narc.Web.Common")
-                        .BasedOn(typeof(DapperQuery))
-                        .WithService.DefaultInterfaces());
+                AllTypes.FromAssemblyNamed("Darc.Web.Common")
+                    .BasedOn(typeof (DapperQuery))
+                    .WithService.DefaultInterfaces());
+        }
+
+        private static void AddHandlersTo(IWindsorContainer container)
+        {
+            container.Register(
+                AllTypes.FromAssemblyNamed("Darc.Tasks")
+                    .BasedOn(typeof (CommandBase))
+                    .WithService.FirstInterface());
+
+            /*container.Register(
+                AllTypes
+                    .FromAssemblyNamed("Darc.Tasks")
+                    .Pick().If(t => t.Name.EndsWith("Command"))
+                    .WithService.FirstNonGenericCoreInterface("Darc.Domain"));*/
         }
     }
 }

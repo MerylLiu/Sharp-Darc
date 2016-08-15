@@ -1,5 +1,6 @@
 ﻿namespace Darc.Domain
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -8,5 +9,8 @@
         bool IsValid();
 
         ICollection<ValidationResult> ValidationResults();
+
+        void Handle();
+        TResult Handle<TResult>();
     }
 }

@@ -52,10 +52,10 @@
 
         private static void AddHandlersTo(IWindsorContainer container)
         {
-            container.Register(
-                AllTypes.FromAssemblyNamed("Darc.Tasks")
-                        .BasedOn(typeof (ICommandHandler<>))
-                        .WithService.FirstInterface());
+        //    container.Register(
+        //        AllTypes.FromAssemblyNamed("Darc.Tasks")
+        //                .BasedOn(typeof (ICommandHandler<>))
+        //                .WithService.FirstInterface());
         }
     }
 }

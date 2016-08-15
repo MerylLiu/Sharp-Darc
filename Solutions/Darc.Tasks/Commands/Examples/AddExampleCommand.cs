@@ -12,5 +12,16 @@
 
         [Required(ErrorMessage = "Please input the filed.")]
         public string Field { get; set; }
+
+        public override TResult Handle<TResult>()
+        {
+            var data = "My test";
+            return (TResult)(object)data;
+        }
+
+        /*public override void Handle()
+        {
+            var data = "My test";
+        }*/
     }
 }
