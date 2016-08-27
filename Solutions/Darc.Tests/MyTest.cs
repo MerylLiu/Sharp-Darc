@@ -60,9 +60,9 @@
         [Test]
         public void Delete()
         {
-            var res = DapperSession.Current.Delete<Example>(p=>p.Id == (object)41);
+            var res = DapperSession.Current.Delete<Example>(p=>p.Id == (object)2);
 
-            Console.WriteLine($"Delete is {(res ? "successfual" : "failed")}");
+            Console.WriteLine($"Delete is {(res ? "successful" : "failed")}");
             Assert.AreEqual(true,res);
         }
 
@@ -79,7 +79,7 @@
 
             var res = DapperSession.Current.Update(data);
 
-            Console.WriteLine($"Update is {(res ? "successfual" : "failed")}");
+            Console.WriteLine($"Update is {(res ? "successful" : "failed")}");
             Assert.AreEqual(true,res);
         }
 
@@ -117,7 +117,7 @@
             {
                 var rows = p.Execute("delete from mytest where id = ?Id", new { Id = 40 });
 
-                Console.WriteLine($"Execute is {(rows > 0 ? "successfual" : "failed")}");
+                Console.WriteLine($"Execute is {(rows > 0 ? "successful" : "failed")}");
                 Assert.AreEqual(true, rows > 0);
             });
         }
@@ -130,7 +130,8 @@
                 var data = p.Query<Example>("select * from mytest").ToList();
                 return data;
             });
-            //DapperSession.Current.ExecuteSql(p => p.Query<Example>("select * from mytest").ToList());
+            /*DapperSession.Current.ExecuteSql(p => p.Query<Example>("select * from mytest")
+                .ToList());*/
 
             Console.WriteLine(ToBlock(res));
             Assert.IsNotNull(res);
@@ -143,7 +144,7 @@
             {
                 var rows = p.Execute("delete from mytest where id = ?Id", new { Id = 40 }, t);
 
-                Console.WriteLine($"Execute is {(rows > 0 ? "successfual" : "failed")}");
+                Console.WriteLine($"Execute is {(rows > 0 ? "successful" : "failed")}");
                 Assert.AreEqual(true, rows > 0);
             });
         }

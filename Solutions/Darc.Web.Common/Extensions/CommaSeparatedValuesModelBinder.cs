@@ -13,29 +13,28 @@
 
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            ValueProviderResult value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
             if (value == null || string.IsNullOrEmpty(value.AttemptedValue))
             {
                 return null;
             }
 
-            Type valueType = bindingContext.ModelType.GetElementType() ??
-                             bindingContext.ModelType.GetGenericArguments().FirstOrDefault();
+            var valueType = bindingContext.ModelType.GetElementType() ??
+                            bindingContext.ModelType.GetGenericArguments().FirstOrDefault();
 
             if (valueType != null && valueType.GetInterface(typeof (IConvertible).Name) != null)
             {
                 var list = (IList) Activator.CreateInstance(typeof (List<>).MakeGenericType(valueType));
 
-                foreach (string splitValue in value.AttemptedValue.Split(new[] {','}))
+                foreach (var splitValue in value.AttemptedValue.Split(','))
                 {
-                    if (!String.IsNullOrWhiteSpace(splitValue))
+                    if (!string.IsNullOrWhiteSpace(splitValue))
                         list.Add(Convert.ChangeType(splitValue, valueType));
                 }
 
                 if (bindingContext.ModelType.IsArray)
                     return ToArrayMethod.MakeGenericMethod(valueType).Invoke(this, new[] {list});
-                else
-                    return list;
+                return list;
             }
 
             return null;

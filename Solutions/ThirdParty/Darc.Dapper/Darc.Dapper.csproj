@@ -47,6 +47,7 @@
     <Compile Include="Attributes\ColumnAttribute .cs" />
     <Compile Include="Attributes\IgnoreAttribute.cs" />
     <Compile Include="Attributes\PrimaryKeyAttribute.cs" />
+    <Compile Include="Attributes\SequenceAttribute.cs" />
     <Compile Include="Attributes\TableAttribute.cs" />
     <Compile Include="Common\CommonUtil.cs" />
     <Compile Include="Common\DapperContext.cs" />
@@ -67,9 +68,6 @@
       <Project>{B5EE3F68-7E7B-43CD-9997-F0A906F2173E}</Project>
       <Name>Dapper</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

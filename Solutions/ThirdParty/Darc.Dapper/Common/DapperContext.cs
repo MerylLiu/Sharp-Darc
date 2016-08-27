@@ -24,14 +24,15 @@
             using (var conn = _context.DbConnecttion)
             {
                 var tbName = CommonUtil.GetTableName<T>();
-                var columns = CommonUtil.GetExecutedColumns<T>();
+                var columns = CommonUtil.GetExecutedColumns(t);
+                var primaryKey = CommonUtil.GetPrimaryKey<T>();
+                var sequence = CommonUtil.GetSequence<T>();
 
                 IDbTransaction trans = null;
                 if (useTransaction) trans = conn.BeginTransaction();
 
-                var flag = conn.Execute(CreateInsertSql(tbName, columns, _context.ParamPrefix),
-                    t, trans, commandTimeout);
-
+                DynamicParameters parameters;
+                string sql = CreateInsertSql(tbName, columns, _context.ParamPrefix,out parameters);
                 string idSql;
                 switch (_context.DbType)
                 {
@@ -45,7 +46,11 @@
                         idSql = @"";
                         break;
                     case DbType.Oracle:
-                        idSql = @"";
+                        idSql = $"select {sequence}.currval as Id from dual";
+                        if (t.Id == null && !string.IsNullOrEmpty(sequence))
+                        {
+                            sql = sql.Replace(_context.ParamPrefix + primaryKey, $"{sequence}.nextval");
+                        }
                         break;
                     case DbType.SQLite:
                         idSql = @"select last_insert_rowid() as Id";
@@ -58,15 +63,20 @@
                         break;
                 }
 
+                var flag = conn.Execute(sql, parameters, trans, commandTimeout);
+
                 if (flag != 0)
                 {
                     if (trans != null)
                     {
                         try
                         {
+                            if (t.Id == null)
+                            {
+                                var data = conn.Query<T>(idSql).SingleOrDefault();
+                                if (data != null) t.Id = data.Id;
+                            }
                             trans.Commit();
-                            var data = conn.Query<T>(idSql).SingleOrDefault();
-                            if (data != null) t.Id = data.Id;
                         }
                         catch
                         {
@@ -76,8 +86,11 @@
                     }
                     else
                     {
-                        var data = conn.Query<T>(idSql).SingleOrDefault();
-                        if (data != null) t.Id = data.Id;
+                        if (t.Id == null)
+                        {
+                            var data = conn.Query<T>(idSql).SingleOrDefault();
+                            if (data != null) t.Id = data.Id;
+                        }
                         return t;
                     }
 
@@ -99,7 +112,8 @@
 
                 try
                 {
-                    var flag = db.Execute(CreateInsertSql(tbName, columns, _context.ParamPrefix),
+                    DynamicParameters parameters;
+                    var flag = db.Execute(CreateInsertSql(tbName, columns, _context.ParamPrefix,out parameters),
                         dataList, trans, commandTimeout);
 
                     result = flag > 0;
@@ -283,12 +297,18 @@
             }
         }
 
+        public TResult Procdure<TResult>(string name, SqlMapper.IDynamicParameters parameters)
+        {
+            return default(TResult);
+        }
+
         #region Generate Sql
 
         private static string CreateInsertSql(string tbName, IList<ParamColumnModel> colums,
-            string paramPrefix)
+            string paramPrefix,out DynamicParameters parameters)
         {
             var sql = new StringBuilder();
+            DynamicParameters param = new DynamicParameters();
 
             sql.Append($"INSERT INTO {tbName}(");
             for (var i = 0; i < colums.Count; i++)
@@ -303,8 +323,12 @@
                 sql.Append(i == 0
                     ? $"{paramPrefix}{colums[i].FieldName}"
                     : $",{paramPrefix}{colums[i].FieldName}");
+
+                if(!string.IsNullOrEmpty(colums[i].FieldValue))
+                    param.Add(colums[i].FieldName, colums[i].FieldValue);
             }
             sql.Append(")");
+            parameters = param;
 
             return sql.ToString();
         }

@@ -12,7 +12,8 @@
         public static string GetTableName<T>()
         {
             var ty = typeof (T);
-            var arri = ty.GetCustomAttributes(typeof (BaseAttribute), true).FirstOrDefault();
+            var arri = ty.GetCustomAttributes(typeof (BaseAttribute), true)
+                .FirstOrDefault(p => p.GetType() == typeof (TableAttribute));
             if (arri is TableAttribute && (!string.IsNullOrEmpty((arri as BaseAttribute).Name)))
             {
                 return (arri as BaseAttribute).Name;
@@ -25,13 +26,15 @@
             var name = "";
             foreach (var propertyInfo in typeof (T).GetProperties())
             {
-                var arri = propertyInfo.GetCustomAttributes(typeof (BaseAttribute), true).FirstOrDefault();
+                var arri = propertyInfo.GetCustomAttributes(typeof (BaseAttribute), true)
+                    .FirstOrDefault(p => p.GetType() == typeof (IgnoreAttribute));
+
                 if (arri is IgnoreAttribute)
                 {
                     arri = null;
                     continue;
                 }
-                name = (arri == null || string.IsNullOrEmpty((arri as BaseAttribute).Name))
+                name = (string.IsNullOrEmpty((arri as BaseAttribute)?.Name))
                     ? propertyInfo.Name
                     : (arri as BaseAttribute).Name;
                 break;
@@ -42,9 +45,12 @@
         public static IList<ParamColumnModel> GetExecutedColumns<T>() where T : class
         {
             var columns = new List<ParamColumnModel>();
-            foreach (var propertyInfo in typeof (T).GetProperties())
+            var properties = typeof (T).GetProperties();
+            foreach (var propertyInfo in properties)
             {
-                var arri = propertyInfo.GetCustomAttributes(typeof (BaseAttribute), true).FirstOrDefault();
+                var arri = propertyInfo.GetCustomAttributes(typeof (BaseAttribute), true)
+                    .FirstOrDefault(p => p.GetType() == typeof (ParamColumnModel));
+
                 if (arri is IgnoreAttribute)
                 {
                     arri = null;
@@ -66,10 +72,59 @@
                         continue;
                     }
                 }*/
-                var name = (arri == null || string.IsNullOrEmpty((arri as BaseAttribute).Name))
+                var name = (string.IsNullOrEmpty((arri as BaseAttribute)?.Name))
                     ? propertyInfo.Name
                     : (arri as BaseAttribute).Name;
-                columns.Add(new ParamColumnModel {ColumnName = name, FieldName = propertyInfo.Name});
+                columns.Add(new ParamColumnModel
+                {
+                    ColumnName = name,
+                    FieldName = propertyInfo.Name
+                });
+            }
+            return columns;
+        }
+
+        public static IList<ParamColumnModel> GetExecutedColumns<T>(T t) where T : class
+        {
+            var columns = new List<ParamColumnModel>();
+            var properties = typeof (T).GetProperties();
+            foreach (var propertyInfo in properties)
+            {
+                var arri = propertyInfo.GetCustomAttributes(typeof (BaseAttribute), true)
+                    .FirstOrDefault(p => p.GetType() == typeof (ParamColumnModel));
+
+                if (arri is IgnoreAttribute)
+                {
+                    arri = null;
+                    continue;
+                }
+                if (arri is PrimaryKeyAttribute)
+                {
+                    if ((arri as PrimaryKeyAttribute).AutoIncrement)
+                    {
+                        arri = null;
+                        continue;
+                    }
+                }
+                /*else if (arri is ColumnAttribute)
+                {
+                    if ((arri as ColumnAttribute).AutoIncrement)
+                    {
+                        arri = null;
+                        continue;
+                    }
+                }*/
+                var name = (string.IsNullOrEmpty((arri as BaseAttribute)?.Name))
+                    ? propertyInfo.Name
+                    : (arri as BaseAttribute).Name;
+                columns.Add(new ParamColumnModel
+                {
+                    ColumnName = name,
+                    FieldName = propertyInfo.Name,
+                    FieldValue = propertyInfo.GetValue(t, null) == null
+                        ? null
+                        : propertyInfo.GetValue(t, null).ToString()
+                });
             }
             return columns;
         }
@@ -80,7 +135,9 @@
 
             foreach (var propertyInfo in typeof (T).GetProperties())
             {
-                var arri = propertyInfo.GetCustomAttributes(typeof (BaseAttribute), true).FirstOrDefault();
+                var arri = propertyInfo.GetCustomAttributes(typeof (BaseAttribute), true)
+                    .FirstOrDefault(p => p.GetType() == typeof (PrimaryKeyAttribute));
+
                 if (arri is PrimaryKeyAttribute)
                 {
                     name = string.IsNullOrEmpty((arri as BaseAttribute).Name)
@@ -137,6 +194,19 @@
                 ? propertyInfo.Name
                 : (arri as BaseAttribute).Name;
             return name;
+        }
+
+        public static string GetSequence<T>()
+        {
+            var ty = typeof (T);
+            var arri = ty.GetCustomAttributes(typeof (BaseAttribute), true)
+                .FirstOrDefault(p => p.GetType() == typeof (SequenceAttribute));
+
+            if (!string.IsNullOrEmpty((arri as SequenceAttribute)?.Sequence))
+            {
+                return (arri as SequenceAttribute).Sequence;
+            }
+            return ty.Name;
         }
 
         public static string UnitMoreSpace(string str)

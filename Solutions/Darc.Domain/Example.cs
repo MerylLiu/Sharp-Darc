@@ -3,7 +3,7 @@
     using Common;
     using Dapper.Attributes;
 
-    [Table("Mytest")]
+    [Table("Mytest"),Sequence("example_seq")]
     public class Example : Entity
     {
         public string Name { get; set; }
