@@ -11,7 +11,7 @@
 
     public class DapperContext
     {
-        private readonly DbContext _context;
+        private static DbContext _context;
 
         public DapperContext(DbContext contextContext)
         {
@@ -32,7 +32,7 @@
                 if (useTransaction) trans = conn.BeginTransaction();
 
                 DynamicParameters parameters;
-                string sql = CreateInsertSql(tbName, columns, _context.ParamPrefix,out parameters);
+                string sql = CreateInsertSql(tbName, columns, _context.ParamPrefix, primaryKey, out parameters);
                 string idSql;
                 switch (_context.DbType)
                 {
@@ -107,13 +107,14 @@
             {
                 var result = false;
                 var tbName = CommonUtil.GetTableName<T>();
+                var primarayKey = CommonUtil.GetPrimaryKey<T>();
                 var columns = CommonUtil.GetExecutedColumns<T>();
                 var trans = db.BeginTransaction();
 
                 try
                 {
                     DynamicParameters parameters;
-                    var flag = db.Execute(CreateInsertSql(tbName, columns, _context.ParamPrefix,out parameters),
+                    var flag = db.Execute(CreateInsertSql(tbName, columns, _context.ParamPrefix,primarayKey,out parameters),
                         dataList, trans, commandTimeout);
 
                     result = flag > 0;
@@ -305,7 +306,7 @@
         #region Generate Sql
 
         private static string CreateInsertSql(string tbName, IList<ParamColumnModel> colums,
-            string paramPrefix,out DynamicParameters parameters)
+            string paramPrefix,string primarayKey,out DynamicParameters parameters)
         {
             var sql = new StringBuilder();
             DynamicParameters param = new DynamicParameters();
@@ -324,8 +325,29 @@
                     ? $"{paramPrefix}{colums[i].FieldName}"
                     : $",{paramPrefix}{colums[i].FieldName}");
 
-                if(!string.IsNullOrEmpty(colums[i].FieldValue))
-                    param.Add(colums[i].FieldName, colums[i].FieldValue);
+                switch (_context.DbType)
+                {
+                    case DbType.MySql:
+                        param.Add(colums[i].FieldName, colums[i].FieldValue);
+                        break;
+                    case DbType.SqlServerCe:
+                        break;
+                    case DbType.PostgreSql:
+                        break;
+                    case DbType.Oracle:
+                        if (primarayKey == colums[i].FieldName && !string.IsNullOrEmpty(colums[i].FieldValue))
+                            param.Add(colums[i].FieldName, colums[i].FieldValue);
+                        else if(primarayKey != colums[i].FieldName)
+                            param.Add(colums[i].FieldName, colums[i].FieldValue);
+                        break;
+                    case DbType.SQLite:
+                        break;
+                    case DbType.SqlServer:
+                        break;
+                    default:
+                        param.Add(colums[i].FieldName, colums[i].FieldValue);
+                        break;
+                }
             }
             sql.Append(")");
             parameters = param;
