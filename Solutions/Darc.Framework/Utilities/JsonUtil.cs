@@ -5,7 +5,7 @@
     using System.Text;
     using System.Web.Script.Serialization;
 
-    public class JsonDeserializeUtil
+    public class JsonUtil
     {
         public static T JsonDeserialize<T>(string jsonString)
         {

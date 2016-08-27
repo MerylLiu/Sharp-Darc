@@ -45,6 +45,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\Lib\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\Lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -70,6 +73,10 @@
       <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
       <Name>Darc.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Darc.Framework\Darc.Framework.csproj">
+      <Project>{38970678-4D76-46E2-A85B-75C22EA5E5F8}</Project>
+      <Name>Darc.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Darc.Infrastructure\Darc.Infrastructure.csproj">
       <Project>{605E8A65-4870-41FD-AC67-0E06165104CC}</Project>
       <Name>Darc.Infrastructure</Name>
@@ -81,6 +88,10 @@
     <ProjectReference Include="..\Darc.Web.Common\Darc.Web.Common.csproj">
       <Project>{00245cec-2f95-435e-8fec-c3df9a4c1e64}</Project>
       <Name>Darc.Web.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
+      <Project>{B5EE3F68-7E7B-43CD-9997-F0A906F2173E}</Project>
+      <Name>Dapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Darc.Dapper\Darc.Dapper.csproj">
       <Project>{87AC7B72-44A8-4B1B-A96D-6217E757AAFB}</Project>

@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Entity.cs" />
+    <Compile Include="Example.cs" />
     <Compile Include="Handlers\CommandBase.cs" />
     <Compile Include="Handlers\CommandHandlerException.cs" />
     <Compile Include="Handlers\CommandHandlerNotFoundException.cs" />
@@ -59,6 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contracts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdParty\Darc.Dapper\Darc.Dapper.csproj">
+      <Project>{87AC7B72-44A8-4B1B-A96D-6217E757AAFB}</Project>
+      <Name>Darc.Dapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

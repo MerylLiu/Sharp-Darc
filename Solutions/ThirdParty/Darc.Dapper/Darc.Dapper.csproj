@@ -43,9 +43,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\BaseAttribute.cs" />
+    <Compile Include="Attributes\ColumnAttribute .cs" />
+    <Compile Include="Attributes\IgnoreAttribute.cs" />
+    <Compile Include="Attributes\PrimaryKeyAttribute.cs" />
+    <Compile Include="Attributes\TableAttribute.cs" />
+    <Compile Include="Common\CommonUtil.cs" />
+    <Compile Include="Common\DapperContext.cs" />
+    <Compile Include="Common\DbContext.cs" />
+    <Compile Include="Common\DBType.cs" />
+    <Compile Include="Common\EntityBase.cs" />
+    <Compile Include="Common\ParamColumnModel.cs" />
     <Compile Include="DapperQuery.cs" />
     <Compile Include="DapperSession.cs" />
+    <Compile Include="Expressions\Queryable.cs" />
+    <Compile Include="Expressions\QueryExtension.cs" />
+    <Compile Include="Expressions\QueryProvider.cs" />
+    <Compile Include="Expressions\QueryTranslator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dapper\Dapper.csproj">
+      <Project>{B5EE3F68-7E7B-43CD-9997-F0A906F2173E}</Project>
+      <Name>Dapper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
