@@ -3,13 +3,47 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Model IList<string>
+@model IList<Darc.Domain.Example>
 
-<h2>My MVC</h2>
-
+<h2>My 'Dapper' example</h2>
+<hr />
 <div>
+    <div class="header"><span>Id</span><span>Name</span><span>Age</span></div>
+
     @foreach (var item in Model)
     {
-        @item<br/>
+        <div><span>@item.Id</span><span>@item.Name</span><span>@item.Age</span><br /></div>
     }
 </div>
+
+<style>
+    span {
+        display: inline-block;
+        border-bottom: 1px #ddd solid;
+        padding: 5px 20px;
+    }
+
+        span:nth-child(1n) {
+            width: 80px;
+            border-right: 1px #ddd solid;
+            border-left: 1px #ddd solid;
+        }
+
+        span:nth-child(2n) {
+            width: 400px;
+            border-left: none;
+            border-right: none;
+        }
+
+        div.header{
+            width: 560px;
+            border-top: 1px #ddd solid;
+            background-color: #1e90ff;
+        }
+
+        div:nth-child(2n) {
+            background-color: #eee;
+            width: 560px;
+        }
+
+</style>

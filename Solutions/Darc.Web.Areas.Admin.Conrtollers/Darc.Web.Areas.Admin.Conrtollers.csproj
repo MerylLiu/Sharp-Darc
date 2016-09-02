@@ -68,6 +68,10 @@
       <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>
       <Name>Darc.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Darc.Dapper\Darc.Dapper.csproj">
+      <Project>{87AC7B72-44A8-4B1B-A96D-6217E757AAFB}</Project>
+      <Name>Darc.Dapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

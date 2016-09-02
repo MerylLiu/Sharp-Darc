@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Darc.Web.Common.Queries
+﻿namespace Darc.Web.Common.Queries
 {
+    using System.Collections.Generic;
+    using Domain;
+
     public interface IExampleQuery
     {
-        List<string> GetQueries();
+        IList<Example> GetQueries();
     }
 }

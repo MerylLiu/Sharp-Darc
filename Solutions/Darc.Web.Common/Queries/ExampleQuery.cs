@@ -2,16 +2,13 @@
 {
     using System.Collections.Generic;
     using Dapper;
+    using Domain;
 
     public class ExampleQuery : DapperQuery, IExampleQuery
     {
-        public List<string> GetQueries()
+        public IList<Example> GetQueries()
         {
-            var data = new List<string>();
-            data.Add("item1");
-            data.Add("item2");
-            data.Add("item3");
-            data.Add("item4");
+            var data = DapperSession.Current.All<Example>();
 
             return data;
         }

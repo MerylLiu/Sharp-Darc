@@ -66,6 +66,10 @@
     <Compile Include="ViewModels\ExampleModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Darc.Domain\Darc.Domain.csproj">
+      <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
+      <Name>Darc.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
       <Project>{b5ee3f68-7e7b-43cd-9997-f0a906f2173e}</Project>
       <Name>Dapper</Name>

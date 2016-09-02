@@ -5,7 +5,6 @@
     using Common;
     using Common.Queries;
     using Core;
-    using Domain;
     using Infrastructure.Extensions;
     using Infrastructure.Utilities;
     using Tasks.Commands.Examples;
@@ -17,7 +16,7 @@
 
         public ActionResult Query()
         {
-            List<string> data = ExampleQuery.GetQueries();
+            var data = ExampleQuery.GetQueries();
 
             return View(data);
         }
@@ -33,13 +32,13 @@
             IList<string> messages = new List<string>();
 
             Try.CatchBiz(() =>
-                {
-                    var command = new AddExampleCommand(example.Field);
+            {
+                var command = new AddExampleCommand(example.Field);
 
-                    CommandProcessor.Process(command);
-                },
-                         bex => { messages = bex.ErrorMessages; },
-                         ex => messages.Add("异常错误。"));
+                CommandProcessor.Process(command);
+            },
+                bex => { messages = bex.ErrorMessages; },
+                ex => messages.Add("异常错误。"));
 
             if (messages.Count == 0)
             {
