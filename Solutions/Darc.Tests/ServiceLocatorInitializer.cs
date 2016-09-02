@@ -3,9 +3,8 @@
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
     using CommonServiceLocator.WindsorAdapter;
+    using Core;
     using Dapper;
-    using Domain;
-    using Infrastructure.Castle;
     using Microsoft.Practices.ServiceLocation;
 
     public class ServiceLocatorInitializer

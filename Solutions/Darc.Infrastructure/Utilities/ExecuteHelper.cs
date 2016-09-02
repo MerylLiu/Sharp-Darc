@@ -1,4 +1,4 @@
-﻿namespace Darc.Framework.Utilities
+﻿namespace Darc.Infrastructure.Utilities
 {
     using System;
     using ComLib;

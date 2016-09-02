@@ -1,4 +1,4 @@
-﻿namespace Darc.Framework.Extensions
+﻿namespace Darc.Infrastructure.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -11,12 +11,12 @@
         {
             if (observableCollection == null)
             {
-                throw new ArgumentNullException("observableCollection");
+                throw new ArgumentNullException(nameof(observableCollection));
             }
 
             if (collection == null)
             {
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
             }
 
             collection.Each(observableCollection.Add);

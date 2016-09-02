@@ -275,10 +275,6 @@
       <Project>{e034be8b-3957-45ac-b63b-2485b02a501e}</Project>
       <Name>Darc.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Darc.Framework\Darc.Framework.csproj">
-      <Project>{38970678-4d76-46e2-a85b-75c22ea5e5f8}</Project>
-      <Name>Darc.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Darc.Infrastructure\Darc.Infrastructure.csproj">
       <Project>{605e8a65-4870-41fd-ac67-0e06165104cc}</Project>
       <Name>Darc.Infrastructure</Name>
@@ -306,6 +302,10 @@
     <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
       <Project>{b5ee3f68-7e7b-43cd-9997-f0a906f2173e}</Project>
       <Name>Dapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Darc.Core\Darc.Core.csproj">
+      <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>
+      <Name>Darc.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Darc.Dapper\Darc.Dapper.csproj">
       <Project>{87ac7b72-44a8-4b1b-a96d-6217e757aafb}</Project>

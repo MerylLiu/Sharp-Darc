@@ -1,4 +1,4 @@
-﻿namespace Darc.Framework.Extensions
+﻿namespace Darc.Infrastructure.Extensions
 {
     using System;
     using System.Collections.Generic;

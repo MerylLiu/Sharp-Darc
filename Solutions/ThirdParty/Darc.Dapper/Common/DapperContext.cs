@@ -241,7 +241,7 @@
             }
         }
 
-        public void ExecuteSql(Action<IDbConnection> func)
+        public void Execute(Action<IDbConnection> func)
         {
             using (var conn = _context.DbConnecttion)
             {
@@ -249,7 +249,7 @@
             }
         }
 
-        public TResult ExecuteSql<TResult>(Func<IDbConnection, TResult> func)
+        public TResult Execute<TResult>(Func<IDbConnection, TResult> func)
         {
             using (var conn = _context.DbConnecttion)
             {
@@ -258,7 +258,7 @@
         }
 
 
-        public void ExecuteSql(Action<IDbConnection, IDbTransaction> func, int? commandTimeout = null)
+        public void Execute(Action<IDbConnection, IDbTransaction> func, int? commandTimeout = null)
         {
             using (var conn = _context.DbConnecttion)
             {
@@ -276,7 +276,7 @@
             }
         }
 
-        public TResult ExecuteSql<TResult>(Func<IDbConnection, IDbTransaction, TResult> func,
+        public TResult Execute<TResult>(Func<IDbConnection, IDbTransaction, TResult> func,
             int? commandTimeout = null)
         {
             using (var conn = _context.DbConnecttion)
@@ -298,7 +298,7 @@
             }
         }
 
-        public TResult Procdure<TResult>(string name, SqlMapper.IDynamicParameters parameters)
+        public TResult Procedure<TResult>(string name, SqlMapper.IDynamicParameters parameters)
         {
             return default(TResult);
         }

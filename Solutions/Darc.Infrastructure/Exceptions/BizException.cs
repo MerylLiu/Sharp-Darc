@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Darc.Framework.Exceptions
+namespace Darc.Infrastructure.Exceptions
 {
     using System.ComponentModel.DataAnnotations;
 

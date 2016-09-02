@@ -55,6 +55,10 @@
       <Project>{b5ee3f68-7e7b-43cd-9997-f0a906f2173e}</Project>
       <Name>Dapper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Darc.Core\Darc.Core.csproj">
+      <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>
+      <Name>Darc.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Darc.Dapper\Darc.Dapper.csproj">
       <Project>{87AC7B72-44A8-4B1B-A96D-6217E757AAFB}</Project>
       <Name>Darc.Dapper</Name>
@@ -63,18 +67,12 @@
       <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
       <Name>Darc.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Darc.Framework\Darc.Framework.csproj">
-      <Project>{38970678-4D76-46E2-A85B-75C22EA5E5F8}</Project>
-      <Name>Darc.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Darc.Web.Common\Darc.Web.Common.csproj">
       <Project>{00245CEC-2F95-435E-8FEC-C3DF9A4C1E64}</Project>
       <Name>Darc.Web.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CommandHandlers\Examples\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

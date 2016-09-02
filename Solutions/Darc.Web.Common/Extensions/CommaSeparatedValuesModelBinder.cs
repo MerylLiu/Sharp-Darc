@@ -14,7 +14,7 @@
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-            if (value == null || string.IsNullOrEmpty(value.AttemptedValue))
+            if (string.IsNullOrEmpty(value?.AttemptedValue))
             {
                 return null;
             }
@@ -22,7 +22,7 @@
             var valueType = bindingContext.ModelType.GetElementType() ??
                             bindingContext.ModelType.GetGenericArguments().FirstOrDefault();
 
-            if (valueType != null && valueType.GetInterface(typeof (IConvertible).Name) != null)
+            if (valueType?.GetInterface(typeof (IConvertible).Name) != null)
             {
                 var list = (IList) Activator.CreateInstance(typeof (List<>).MakeGenericType(valueType));
 

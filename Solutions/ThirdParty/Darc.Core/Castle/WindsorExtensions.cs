@@ -1,4 +1,4 @@
-﻿namespace Darc.Infrastructure.Castle
+﻿namespace Darc.Core.Castle
 {
     using System;
     using System.Linq;
@@ -17,9 +17,10 @@
                 {
                     var interfaces =
                         type.GetInterfaces().Where(
-                            t => t.IsGenericType == false && t.Namespace.StartsWith(interfaceNamespace));
+                            t => t.IsGenericType == false &&
+                                 t.Namespace.StartsWith(interfaceNamespace));
 
-                    if (interfaces.Count() > 0)
+                    if (interfaces.Any())
                     {
                         return new[] {interfaces.ElementAt(0)};
                     }

@@ -56,10 +56,6 @@
       <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
       <Name>Darc.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Darc.Framework\Darc.Framework.csproj">
-      <Project>{38970678-4D76-46E2-A85B-75C22EA5E5F8}</Project>
-      <Name>Darc.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Darc.Tasks\Darc.Tasks.csproj">
       <Project>{b3b434c0-e0e8-4ec6-9173-28a7cba29fcb}</Project>
       <Name>Darc.Tasks</Name>

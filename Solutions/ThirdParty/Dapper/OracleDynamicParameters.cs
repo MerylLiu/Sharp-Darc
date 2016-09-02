@@ -1,47 +1,30 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Emit;
-using Oracle.ManagedDataAccess.Client;
-using StackExchange.Profiling.Data;
-
 namespace Dapper
 {
-    public class OracleDynamicParameters :  SqlMapper.IDynamicParameters, SqlMapper.IParameterLookup, SqlMapper.IParameterCallbacks
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Reflection.Emit;
+    using Oracle.ManagedDataAccess.Client;
+
+    public class OracleDynamicParameters : SqlMapper.IDynamicParameters, SqlMapper.IParameterLookup,
+        SqlMapper.IParameterCallbacks
     {
-        static Dictionary<SqlMapper.Identity, Action<IDbCommand, object>> paramReaderCache = new Dictionary<SqlMapper.Identity, Action<IDbCommand, object>>();
+        private static readonly Dictionary<SqlMapper.Identity, Action<IDbCommand, object>> ParamReaderCache =
+            new Dictionary<SqlMapper.Identity, Action<IDbCommand, object>>();
 
-        Dictionary<string, ParamInfo> parameters = new Dictionary<string, ParamInfo>();
-        List<object> templates;
+        private readonly Dictionary<string, Action<object, OracleDynamicParameters>> _cachedOutputSetters =
+            new Dictionary<string, Action<object, OracleDynamicParameters>>();
 
-        object SqlMapper.IParameterLookup.this[string member]
-        {
-            get
-            {
-                ParamInfo param;
-                return parameters.TryGetValue(member, out param) ? param.Value : null;
-            }
-        }
-
-        partial class ParamInfo
-        {
-            public string Name { get; set; }
-            public object Value { get; set; }
-            public ParameterDirection ParameterDirection { get; set; }
-            public OracleDbType? DbType { get; set; }
-            public int? Size { get; set; }
-            public IDbDataParameter AttachedParam { get; set; }
-            internal Action<object, OracleDynamicParameters> OutputCallback { get; set; }
-            internal object OutputTarget { get; set; }
-            internal bool CameFromTemplate { get; set; }
-        }
+        private readonly Dictionary<string, ParamInfo> _parameters = new Dictionary<string, ParamInfo>();
+        private List<Action> _outputCallbacks;
+        private List<object> _templates;
 
         /// <summary>
-        /// construct a dynamic parameter bag
+        ///     construct a dynamic parameter bag
         /// </summary>
         public OracleDynamicParameters()
         {
@@ -49,7 +32,7 @@ namespace Dapper
         }
 
         /// <summary>
-        /// construct a dynamic parameter bag
+        ///     construct a dynamic parameter bag
         /// </summary>
         /// <param name="template">can be an anonymous type or a OracleDynamicParameters bag</param>
         public OracleDynamicParameters(object template)
@@ -59,13 +42,48 @@ namespace Dapper
         }
 
         /// <summary>
-        /// Append a whole object full of params to the dynamic
-        /// EG: AddDynamicParams(new {A = 1, B = 2}) // will add property A and B to the dynamic
+        ///     If true, the command-text is inspected and only values that are clearly used are included on the connection
+        /// </summary>
+        public bool RemoveUnused { get; set; }
+
+        /// <summary>
+        ///     All the names of the param in the bag, use Get to yank them out
+        /// </summary>
+        public IEnumerable<string> ParameterNames
+        {
+            get { return _parameters.Select(p => p.Key); }
+        }
+
+        void SqlMapper.IDynamicParameters.AddParameters(IDbCommand command, SqlMapper.Identity identity)
+        {
+            AddParameters(command, identity);
+        }
+
+        void SqlMapper.IParameterCallbacks.OnCompleted()
+        {
+            foreach (var param in (from p in _parameters select p.Value))
+            {
+                if (param.OutputCallback != null) param.OutputCallback(param.OutputTarget, this);
+            }
+        }
+
+        object SqlMapper.IParameterLookup.this[string member]
+        {
+            get
+            {
+                ParamInfo param;
+                return _parameters.TryGetValue(member, out param) ? param.Value : null;
+            }
+        }
+
+        /// <summary>
+        ///     Append a whole object full of params to the dynamic
+        ///     EG: AddDynamicParams(new {A = 1, B = 2}) // will add property A and B to the dynamic
         /// </summary>
         /// <param name="param"></param>
         public void AddDynamicParams(object param)
         {
-            var obj = param as object;
+            var obj = param;
             if (obj != null)
             {
                 var subDynamic = obj as OracleDynamicParameters;
@@ -74,8 +92,8 @@ namespace Dapper
                     var dictionary = obj as IEnumerable<KeyValuePair<string, object>>;
                     if (dictionary == null)
                     {
-                        templates = templates ?? new List<object>();
-                        templates.Add(obj);
+                        _templates = _templates ?? new List<object>();
+                        _templates.Add(obj);
                     }
                     else
                     {
@@ -87,20 +105,20 @@ namespace Dapper
                 }
                 else
                 {
-                    if (subDynamic.parameters != null)
+                    if (subDynamic._parameters != null)
                     {
-                        foreach (var kvp in subDynamic.parameters)
+                        foreach (var kvp in subDynamic._parameters)
                         {
-                            parameters.Add(kvp.Key, kvp.Value);
+                            _parameters.Add(kvp.Key, kvp.Value);
                         }
                     }
 
-                    if (subDynamic.templates != null)
+                    if (subDynamic._templates != null)
                     {
-                        templates = templates ?? new List<object>();
-                        foreach (var t in subDynamic.templates)
+                        _templates = _templates ?? new List<object>();
+                        foreach (var t in subDynamic._templates)
                         {
-                            templates.Add(t);
+                            _templates.Add(t);
                         }
                     }
                 }
@@ -108,7 +126,7 @@ namespace Dapper
         }
 
         /// <summary>
-        /// Add a parameter to this dynamic parameter list
+        ///     Add a parameter to this dynamic parameter list
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
@@ -119,14 +137,22 @@ namespace Dapper
 #if CSHARP30
 string name, object value, DbType? dbType, ParameterDirection? direction, int? size
 #else
-string name, object value = null, OracleDbType? dbType = null, ParameterDirection? direction = null, int? size = null
+            string name, object value = null, OracleDbType? dbType = null, ParameterDirection? direction = null,
+            int? size = null
 #endif
-)
+            )
         {
-            parameters[Clean(name)] = new ParamInfo() { Name = name, Value = value, ParameterDirection = direction ?? ParameterDirection.Input, DbType = dbType, Size = size };
+            _parameters[Clean(name)] = new ParamInfo
+            {
+                Name = name,
+                Value = value,
+                ParameterDirection = direction ?? ParameterDirection.Input,
+                DbType = dbType,
+                Size = size
+            };
         }
 
-        static string Clean(string name)
+        private static string Clean(string name)
         {
             if (!string.IsNullOrEmpty(name))
             {
@@ -141,18 +167,8 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
             return name;
         }
 
-        void SqlMapper.IDynamicParameters.AddParameters(IDbCommand command, SqlMapper.Identity identity)
-        {
-            AddParameters(command, identity);
-        }
-
         /// <summary>
-        /// If true, the command-text is inspected and only values that are clearly used are included on the connection
-        /// </summary>
-        public bool RemoveUnused { get; set; }
-
-        /// <summary>
-        /// Add all the parameters needed to the command just before it executes
+        ///     Add all the parameters needed to the command just before it executes
         /// </summary>
         /// <param name="command">The raw command prior to execution</param>
         /// <param name="identity">Information about the query</param>
@@ -160,19 +176,19 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
         {
             var literals = SqlMapper.GetLiteralTokens(identity.sql);
 
-            if (templates != null)
+            if (_templates != null)
             {
-                foreach (var template in templates)
+                foreach (var template in _templates)
                 {
                     var newIdent = identity.ForDynamicParameters(template.GetType());
                     Action<IDbCommand, object> appender;
 
-                    lock (paramReaderCache)
+                    lock (ParamReaderCache)
                     {
-                        if (!paramReaderCache.TryGetValue(newIdent, out appender))
+                        if (!ParamReaderCache.TryGetValue(newIdent, out appender))
                         {
                             appender = SqlMapper.CreateParamInfoGenerator(newIdent, true, RemoveUnused, literals);
-                            paramReaderCache[newIdent] = appender;
+                            ParamReaderCache[newIdent] = appender;
                         }
                     }
 
@@ -180,7 +196,7 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
                 }
 
                 // Now that the parameters are added to the command, let's place our output callbacks
-                var tmp = outputCallbacks;
+                var tmp = _outputCallbacks;
                 if (tmp != null)
                 {
                     foreach (var generator in tmp)
@@ -190,29 +206,22 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
                 }
             }
 
-            foreach (var param in parameters.Values)
+            foreach (var param in _parameters.Values)
             {
-                string name = Clean(param.Name);
+                var name = Clean(param.Name);
 
-#if DEBUG
-                if (command is ProfiledDbCommand)
-                {
-                    command = (command as ProfiledDbCommand).InternalCommand;
-                }
-#endif
-
-                bool add = !((OracleCommand)command).Parameters.Contains(name);
+                var add = !((OracleCommand) command).Parameters.Contains(name);
                 OracleParameter p;
                 if (add)
                 {
-                    p = ((OracleCommand)command).CreateParameter();
+                    p = ((OracleCommand) command).CreateParameter();
                     p.ParameterName = name;
                 }
                 else
                 {
-                    p = ((OracleCommand)command).Parameters[name];
+                    p = ((OracleCommand) command).Parameters[name];
                 }
-                object val = param.Value;
+                var val = param.Value;
 
                 var isCustomQueryParameter = val is SqlMapper.ICustomQueryParameter;
                 if (param.Value is IList)
@@ -255,26 +264,14 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
         }
 
         /// <summary>
-        /// All the names of the param in the bag, use Get to yank them out
-        /// </summary>
-        public IEnumerable<string> ParameterNames
-        {
-            get
-            {
-                return parameters.Select(p => p.Key);
-            }
-        }
-
-
-        /// <summary>
-        /// Get the value of a parameter
+        ///     Get the value of a parameter
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <returns>The value, note DBNull.Value is not returned, instead the value is returned as null</returns>
         public T Get<T>(string name)
         {
-            var val = parameters[Clean(name)].AttachedParam.Value;
+            var val = _parameters[Clean(name)].AttachedParam.Value;
             if (val == DBNull.Value)
             {
                 if (default(T) != null)
@@ -283,12 +280,12 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
                 }
                 return default(T);
             }
-            return (T)val;
+            return (T) val;
         }
 
         /// <summary>
-        /// Allows you to automatically populate a target property/field from output parameters. It actually
-        /// creates an InputOutput parameter, so you can still pass data in. 
+        ///     Allows you to automatically populate a target property/field from output parameters. It actually
+        ///     creates an InputOutput parameter, so you can still pass data in.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="target">The object whose property/field you wish to populate.</param>
@@ -299,11 +296,12 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
 #if CSHARP30
         public OracleDynamicParameters Output<T>(T target, Expression<Func<T, object>> expression, DbType? dbType, int? size)
 #else
-        public OracleDynamicParameters Output<T>(T target, Expression<Func<T, object>> expression, DbType? dbType = null, int? size = null)
+        public OracleDynamicParameters Output<T>(T target, Expression<Func<T, object>> expression, DbType? dbType = null,
+            int? size = null)
 #endif
         {
             var failMessage = "Expression must be a property/field chain off of a(n) {0} instance";
-            failMessage = string.Format(failMessage, typeof(T).Name);
+            failMessage = string.Format(failMessage, typeof (T).Name);
             Action @throw = () => { throw new InvalidOperationException(failMessage); };
 
             // Is it even a MemberExpression?
@@ -311,24 +309,24 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
 
             if (lastMemberAccess == null ||
                 (lastMemberAccess.Member.MemberType != MemberTypes.Property &&
-                lastMemberAccess.Member.MemberType != MemberTypes.Field))
+                 lastMemberAccess.Member.MemberType != MemberTypes.Field))
             {
                 if (expression.Body.NodeType == ExpressionType.Convert &&
-                    expression.Body.Type == typeof(object) &&
-                    ((UnaryExpression)expression.Body).Operand is MemberExpression)
+                    expression.Body.Type == typeof (object) &&
+                    ((UnaryExpression) expression.Body).Operand is MemberExpression)
                 {
                     // It's got to be unboxed
-                    lastMemberAccess = (MemberExpression)((UnaryExpression)expression.Body).Operand;
+                    lastMemberAccess = (MemberExpression) ((UnaryExpression) expression.Body).Operand;
                 }
                 else @throw();
             }
 
             // Does the chain consist of MemberExpressions leading to a ParameterExpression of type T?
-            MemberExpression diving = lastMemberAccess;
+            var diving = lastMemberAccess;
             ParameterExpression constant = null;
             // Retain a list of member names and the member expressions so we can rebuild the chain.
-            List<string> names = new List<string>();
-            List<MemberExpression> chain = new List<MemberExpression>();
+            var names = new List<string>();
+            var chain = new List<MemberExpression>();
 
             do
             {
@@ -341,18 +339,17 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
                 diving = diving.Expression as MemberExpression;
 
                 if (constant != null &&
-                    constant.Type == typeof(T))
+                    constant.Type == typeof (T))
                 {
                     break;
                 }
-                else if (diving == null ||
+                if (diving == null ||
                     (diving.Member.MemberType != MemberTypes.Property &&
-                    diving.Member.MemberType != MemberTypes.Field))
+                     diving.Member.MemberType != MemberTypes.Field))
                 {
                     @throw();
                 }
-            }
-            while (diving != null);
+            } while (diving != null);
 
             var dynamicParamName = string.Join(string.Empty, names.ToArray());
 
@@ -360,16 +357,17 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
             var lookup = string.Join("|", names.ToArray());
 
             var cache = CachedOutputSetters<T>.Cache;
-            var setter = (Action<object, OracleDynamicParameters>)cache[lookup];
+            var setter = (Action<object, OracleDynamicParameters>) cache[lookup];
 
             if (setter != null) goto MAKECALLBACK;
 
             // Come on let's build a method, let's build it, let's build it now!
-            var dm = new DynamicMethod(string.Format("ExpressionParam{0}", Guid.NewGuid()), null, new[] { typeof(object), this.GetType() }, true);
+            var dm = new DynamicMethod(string.Format("ExpressionParam{0}", Guid.NewGuid()), null,
+                new[] {typeof (object), GetType()}, true);
             var il = dm.GetILGenerator();
 
             il.Emit(OpCodes.Ldarg_0); // [object]
-            il.Emit(OpCodes.Castclass, typeof(T));    // [T]
+            il.Emit(OpCodes.Castclass, typeof (T)); // [T]
 
             // Count - 1 to skip the last member access
             var i = 0;
@@ -379,16 +377,17 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
 
                 if (member.MemberType == MemberTypes.Property)
                 {
-                    var get = ((PropertyInfo)member).GetGetMethod(true);
+                    var get = ((PropertyInfo) member).GetGetMethod(true);
                     il.Emit(OpCodes.Callvirt, get); // [Member{i}]
                 }
                 else // Else it must be a field!
                 {
-                    il.Emit(OpCodes.Ldfld, ((FieldInfo)member)); // [Member{i}]
+                    il.Emit(OpCodes.Ldfld, ((FieldInfo) member)); // [Member{i}]
                 }
             }
 
-            var paramGetter = this.GetType().GetMethod("Get", new Type[] { typeof(string) }).MakeGenericMethod(lastMemberAccess.Type);
+            var paramGetter =
+                GetType().GetMethod("Get", new[] {typeof (string)}).MakeGenericMethod(lastMemberAccess.Type);
 
             il.Emit(OpCodes.Ldarg_1); // [target] [OracleDynamicParameters]
             il.Emit(OpCodes.Ldstr, dynamicParamName); // [target] [OracleDynamicParameters] [ParamName]
@@ -398,32 +397,36 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
             var lastMember = lastMemberAccess.Member;
             if (lastMember.MemberType == MemberTypes.Property)
             {
-                var set = ((PropertyInfo)lastMember).GetSetMethod(true);
+                var set = ((PropertyInfo) lastMember).GetSetMethod(true);
                 il.Emit(OpCodes.Callvirt, set); // SET
             }
             else
             {
-                il.Emit(OpCodes.Stfld, ((FieldInfo)lastMember)); // SET
+                il.Emit(OpCodes.Stfld, ((FieldInfo) lastMember)); // SET
             }
 
             il.Emit(OpCodes.Ret); // GO
 
-            setter = (Action<object, OracleDynamicParameters>)dm.CreateDelegate(typeof(Action<object, OracleDynamicParameters>));
+            setter =
+                (Action<object, OracleDynamicParameters>)
+                    dm.CreateDelegate(typeof (Action<object, OracleDynamicParameters>));
             lock (cache)
             {
                 cache[lookup] = setter;
             }
 
             // Queue the preparation to be fired off when adding parameters to the DbCommand
-        MAKECALLBACK:
-            (outputCallbacks ?? (outputCallbacks = new List<Action>())).Add(() =>
+            MAKECALLBACK:
+            (_outputCallbacks ?? (_outputCallbacks = new List<Action>())).Add(() =>
             {
                 // Finally, prep the parameter and attach the callback to it
                 ParamInfo parameter;
                 var targetMemberType = lastMemberAccess.Type;
-                int sizeToSet = (!size.HasValue && targetMemberType == typeof(string)) ? DbString.DefaultLength : size ?? 0;
+                var sizeToSet = (!size.HasValue && targetMemberType == typeof (string))
+                    ? DbString.DefaultLength
+                    : size ?? 0;
 
-                if (this.parameters.TryGetValue(dynamicParamName, out parameter))
+                if (_parameters.TryGetValue(dynamicParamName, out parameter))
                 {
                     parameter.ParameterDirection = parameter.AttachedParam.Direction = ParameterDirection.InputOutput;
 
@@ -435,14 +438,17 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
                 else
                 {
                     SqlMapper.ITypeHandler handler;
-                    dbType = (!dbType.HasValue) ? SqlMapper.LookupDbType(targetMemberType, targetMemberType.Name, true, out handler) : dbType;
+                    dbType = (!dbType.HasValue)
+                        ? SqlMapper.LookupDbType(targetMemberType, targetMemberType.Name, true, out handler)
+                        : dbType;
 
                     // CameFromTemplate property would not apply here because this new param
                     // Still needs to be added to the command
-                    this.Add(dynamicParamName, expression.Compile().Invoke(target), null, ParameterDirection.InputOutput, sizeToSet);
+                    Add(dynamicParamName, expression.Compile().Invoke(target), null, ParameterDirection.InputOutput,
+                        sizeToSet);
                 }
 
-                parameter = this.parameters[dynamicParamName];
+                parameter = _parameters[dynamicParamName];
                 parameter.OutputCallback = setter;
                 parameter.OutputTarget = target;
             });
@@ -450,21 +456,22 @@ string name, object value = null, OracleDbType? dbType = null, ParameterDirectio
             return this;
         }
 
-        private List<Action> outputCallbacks;
-
-        private readonly Dictionary<string, Action<object, OracleDynamicParameters>> cachedOutputSetters = new Dictionary<string, Action<object, OracleDynamicParameters>>();
+        private class ParamInfo
+        {
+            public string Name { get; set; }
+            public object Value { get; set; }
+            public ParameterDirection ParameterDirection { get; set; }
+            public OracleDbType? DbType { get; set; }
+            public int? Size { get; set; }
+            public IDbDataParameter AttachedParam { get; set; }
+            internal Action<object, OracleDynamicParameters> OutputCallback { get; set; }
+            internal object OutputTarget { get; set; }
+            internal bool CameFromTemplate { get; set; }
+        }
 
         internal static class CachedOutputSetters<T>
         {
             public static readonly Hashtable Cache = new Hashtable();
-        }
-
-        void SqlMapper.IParameterCallbacks.OnCompleted()
-        {
-            foreach (var param in (from p in parameters select p.Value))
-            {
-                if (param.OutputCallback != null) param.OutputCallback(param.OutputTarget, this);
-            }
         }
     }
 }

@@ -1,27 +1,22 @@
 ﻿namespace Darc.Tasks.Commands.Examples
 {
     using System.ComponentModel.DataAnnotations;
-    using Domain;
+    using Core;
 
     public class AddExampleCommand : CommandBase
     {
-        public AddExampleCommand(string field)
+        public AddExampleCommand(string name)
         {
-            Field = field;
+            Name = name;
         }
 
         [Required(ErrorMessage = "Please input the filed.")]
-        public string Field { get; set; }
+        public string Name { get; set; }
 
         public override TResult Handle<TResult>()
         {
             var data = "My test";
-            return (TResult)(object)data;
+            return (TResult) (object) data;
         }
-
-        /*public override void Handle()
-        {
-            var data = "My test";
-        }*/
     }
 }

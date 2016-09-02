@@ -48,15 +48,9 @@
   <ItemGroup>
     <Compile Include="Common\Entity.cs" />
     <Compile Include="Example.cs" />
-    <Compile Include="Handlers\CommandBase.cs" />
-    <Compile Include="Handlers\CommandHandlerException.cs" />
-    <Compile Include="Handlers\CommandHandlerNotFoundException.cs" />
-    <Compile Include="Handlers\CommandProcessor.cs" />
     <Compile Include="Common\GConsts.cs" />
     <Compile Include="Common\GVar.cs" />
     <Compile Include="Common\GVarEnumDef.cs" />
-    <Compile Include="Handlers\ICommand.cs" />
-    <Compile Include="Handlers\ICommandProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

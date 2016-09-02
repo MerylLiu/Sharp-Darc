@@ -16,8 +16,6 @@
         static GVar()
         {
             RegisterEnum<AvatarSize>();
-            RegisterEnum<ImageWatermarkPosition>();
-            RegisterEnum<FileType>();
         }
 
         private static void RegisterEnum<T>() where T : struct, IConvertible
