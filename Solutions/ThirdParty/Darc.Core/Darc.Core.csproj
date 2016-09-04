@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Castle\WindsorExtensions.cs" />
     <Compile Include="Entities\EntityBase.cs" />
     <Compile Include="Handlers\CommandBase.cs" />

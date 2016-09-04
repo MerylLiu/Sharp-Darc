@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Attributes\BaseAttribute.cs" />
     <Compile Include="Attributes\ColumnAttribute .cs" />
     <Compile Include="Attributes\IgnoreAttribute.cs" />

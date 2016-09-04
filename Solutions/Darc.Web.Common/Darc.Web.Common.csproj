@@ -59,6 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Extensions\CommaSeparatedValuesModelBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\ExampleQuery.cs" />
@@ -73,6 +76,10 @@
     <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
       <Project>{b5ee3f68-7e7b-43cd-9997-f0a906f2173e}</Project>
       <Name>Dapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Darc.Core\Darc.Core.csproj">
+      <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>
+      <Name>Darc.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Darc.Dapper\Darc.Dapper.csproj">
       <Project>{87ac7b72-44a8-4b1b-a96d-6217e757aafb}</Project>

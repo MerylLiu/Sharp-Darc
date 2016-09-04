@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Exceptions\BizException.cs" />
     <Compile Include="Extensions\CryptoExtension.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
