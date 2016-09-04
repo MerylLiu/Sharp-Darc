@@ -59,6 +59,10 @@
       <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
       <Name>Darc.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Darc.Queries\Darc.Queries.csproj">
+      <Project>{e4271a3f-c78a-450b-bf41-b01aa70f1965}</Project>
+      <Name>Darc.Queries</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Darc.Web.Common\Darc.Web.Common.csproj">
       <Project>{00245CEC-2F95-435E-8FEC-C3DF9A4C1E64}</Project>
       <Name>Darc.Web.Common</Name>

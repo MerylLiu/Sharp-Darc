@@ -70,7 +70,7 @@
         [Test]
         public void ExecuteWithoutReturns()
         {
-            DapperSession.Current.Execute(p =>
+            DapperSession.Current.Call(p =>
             {
                 var rows = p.Execute("delete from mytest where id = ?Id", new {Id = 40});
 
@@ -82,7 +82,7 @@
         [Test]
         public void ExecuteWithReturns()
         {
-            var res = DapperSession.Current.Execute(p =>
+            var res = DapperSession.Current.Call(p =>
             {
                 var data = p.Query<Example>("select * from mytest").ToList();
                 return data;
@@ -97,7 +97,7 @@
         [Test]
         public void ExecuteWithTransaction()
         {
-            DapperSession.Current.Execute((p, t) =>
+            DapperSession.Current.Call((p, t) =>
             {
                 var rows = p.Execute("delete from mytest where id = ?Id", new {Id = 40}, t);
 

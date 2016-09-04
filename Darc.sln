@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darc.Core", "Solutions\Thir
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darc.Commands", "Solutions\Darc.Commands\Darc.Commands.csproj", "{B3B434C0-E0E8-4EC6-9173-28A7CBA29FCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Darc.Queries", "Solutions\Darc.Queries\Darc.Queries.csproj", "{E4271A3F-C78A-450B-BF41-B01AA70F1965}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{B3B434C0-E0E8-4EC6-9173-28A7CBA29FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3B434C0-E0E8-4EC6-9173-28A7CBA29FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3B434C0-E0E8-4EC6-9173-28A7CBA29FCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4271A3F-C78A-450B-BF41-B01AA70F1965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4271A3F-C78A-450B-BF41-B01AA70F1965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4271A3F-C78A-450B-BF41-B01AA70F1965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4271A3F-C78A-450B-BF41-B01AA70F1965}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,5 +107,6 @@ Global
 		{E8B8EB7C-A068-4E4C-A177-76BDAEBC67E1} = {159A6D97-AA80-4801-9679-5591E3C34948}
 		{E8F8C960-51B2-4DB2-B166-000F064EB325} = {ECC220AF-4A50-440D-AE89-A3EC2F0FE03A}
 		{B3B434C0-E0E8-4EC6-9173-28A7CBA29FCB} = {659BED43-297F-484A-A139-B3069FF90052}
+		{E4271A3F-C78A-450B-BF41-B01AA70F1965} = {659BED43-297F-484A-A139-B3069FF90052}
 	EndGlobalSection
 EndGlobal

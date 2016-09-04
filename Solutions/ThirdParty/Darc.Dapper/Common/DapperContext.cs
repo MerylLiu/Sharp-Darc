@@ -243,7 +243,7 @@
             }
         }
 
-        public void Execute(Action<IDbConnection> func)
+        public void Call(Action<IDbConnection> func)
         {
             using (var conn = _context.DbConnecttion)
             {
@@ -251,7 +251,7 @@
             }
         }
 
-        public TResult Execute<TResult>(Func<IDbConnection, TResult> func)
+        public TResult Call<TResult>(Func<IDbConnection, TResult> func)
         {
             using (var conn = _context.DbConnecttion)
             {
@@ -259,7 +259,7 @@
             }
         }
 
-        public void Execute(Action<IDbConnection, IDbTransaction> func, int? commandTimeout = null)
+        public void Call(Action<IDbConnection, IDbTransaction> func, int? commandTimeout = null)
         {
             using (var conn = _context.DbConnecttion)
             {
@@ -277,7 +277,7 @@
             }
         }
 
-        public TResult Execute<TResult>(Func<IDbConnection, IDbTransaction, TResult> func,
+        public TResult Call<TResult>(Func<IDbConnection, IDbTransaction, TResult> func,
             int? commandTimeout = null)
         {
             using (var conn = _context.DbConnecttion)

@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Web.Mvc;
-    using Common;
     using Common.Queries;
     using Core;
     using Domain;
@@ -28,7 +27,7 @@
         }
 
         [HttpPost]
-        public ActionResult Add(ExampleModel example)
+        public ActionResult Add(Example example)
         {
             IList<string> messages = new List<string>();
 
