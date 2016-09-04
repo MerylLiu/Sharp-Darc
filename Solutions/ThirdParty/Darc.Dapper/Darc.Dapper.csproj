@@ -53,7 +53,6 @@
     <Compile Include="Common\DapperContext.cs" />
     <Compile Include="Common\DbContext.cs" />
     <Compile Include="Common\DBType.cs" />
-    <Compile Include="Common\EntityBase.cs" />
     <Compile Include="Common\ParamColumnModel.cs" />
     <Compile Include="DapperQuery.cs" />
     <Compile Include="DapperSession.cs" />
@@ -67,6 +66,10 @@
     <ProjectReference Include="..\Dapper\Dapper.csproj">
       <Project>{B5EE3F68-7E7B-43CD-9997-F0A906F2173E}</Project>
       <Name>Dapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Darc.Core\Darc.Core.csproj">
+      <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>
+      <Name>Darc.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

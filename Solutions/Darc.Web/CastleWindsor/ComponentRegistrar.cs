@@ -19,10 +19,9 @@
         private static void AddTaskTo(IWindsorContainer container)
         {
             container.Register(
-                AllTypes.FromAssemblyNamed("Darc.Tasks")
-                    .Pick()
-                    .If(t => t.Name.EndsWith("Tasks"))
-                    .WithService.FirstNonGenericCoreInterface("Darc.Domain"));
+                AllTypes.FromAssemblyNamed("Darc.Commands")
+                    .BasedOn(typeof (CommandBase))
+                    .WithService.FirstInterface());
         }
 
         private static void AddCustomRepositoriesTo(IWindsorContainer container)

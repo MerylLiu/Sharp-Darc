@@ -1,6 +1,6 @@
 ﻿namespace Darc.Domain.Common
 {
-    using Dapper;
+    using Core.Entities;
     using Dapper.Attributes;
 
     public class Entity : EntityBase

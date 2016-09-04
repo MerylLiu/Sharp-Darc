@@ -1,6 +1,7 @@
 ﻿namespace Darc.Core
 {
     using System;
+    using Entities;
 
     public interface ICommandProcessor
     {

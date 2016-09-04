@@ -5,6 +5,7 @@
     using Common;
     using Common.Queries;
     using Core;
+    using Domain;
     using Infrastructure.Extensions;
     using Infrastructure.Utilities;
     using Tasks.Commands.Examples;
@@ -33,7 +34,7 @@
 
             Try.CatchBiz(() =>
             {
-                var command = new AddExampleCommand(example.Field);
+                var command = new AddExampleCommand(new Example());
 
                 CommandProcessor.Process(command);
             },

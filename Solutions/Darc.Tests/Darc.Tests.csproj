@@ -70,6 +70,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Darc.Commands\Darc.Commands.csproj">
+      <Project>{B3B434C0-E0E8-4EC6-9173-28A7CBA29FCB}</Project>
+      <Name>Darc.Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Darc.Domain\Darc.Domain.csproj">
       <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
       <Name>Darc.Domain</Name>
@@ -77,10 +81,6 @@
     <ProjectReference Include="..\Darc.Infrastructure\Darc.Infrastructure.csproj">
       <Project>{605E8A65-4870-41FD-AC67-0E06165104CC}</Project>
       <Name>Darc.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Darc.Tasks\Darc.Tasks.csproj">
-      <Project>{B3B434C0-E0E8-4EC6-9173-28A7CBA29FCB}</Project>
-      <Name>Darc.Tasks</Name>
     </ProjectReference>
     <ProjectReference Include="..\Darc.Web.Common\Darc.Web.Common.csproj">
       <Project>{00245cec-2f95-435e-8fec-c3df9a4c1e64}</Project>

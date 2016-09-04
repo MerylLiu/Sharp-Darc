@@ -15,8 +15,7 @@
             //AddCustomRepositoriesTo(container);
             AddGenericRepositoriesTo(container);
             AddQueryObjectsTo(container);
-            AddHandlersTo(container);
-
+            AddTasksTo(container);
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }
@@ -45,18 +44,12 @@
                     .WithService.DefaultInterfaces());
         }
 
-        private static void AddHandlersTo(IWindsorContainer container)
+        private static void AddTasksTo(IWindsorContainer container)
         {
             container.Register(
-                AllTypes.FromAssemblyNamed("Darc.Tasks")
+                AllTypes.FromAssemblyNamed("Darc.Commands")
                     .BasedOn(typeof (CommandBase))
                     .WithService.FirstInterface());
-
-            /*container.Register(
-                AllTypes
-                    .FromAssemblyNamed("Darc.Tasks")
-                    .Pick().If(t => t.Name.EndsWith("Command"))
-                    .WithService.FirstNonGenericCoreInterface("Darc.Domain"));*/
         }
     }
 }

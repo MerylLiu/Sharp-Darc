@@ -7,8 +7,8 @@
     <ProjectGuid>{B3B434C0-E0E8-4EC6-9173-28A7CBA29FCB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Darc.Tasks</RootNamespace>
-    <AssemblyName>Darc.Tasks</AssemblyName>
+    <RootNamespace>Darc.Commands</RootNamespace>
+    <AssemblyName>Darc.Commands</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -47,7 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Examples\AddExampleCommand.cs" />
+    <Compile Include="Examples\AddExample2Command.cs" />
+    <Compile Include="Examples\AddExampleCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

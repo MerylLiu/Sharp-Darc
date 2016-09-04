@@ -1,8 +1,8 @@
 ﻿namespace Darc.Core
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Entities;
 
     public class CommandBase : ICommand
     {
@@ -20,12 +20,12 @@
 
         public virtual void Handle()
         {
-            throw new CommandHandlerNotFoundException(typeof(ICommand));
+            throw new CommandHandlerNotFoundException(typeof (ICommand));
         }
 
-        public virtual TResult Handle<TResult>()
+        public virtual object Handle<TResult>()
         {
-            throw new CommandHandlerNotFoundException(typeof(ICommand));
+            throw new CommandHandlerNotFoundException(typeof (ICommand));
         }
     }
 }

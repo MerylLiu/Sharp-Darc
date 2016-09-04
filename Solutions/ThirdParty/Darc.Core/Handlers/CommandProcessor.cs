@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using Entities;
 
     public class CommandProcessor : ICommandProcessor
     {
@@ -11,6 +12,20 @@
         {
             var validationResults = new List<ValidationResult>();
             Validator.TryValidateObject(command, new ValidationContext(command, null, null), validationResults, true);
+
+            var properties = command.GetType().GetProperties()
+                .Where(p => typeof (EntityBase).IsAssignableFrom(p.PropertyType));
+
+            foreach (var item in properties)
+            {
+                var target = item.GetValue(command);
+
+                var itemValidationResults = new List<ValidationResult>();
+                Validator.TryValidateObject(target, new ValidationContext(target, null, null),
+                    itemValidationResults, true);
+
+                validationResults.AddRange(itemValidationResults);
+            }
 
             if (validationResults.Any()) throw new CommandHandlerException(validationResults);
 
@@ -22,16 +37,30 @@
             var validationResults = new List<ValidationResult>();
             Validator.TryValidateObject(command, new ValidationContext(command, null, null), validationResults, true);
 
+            var properties = command.GetType().GetProperties()
+                .Where(p => typeof (EntityBase).IsAssignableFrom(p.PropertyType));
+
+            foreach (var item in properties)
+            {
+                var target = item.GetValue(command);
+
+                var itemValidationResults = new List<ValidationResult>();
+                Validator.TryValidateObject(target, new ValidationContext(target, null, null),
+                    itemValidationResults, true);
+
+                validationResults.AddRange(itemValidationResults);
+            }
+
             if (validationResults.Any()) throw new CommandHandlerException(validationResults);
 
-            var res = command.Handle<TResult>();
+            var res = command.Handle<object>();
 
-            return res;
+            return (TResult) res;
         }
 
-        public void Process<TResult>(ICommand command, Action<TResult> resultHandler)
+        public void Process<T>(ICommand command, Action<T> resultHandler)
         {
-            resultHandler(Process<TResult>(command));
+            resultHandler(Process<T>(command));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Darc.Dapper
+﻿namespace Darc.Core.Entities
 {
     public class EntityBase
     {

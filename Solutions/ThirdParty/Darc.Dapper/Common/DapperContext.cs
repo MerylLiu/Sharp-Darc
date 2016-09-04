@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text;
+    using Core.Entities;
     using Expressions;
     using global::Dapper;
 
@@ -32,7 +33,7 @@
                 if (useTransaction) trans = conn.BeginTransaction();
 
                 DynamicParameters parameters;
-                string sql = CreateInsertSql(tbName, columns, _context.ParamPrefix, primaryKey, out parameters);
+                var sql = CreateInsertSql(tbName, columns, _context.ParamPrefix, primaryKey, out parameters);
                 string idSql;
                 switch (_context.DbType)
                 {
@@ -114,8 +115,9 @@
                 try
                 {
                     DynamicParameters parameters;
-                    var flag = db.Execute(CreateInsertSql(tbName, columns, _context.ParamPrefix,primarayKey,out parameters),
-                        dataList, trans, commandTimeout);
+                    var flag =
+                        db.Execute(CreateInsertSql(tbName, columns, _context.ParamPrefix, primarayKey, out parameters),
+                            dataList, trans, commandTimeout);
 
                     result = flag > 0;
                     trans.Commit();
@@ -257,7 +259,6 @@
             }
         }
 
-
         public void Execute(Action<IDbConnection, IDbTransaction> func, int? commandTimeout = null)
         {
             using (var conn = _context.DbConnecttion)
@@ -266,7 +267,7 @@
 
                 try
                 {
-                    func(conn,trans);
+                    func(conn, trans);
                     trans.Commit();
                 }
                 catch (Exception)
@@ -281,12 +282,12 @@
         {
             using (var conn = _context.DbConnecttion)
             {
-                TResult result = default(TResult);
+                var result = default(TResult);
                 var trans = conn.BeginTransaction();
 
                 try
                 {
-                    result= func(conn,trans);
+                    result = func(conn, trans);
                     trans.Commit();
                 }
                 catch (Exception)
@@ -306,10 +307,10 @@
         #region Generate Sql
 
         private static string CreateInsertSql(string tbName, IList<ParamColumnModel> colums,
-            string paramPrefix,string primarayKey,out DynamicParameters parameters)
+            string paramPrefix, string primarayKey, out DynamicParameters parameters)
         {
             var sql = new StringBuilder();
-            DynamicParameters param = new DynamicParameters();
+            var param = new DynamicParameters();
 
             sql.Append($"INSERT INTO {tbName}(");
             for (var i = 0; i < colums.Count; i++)
@@ -337,7 +338,7 @@
                     case DbType.Oracle:
                         if (primarayKey == colums[i].FieldName && !string.IsNullOrEmpty(colums[i].FieldValue))
                             param.Add(colums[i].FieldName, colums[i].FieldValue);
-                        else if(primarayKey != colums[i].FieldName)
+                        else if (primarayKey != colums[i].FieldName)
                             param.Add(colums[i].FieldName, colums[i].FieldValue);
                         break;
                     case DbType.SQLite:

@@ -279,10 +279,6 @@
       <Project>{605e8a65-4870-41fd-ac67-0e06165104cc}</Project>
       <Name>Darc.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Darc.Tasks\Darc.Tasks.csproj">
-      <Project>{b3b434c0-e0e8-4ec6-9173-28a7cba29fcb}</Project>
-      <Name>Darc.Tasks</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Darc.Tests\Darc.Tests.csproj">
       <Project>{5983ed14-b070-4734-aada-c2203a0545cb}</Project>
       <Name>Darc.Tests</Name>
