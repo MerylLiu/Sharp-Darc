@@ -14,9 +14,9 @@
     {
         private static DbContext _context;
 
-        public DapperContext(DbContext contextContext)
+        public DapperContext(DbContext context)
         {
-            _context = contextContext;
+            _context = context;
         }
 
         public T Save<T>(T t, bool useTransaction = false, int? commandTimeout = null)

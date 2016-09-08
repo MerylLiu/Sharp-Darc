@@ -1,7 +1,7 @@
 ﻿namespace Darc.Web.Controllers
 {
     using System.Web.Mvc;
-    using Common.Queries;
+    using Queries;
 
     public class HomeController : Controller
     {

@@ -2,11 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Web.Mvc;
-    using Common.Queries;
     using Core;
     using Domain;
     using Infrastructure.Extensions;
     using Infrastructure.Utilities;
+    using Queries;
     using Tasks.Commands.Examples;
 
     public class ExampleController : Controller

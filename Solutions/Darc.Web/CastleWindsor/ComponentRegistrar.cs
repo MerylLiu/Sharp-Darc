@@ -43,7 +43,7 @@
         private static void AddQueryObjectsTo(IWindsorContainer container)
         {
             container.Register(
-                AllTypes.FromAssemblyNamed("Darc.Web.Common")
+                AllTypes.FromAssemblyNamed("Darc.Queries")
                     .BasedOn(typeof (DapperQuery))
                     .WithService.DefaultInterfaces());
         }

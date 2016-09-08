@@ -1,4 +1,4 @@
-﻿namespace Darc.Web.Common.Queries
+﻿namespace Darc.Queries
 {
     using System.Collections.Generic;
     using Dapper;
@@ -9,7 +9,6 @@
         public IList<Example> GetQueries()
         {
             var data = DapperSession.Current.All<Example>();
-
             return data;
         }
     }
