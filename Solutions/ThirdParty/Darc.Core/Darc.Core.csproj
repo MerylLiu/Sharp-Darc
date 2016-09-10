@@ -54,6 +54,10 @@
     <Compile Include="Castle\WindsorExtensions.cs" />
     <Compile Include="Castle\WindsorHttpModual.cs" />
     <Compile Include="Entities\EntityBase.cs" />
+    <Compile Include="Filters\FilterAttribute.cs" />
+    <Compile Include="Filters\FilterContext.cs" />
+    <Compile Include="Filters\FilterHandler.cs" />
+    <Compile Include="Filters\IFilterAttribute.cs" />
     <Compile Include="Handlers\CommandBase.cs" />
     <Compile Include="Handlers\CommandHandlerException.cs" />
     <Compile Include="Handlers\CommandHandlerNotFoundException.cs" />

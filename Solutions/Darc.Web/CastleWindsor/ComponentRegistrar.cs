@@ -3,6 +3,7 @@
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
     using Core;
+    using Core.Filters;
     using Dapper;
 
     public class ComponentRegistrar
@@ -50,10 +51,10 @@
 
         private static void AddHandlersTo(IWindsorContainer container)
         {
-            //    container.Register(
-            //        AllTypes.FromAssemblyNamed("Darc.Tasks")
-            //                .BasedOn(typeof (ICommandHandler<>))
-            //                .WithService.FirstInterface());
+                container.Register(
+                    AllTypes.FromAssemblyNamed("Darc.Core")
+                            .BasedOn(typeof (IFilterAttribute))
+                            .WithService.FirstInterface());
         }
     }
 }

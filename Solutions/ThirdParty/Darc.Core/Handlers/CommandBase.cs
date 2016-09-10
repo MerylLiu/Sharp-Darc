@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using Entities;
 
     public class CommandBase : ICommand
     {

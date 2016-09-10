@@ -53,12 +53,12 @@
     <Compile Include="Attributes\SequenceAttribute.cs" />
     <Compile Include="Attributes\TableAttribute.cs" />
     <Compile Include="Common\CommonUtil.cs" />
-    <Compile Include="Common\DapperContext.cs" />
+    <Compile Include="Common\DapperSessionDef.cs" />
+    <Compile Include="DapperSession.cs" />
     <Compile Include="Common\DbContext.cs" />
     <Compile Include="Common\DBType.cs" />
     <Compile Include="Common\ParamColumnModel.cs" />
     <Compile Include="DapperQuery.cs" />
-    <Compile Include="DapperSession.cs" />
     <Compile Include="Expressions\Queryable.cs" />
     <Compile Include="Expressions\QueryExtension.cs" />
     <Compile Include="Expressions\QueryProvider.cs" />

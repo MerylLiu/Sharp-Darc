@@ -1,10 +1,26 @@
 ﻿namespace Darc.Dapper
 {
+    using System;
+    using System.Configuration;
     using Common;
 
-    public class DapperSession
+    public partial class DapperSession
     {
-        private static readonly DbContext DbContext = new DbContext("Darc");
-        public  static DapperContext Current => new DapperContext(DbContext);
+        private static DbContext _context;
+        private static readonly string DataSource = ConfigurationManager.AppSettings["DefaultDataSouce"];
+        public static readonly Lazy<DapperSession> Lazy = new Lazy<DapperSession>(() => new DapperSession(DataSource));
+
+        public DapperSession(DbContext context)
+        {
+            _context = context;
+        }
+
+        public DapperSession(string dataSouce)
+        {
+            var dbContext = new DbContext(dataSouce);
+            _context = dbContext;
+        }
+
+        public static DapperSession Current => Lazy.Value;
     }
 }

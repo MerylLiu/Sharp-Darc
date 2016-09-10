@@ -1,4 +1,4 @@
-﻿namespace Darc.Dapper.Common
+﻿namespace Darc.Dapper
 {
     using System;
     using System.Collections.Generic;
@@ -6,19 +6,14 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text;
+    using Common;
     using Core.Entities;
     using Expressions;
     using global::Dapper;
+    using DbType = Common.DbType;
 
-    public class DapperContext
+    public partial class DapperSession
     {
-        private static DbContext _context;
-
-        public DapperContext(DbContext context)
-        {
-            _context = context;
-        }
-
         public T Save<T>(T t, bool useTransaction = false, int? commandTimeout = null)
             where T : EntityBase, new()
         {

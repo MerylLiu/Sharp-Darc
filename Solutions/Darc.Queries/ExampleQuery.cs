@@ -1,14 +1,14 @@
 ﻿namespace Darc.Queries
 {
     using System.Collections.Generic;
-    using Dapper;
+    using System.Linq;
     using Domain;
 
-    public class ExampleQuery : DapperQuery, IExampleQuery
+    public class ExampleQuery : BaseQuery, IExampleQuery
     {
         public IList<Example> GetQueries()
         {
-            var data = DapperSession.Current.All<Example>();
+            var data = Session.All<Example>().OrderBy(p => p.Id).ToList();
             return data;
         }
     }

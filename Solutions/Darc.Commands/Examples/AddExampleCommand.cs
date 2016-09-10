@@ -1,12 +1,11 @@
 ﻿namespace Darc.Commands.Examples
 {
-    using Core;
     using Dapper;
     using Domain;
 
-    public class AddExampleCommand : CommandBase
+    public class AddExample : MyCommandBase
     {
-        public AddExampleCommand(Example example)
+        public AddExample(Example example)
         {
             Example = example;
         }
