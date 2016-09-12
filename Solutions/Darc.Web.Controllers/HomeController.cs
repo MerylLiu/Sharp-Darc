@@ -1,6 +1,7 @@
 ﻿namespace Darc.Web.Controllers
 {
     using System.Web.Mvc;
+    using Infrastructure.Utilities;
     using Queries;
 
     public class HomeController : Controller
@@ -10,6 +11,8 @@
         public ActionResult Index()
         {
             var data = ExampleQuery.GetQueries();
+
+            LogUtil.Error(this.GetType(),"Log4net test");
 
             return View(data);
         }
