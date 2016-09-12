@@ -1,12 +1,9 @@
-﻿using log4net.Config;
-
-[assembly: XmlConfigurator(Watch = true)]
-
-namespace Darc.Infrastructure.Utilities
+﻿namespace Darc.Infrastructure.Utilities
 {
     using System;
     using System.IO;
     using log4net;
+    using log4net.Config;
 
     public class LogUtil
     {
