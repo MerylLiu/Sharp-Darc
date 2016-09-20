@@ -12,7 +12,7 @@
         {
             var data = ExampleQuery.GetQueries();
 
-            LogUtil.Error(this.GetType(),"Log4net test");
+            LogUtil.Log<HomeController>().Error("Log4net test.");
 
             return View(data);
         }

@@ -1,20 +1,29 @@
 ﻿namespace Darc.Web.CastleWindsor
 {
+    using Castle.DynamicProxy;
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
     using Core;
-    using Core.Filters;
     using Dapper;
+    using Infrastructure.Extensions;
 
     public class ComponentRegistrar
     {
         public static void AddComponentsTo(IWindsorContainer container)
         {
+            AddCommentsTo(container);
             AddCustomRepositoriesTo(container);
-            AddHandlersTo(container);
             AddGenericRepositoriesTo(container);
             AddQueryObjectsTo(container);
             AddTaskTo(container);
+        }
+
+        private static void AddCommentsTo(IWindsorContainer container)
+        {
+            container.Register(
+                Component.For<IInterceptor>()
+                    .ImplementedBy<Logger>()
+                    .Named("Logger"));
         }
 
         private static void AddTaskTo(IWindsorContainer container)
@@ -47,14 +56,6 @@
                 AllTypes.FromAssemblyNamed("Darc.Queries")
                     .BasedOn(typeof (DapperQuery))
                     .WithService.DefaultInterfaces());
-        }
-
-        private static void AddHandlersTo(IWindsorContainer container)
-        {
-                container.Register(
-                    AllTypes.FromAssemblyNamed("Darc.Core")
-                            .BasedOn(typeof (IFilterAttribute))
-                            .WithService.FirstInterface());
         }
     }
 }

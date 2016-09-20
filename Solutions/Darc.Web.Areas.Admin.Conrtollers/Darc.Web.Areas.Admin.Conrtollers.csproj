@@ -43,7 +43,6 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -67,17 +66,9 @@
       <Project>{e4271a3f-c78a-450b-bf41-b01aa70f1965}</Project>
       <Name>Darc.Queries</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Darc.Web.Common\Darc.Web.Common.csproj">
-      <Project>{00245CEC-2F95-435E-8FEC-C3DF9A4C1E64}</Project>
-      <Name>Darc.Web.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Darc.Core\Darc.Core.csproj">
       <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>
       <Name>Darc.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThirdParty\Darc.Dapper\Darc.Dapper.csproj">
-      <Project>{87AC7B72-44A8-4B1B-A96D-6217E757AAFB}</Project>
-      <Name>Darc.Dapper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

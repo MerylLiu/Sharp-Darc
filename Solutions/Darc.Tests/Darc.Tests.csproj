@@ -33,9 +33,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\..\Lib\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\..\Lib\Castle.Windsor.dll</HintPath>
     </Reference>
@@ -45,9 +42,6 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\Lib\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\Lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -56,7 +50,6 @@
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -84,10 +77,6 @@
     <ProjectReference Include="..\Darc.Infrastructure\Darc.Infrastructure.csproj">
       <Project>{605E8A65-4870-41FD-AC67-0E06165104CC}</Project>
       <Name>Darc.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Darc.Web.Common\Darc.Web.Common.csproj">
-      <Project>{00245cec-2f95-435e-8fec-c3df9a4c1e64}</Project>
-      <Name>Darc.Web.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
       <Project>{B5EE3F68-7E7B-43CD-9997-F0A906F2173E}</Project>

@@ -16,9 +16,9 @@
                 delegate(Type type, Type[] baseType)
                 {
                     var interfaces =
-                        type.GetInterfaces().Where(
-                            t => t.IsGenericType == false &&
-                                 t.Namespace.StartsWith(interfaceNamespace));
+                        type.GetInterfaces()
+                            .Where(t => t.IsGenericType == false
+                                        && t.Namespace.StartsWith(interfaceNamespace));
 
                     if (interfaces.Any())
                     {

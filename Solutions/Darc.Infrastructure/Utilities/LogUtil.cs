@@ -5,7 +5,7 @@
     using log4net;
     using log4net.Config;
 
-    public class LogUtil
+    public static class LogUtil
     {
         static LogUtil()
         {
@@ -13,16 +13,9 @@
             XmlConfigurator.ConfigureAndWatch(logCfg);
         }
 
-        public static void Error(Type t, Exception ex)
+        public static ILog Log<T>()
         {
-            var log = LogManager.GetLogger(t);
-            log.Error("Error", ex);
-        }
-
-        public static void Error(Type t, string message)
-        {
-            var log = LogManager.GetLogger(t);
-            log.Error(message);
+            return LogManager.GetLogger(typeof (T));
         }
     }
 }

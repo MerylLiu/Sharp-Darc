@@ -31,15 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Castle.Windsor, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\..\Lib\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
@@ -57,10 +56,6 @@
     <ProjectReference Include="..\Darc.Domain\Darc.Domain.csproj">
       <Project>{e034be8b-3957-45ac-b63b-2485b02a501e}</Project>
       <Name>Darc.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
-      <Project>{b5ee3f68-7e7b-43cd-9997-f0a906f2173e}</Project>
-      <Name>Dapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Darc.Core\Darc.Core.csproj">
       <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>

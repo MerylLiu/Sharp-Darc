@@ -33,13 +33,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\..\Lib\Castle.Windsor.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Mvc">
       <HintPath>..\..\Lib\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
@@ -54,7 +47,6 @@
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -64,24 +56,6 @@
     </Compile>
     <Compile Include="Extensions\CommaSeparatedValuesModelBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Darc.Domain\Darc.Domain.csproj">
-      <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
-      <Name>Darc.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
-      <Project>{b5ee3f68-7e7b-43cd-9997-f0a906f2173e}</Project>
-      <Name>Dapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThirdParty\Darc.Core\Darc.Core.csproj">
-      <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>
-      <Name>Darc.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThirdParty\Darc.Dapper\Darc.Dapper.csproj">
-      <Project>{87ac7b72-44a8-4b1b-a96d-6217e757aafb}</Project>
-      <Name>Darc.Dapper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />

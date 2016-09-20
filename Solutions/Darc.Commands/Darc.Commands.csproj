@@ -42,7 +42,6 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -56,10 +55,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
-      <Project>{b5ee3f68-7e7b-43cd-9997-f0a906f2173e}</Project>
-      <Name>Dapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Darc.Core\Darc.Core.csproj">
       <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>
       <Name>Darc.Core</Name>
@@ -71,10 +66,6 @@
     <ProjectReference Include="..\Darc.Domain\Darc.Domain.csproj">
       <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
       <Name>Darc.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Darc.Web.Common\Darc.Web.Common.csproj">
-      <Project>{00245CEC-2F95-435E-8FEC-C3DF9A4C1E64}</Project>
-      <Name>Darc.Web.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

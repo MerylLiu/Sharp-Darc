@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Castle.Core;
     using Domain;
 
+        [Interceptor("Logger")]
     public class ExampleQuery : BaseQuery, IExampleQuery
     {
         public IList<Example> GetQueries()
