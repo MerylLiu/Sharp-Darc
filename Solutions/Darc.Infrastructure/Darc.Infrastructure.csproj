@@ -36,6 +36,9 @@
     <Reference Include="Castle.Core">
       <HintPath>..\..\Lib\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\..\Lib\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="CommonLibrary">
       <HintPath>..\..\Lib\CommonLibrary.dll</HintPath>
     </Reference>
@@ -57,17 +60,24 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Exceptions\BizException.cs" />
     <Compile Include="Extensions\CryptoExtension.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="Extensions\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\ExecuteHelper.cs" />
     <Compile Include="Utilities\ImageUtil.cs" />
     <Compile Include="Utilities\JsonUtil.cs" />
     <Compile Include="Utilities\LogUtil.cs" />
     <Compile Include="Utilities\XmlUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdParty\Darc.Core\Darc.Core.csproj">
+      <Project>{E8F8C960-51B2-4DB2-B166-000F064EB325}</Project>
+      <Name>Darc.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

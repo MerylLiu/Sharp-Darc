@@ -51,7 +51,7 @@
     </Compile>
     <Compile Include="Examples\AddExample2Command.cs" />
     <Compile Include="Examples\AddExampleCommand.cs" />
-    <Compile Include="MyCommandBase.cs" />
+    <Compile Include="BaseCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

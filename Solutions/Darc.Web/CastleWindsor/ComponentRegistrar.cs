@@ -4,16 +4,17 @@
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
     using Core;
+    using Core.Contracts;
+    using Core.Interceptor;
     using Dapper;
-    using Infrastructure.Extensions;
+    using Dapper.Common;
 
     public class ComponentRegistrar
     {
         public static void AddComponentsTo(IWindsorContainer container)
         {
             AddCommentsTo(container);
-            AddCustomRepositoriesTo(container);
-            AddGenericRepositoriesTo(container);
+            AddRepositoriesTo(container);
             AddQueryObjectsTo(container);
             AddTaskTo(container);
         }
@@ -21,9 +22,14 @@
         private static void AddCommentsTo(IWindsorContainer container)
         {
             container.Register(
+                Component.For(typeof (IDataSession))
+                    .ImplementedBy(typeof (DataSession))
+                    .Named("DataSession"));
+
+            container.Register(
                 Component.For<IInterceptor>()
-                    .ImplementedBy<Logger>()
-                    .Named("Logger"));
+                    .ImplementedBy<TransactionInterceptor>()
+                    .Named("Transaction"));
         }
 
         private static void AddTaskTo(IWindsorContainer container)
@@ -34,16 +40,13 @@
                     .WithService.FirstInterface());
         }
 
-        private static void AddCustomRepositoriesTo(IWindsorContainer container)
+        private static void AddRepositoriesTo(IWindsorContainer container)
         {
             //container.Register(
             //    AllTypes.FromAssemblyNamed("Darc.Infrastructure")
             //            .BasedOn(typeof (IRepositoryWithTypedId<,>))
             //            .WithService.FirstNonGenericCoreInterface("Darc.Domain"));
-        }
 
-        private static void AddGenericRepositoriesTo(IWindsorContainer container)
-        {
             container.Register(
                 Component.For(typeof (ICommandProcessor))
                     .ImplementedBy(typeof (CommandProcessor))

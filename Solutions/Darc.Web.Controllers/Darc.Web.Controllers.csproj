@@ -58,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Darc.Commands\Darc.Commands.csproj">
+      <Project>{B3B434C0-E0E8-4EC6-9173-28A7CBA29FCB}</Project>
+      <Name>Darc.Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Darc.Domain\Darc.Domain.csproj">
       <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
       <Name>Darc.Domain</Name>

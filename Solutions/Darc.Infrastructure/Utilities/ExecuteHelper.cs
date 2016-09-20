@@ -2,7 +2,7 @@
 {
     using System;
     using ComLib;
-    using Exceptions;
+    using Core.Exceptions;
 
     /// <summary>
     ///     Wrapper class to simplify lines of code around Try/Catch blocks with various customized behaviour.

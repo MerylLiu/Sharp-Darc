@@ -3,7 +3,7 @@
     using Dapper;
     using Domain;
 
-    public class AddExample : MyCommandBase
+    public class AddExample : BaseCommand
     {
         public AddExample(Example example)
         {

@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\..\..\Lib\Castle.Windsor.dll</HintPath>
     </Reference>
@@ -39,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,15 +57,19 @@
     </Compile>
     <Compile Include="Castle\WindsorExtensions.cs" />
     <Compile Include="Castle\WindsorHttpModual.cs" />
+    <Compile Include="Contracts\IDataSession.cs" />
     <Compile Include="Entities\EntityBase.cs" />
+    <Compile Include="Exceptions\BizException.cs" />
     <Compile Include="Handlers\CommandBase.cs" />
     <Compile Include="Handlers\CommandHandlerException.cs" />
     <Compile Include="Handlers\CommandHandlerNotFoundException.cs" />
     <Compile Include="Handlers\CommandProcessor.cs" />
+    <Compile Include="Handlers\IAspect.cs" />
     <Compile Include="Handlers\ICommand.cs" />
     <Compile Include="Handlers\ICommandProcessor.cs" />
+    <Compile Include="Interceptor\TransactionInterceptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transaction\TransactionAttribute.cs" />
+    <Compile Include="Helpers\TransactionAttribute.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,9 +2,8 @@
 {
     using Core;
     using Dapper;
-    using Dapper.Common;
 
-    public class MyCommandBase : CommandBase
+    public class BaseCommand : CommandBase
     {
         public virtual DapperSession Session => DapperSession.Current;
     }

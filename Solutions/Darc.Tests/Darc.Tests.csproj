@@ -33,6 +33,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\..\Lib\Castle.Windsor.dll</HintPath>
     </Reference>
@@ -42,12 +46,18 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\Lib\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\Lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -77,6 +87,10 @@
     <ProjectReference Include="..\Darc.Infrastructure\Darc.Infrastructure.csproj">
       <Project>{605E8A65-4870-41FD-AC67-0E06165104CC}</Project>
       <Name>Darc.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Darc.Queries\Darc.Queries.csproj">
+      <Project>{e4271a3f-c78a-450b-bf41-b01aa70f1965}</Project>
+      <Name>Darc.Queries</Name>
     </ProjectReference>
     <ProjectReference Include="..\ThirdParty\Dapper\Dapper.csproj">
       <Project>{B5EE3F68-7E7B-43CD-9997-F0A906F2173E}</Project>

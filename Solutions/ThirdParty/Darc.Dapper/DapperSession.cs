@@ -7,7 +7,7 @@
     public partial class DapperSession
     {
         private static DbContext _context;
-        private static readonly string DataSource = ConfigurationManager.AppSettings["DefaultDataSouce"];
+        internal static readonly string DataSource = ConfigurationManager.AppSettings["DefaultDataSouce"];
         public static readonly Lazy<DapperSession> Lazy = new Lazy<DapperSession>(() => new DapperSession(DataSource));
 
         public DapperSession(DbContext context)

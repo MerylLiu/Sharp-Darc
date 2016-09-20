@@ -1,9 +1,11 @@
 ﻿namespace Darc.Tests
 {
+    using Castle.DynamicProxy;
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
     using CommonServiceLocator.WindsorAdapter;
     using Core;
+    using Core.Interceptor;
     using Dapper;
     using Microsoft.Practices.ServiceLocation;
 
@@ -13,11 +15,20 @@
         {
             IWindsorContainer container = new WindsorContainer();
             //AddCustomRepositoriesTo(container);
+            AddCommentsTo(container);
             AddGenericRepositoriesTo(container);
             AddQueryObjectsTo(container);
             AddTasksTo(container);
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
+        }
+
+        private static void AddCommentsTo(IWindsorContainer container)
+        {
+            container.Register(
+                Component.For<IInterceptor>()
+                    .ImplementedBy<TransactionInterceptor>()
+                    .Named("Transaction"));
         }
 
         //private static void AddCustomRepositoriesTo(IWindsorContainer container)
@@ -39,7 +50,7 @@
         private static void AddQueryObjectsTo(IWindsorContainer container)
         {
             container.Register(
-                AllTypes.FromAssemblyNamed("Darc.Web.Common")
+                AllTypes.FromAssemblyNamed("Darc.Queries")
                     .BasedOn(typeof (DapperQuery))
                     .WithService.DefaultInterfaces());
         }
