@@ -1,9 +1,12 @@
 ﻿namespace Darc.Core.Interceptor
 {
     using System;
+    using System.Linq;
+    using System.Runtime.Remoting.Messaging;
     using Contracts;
-    using Exceptions;
+    using global::Castle.Core.Internal;
     using global::Castle.DynamicProxy;
+    using Helpers;
     using Microsoft.Practices.ServiceLocation;
 
     public class TransactionInterceptor : IInterceptor
@@ -12,11 +15,15 @@
 
         public void Intercept(IInvocation invocation)
         {
-            var method = invocation.Method.Name;
+            var methodName = invocation.Method.Name;
 
-            if (method.StartsWith("Do"))
+            var attributes = invocation.Method.GetAttributes<TransAttribute>();
+            var invocationAttributes = invocation.MethodInvocationTarget.GetAttributes<TransAttribute>();
+
+            if (methodName.StartsWith("Do") || attributes.Any() || invocationAttributes.Any())
             {
                 var session = ServiceLocator.Current.GetInstance<IDataSession>();
+                CallContext.LogicalSetData("DataSession",session);
 
                 using (var conn = session.GetConnection())
                 {

@@ -1,10 +1,7 @@
 ﻿namespace Darc.Web.Controllers
 {
-    using System;
     using System.Web.Mvc;
-    using Commands.Examples;
     using Core;
-    using Domain;
     using Infrastructure.Utilities;
     using Queries;
 

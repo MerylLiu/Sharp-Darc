@@ -9,7 +9,7 @@
 
         public IDbConnection GetConnection()
         {
-            return new DbContext(DapperSession.DataSource).DbConnecttion;
+            return new DbContext(DapperSession.DataSource).DbConnection;
         }
 
         #endregion

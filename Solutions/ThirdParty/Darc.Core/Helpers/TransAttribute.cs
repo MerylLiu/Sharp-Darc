@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class TransactionAttribute : Attribute
+    public class TransAttribute : Attribute
     {
     }
 }

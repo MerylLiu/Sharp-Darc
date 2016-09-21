@@ -2,13 +2,15 @@
 {
     using System;
     using System.Configuration;
+    using System.Data;
+    using System.Runtime.Remoting.Messaging;
     using Common;
 
     public partial class DapperSession
     {
         private static DbContext _context;
         internal static readonly string DataSource = ConfigurationManager.AppSettings["DefaultDataSouce"];
-        public static readonly Lazy<DapperSession> Lazy = new Lazy<DapperSession>(() => new DapperSession(DataSource));
+        private static readonly Lazy<DapperSession> Lazy = new Lazy<DapperSession>(() => new DapperSession(DataSource));
 
         public DapperSession(DbContext context)
         {
@@ -17,10 +19,27 @@
 
         public DapperSession(string dataSouce)
         {
-            var dbContext = new DbContext(dataSouce);
-            _context = dbContext;
+            _context = new DbContext(dataSouce);
         }
 
-        public static DapperSession Current => Lazy.Value;
+        public DapperSession(IDbConnection connection)
+        {
+            _context = new DbContext(connection);
+        }
+
+        public static DapperSession Current
+        {
+            get
+            {
+                var session = CallContext.LogicalGetData("DataSession") as DataSession;
+                if (session != null)
+                {
+                    var conn = session.GetConnection();
+                    return new DapperSession(conn);
+                }
+
+                return Lazy.Value;
+            }
+        }
     }
 }

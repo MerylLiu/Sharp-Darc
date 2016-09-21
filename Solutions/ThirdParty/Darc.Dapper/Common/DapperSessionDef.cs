@@ -17,7 +17,7 @@
         public T Save<T>(T t, bool useTransaction = false, int? commandTimeout = null)
             where T : EntityBase, new()
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 var tbName = CommonUtil.GetTableName<T>();
                 var columns = CommonUtil.GetExecutedColumns(t);
@@ -99,19 +99,19 @@
         public bool SaveBatch<T>(IList<T> dataList, int? commandTimeout = null)
             where T : class, new()
         {
-            using (var db = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 var result = false;
                 var tbName = CommonUtil.GetTableName<T>();
                 var primarayKey = CommonUtil.GetPrimaryKey<T>();
                 var columns = CommonUtil.GetExecutedColumns<T>();
-                var trans = db.BeginTransaction();
+                var trans = conn.BeginTransaction();
 
                 try
                 {
                     DynamicParameters parameters;
                     var flag =
-                        db.Execute(CreateInsertSql(tbName, columns, _context.ParamPrefix, primarayKey, out parameters),
+                        conn.Execute(CreateInsertSql(tbName, columns, _context.ParamPrefix, primarayKey, out parameters),
                             dataList, trans, commandTimeout);
 
                     result = flag > 0;
@@ -129,7 +129,7 @@
         public bool Delete<T>(Expression<Func<T, bool>> predicate, bool useTransaction = false,
             int? commandTimeout = null) where T : class, new()
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 var tbName = CommonUtil.GetTableName<T>();
 
@@ -164,7 +164,7 @@
         public bool Update<T>(T t, bool useTransaction = false, int? commandTimeout = null)
             where T : class, new()
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 var result = false;
                 var tbName = CommonUtil.GetTableName<T>();
@@ -200,7 +200,7 @@
 
         public TResult Get<TResult>(object id) where TResult : EntityBase, new()
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 var tbName = CommonUtil.GetTableName<TResult>();
                 var columns = CommonUtil.GetExecutedColumns<TResult>();
@@ -214,7 +214,7 @@
 
         public IList<TResult> Find<TResult>(Expression<Func<TResult, bool>> predicate) where TResult : class, new()
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 var tbName = CommonUtil.GetTableName<TResult>();
                 var columns = CommonUtil.GetExecutedColumns<TResult>();
@@ -228,7 +228,7 @@
 
         public IList<TResult> All<TResult>() where TResult : class, new()
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 var tbName = CommonUtil.GetTableName<TResult>();
                 var columns = CommonUtil.GetExecutedColumns<TResult>();
@@ -240,7 +240,7 @@
 
         public void Call(Action<IDbConnection> func)
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 func(conn);
             }
@@ -248,7 +248,7 @@
 
         public TResult Call<TResult>(Func<IDbConnection, TResult> func)
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 return func(conn);
             }
@@ -256,7 +256,7 @@
 
         public void Call(Action<IDbConnection, IDbTransaction> func, int? commandTimeout = null)
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 var trans = conn.BeginTransaction();
 
@@ -275,7 +275,7 @@
         public TResult Call<TResult>(Func<IDbConnection, IDbTransaction, TResult> func,
             int? commandTimeout = null)
         {
-            using (var conn = _context.DbConnecttion)
+            using (var conn = _context.DbConnection)
             {
                 var result = default(TResult);
                 var trans = conn.BeginTransaction();

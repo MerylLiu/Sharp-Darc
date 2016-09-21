@@ -8,7 +8,7 @@
         IList<Example> GetQueries();
 
         /// <summary>
-        /// With transaction
+        ///     With transaction
         /// </summary>
         /// <returns></returns>
         IList<Example> DoGetQueries();

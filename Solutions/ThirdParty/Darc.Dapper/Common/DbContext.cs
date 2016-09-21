@@ -11,35 +11,46 @@ namespace Darc.Dapper.Common
 
         public DbContext(string connectionStringName)
         {
-            var connectionStrings = ConfigurationManager.ConnectionStrings[connectionStringName];
+            var connectionString = ConfigurationManager.ConnectionStrings[connectionStringName];
 
-            if (!string.IsNullOrEmpty(connectionStrings.ProviderName))
-                ProviderName = connectionStrings.ProviderName;
+            if (!string.IsNullOrEmpty(connectionString.ProviderName))
+                ProviderName = connectionString.ProviderName;
             else
                 throw new Exception("The ProviderName is not in ConnectionStrings.");
 
             _dbFactory = DbProviderFactories.GetFactory(ProviderName);
-            DbConnecttion = _dbFactory.CreateConnection();
-            if (DbConnecttion != null)
+            DbConnection = _dbFactory.CreateConnection();
+            if (DbConnection != null)
             {
-                DbConnecttion.ConnectionString = connectionStrings.ConnectionString;
-                DbConnecttion.Open();
+                DbConnection.ConnectionString = connectionString.ConnectionString;
+                DbConnection.Open();
             }
             SetParamPrefix();
         }
 
-        public IDbConnection DbConnecttion { get; }
+        public DbContext(IDbConnection connection)
+        {
+            _dbFactory = DbProviderFactories.GetFactory((DbConnection)connection);
+            DbConnection = connection;
+            if (DbConnection != null && DbConnection.State == ConnectionState.Closed)
+            {
+                DbConnection.Open();
+            }
+            SetParamPrefix();
+        }
+
+        public IDbConnection DbConnection { get; set; }
         public string ParamPrefix { get; private set; } = "@";
         public string ProviderName { get; }
         public DbType DbType { get; private set; } = DbType.SqlServer;
 
         public void Dispose()
         {
-            if (DbConnecttion != null)
+            if (DbConnection != null)
             {
                 try
                 {
-                    DbConnecttion.Dispose();
+                    DbConnection.Dispose();
                 }
                 catch (Exception)
                 {
@@ -50,7 +61,7 @@ namespace Darc.Dapper.Common
 
         private void SetParamPrefix()
         {
-            var dbtype = (_dbFactory?.GetType() ?? DbConnecttion.GetType()).Name;
+            var dbtype = (_dbFactory?.GetType() ?? DbConnection.GetType()).Name;
 
             if (dbtype.StartsWith("MySql")) DbType = DbType.MySql;
             else if (dbtype.StartsWith("SqlCe")) DbType = DbType.SqlServerCe;
@@ -70,7 +81,7 @@ namespace Darc.Dapper.Common
             else if (ProviderName.IndexOf("SQLite", StringComparison.InvariantCultureIgnoreCase) >= 0)
                 DbType = DbType.SQLite;
 
-            if (DbType == DbType.MySql && DbConnecttion != null && DbConnecttion.ConnectionString != null)
+            if (DbType == DbType.MySql && DbConnection != null && DbConnection.ConnectionString != null)
                 ParamPrefix = "?";
             if (DbType == DbType.Oracle)
                 ParamPrefix = ":";
