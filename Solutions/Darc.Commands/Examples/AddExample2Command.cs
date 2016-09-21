@@ -14,7 +14,7 @@
             Name = name;
         }
 
-        [Required(ErrorMessage = "Must be input the name")]
+        [Required(ErrorMessage = "The name must be input ")]
         public string Name { get; set; }
     }
 }
