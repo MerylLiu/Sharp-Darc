@@ -33,9 +33,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Darc.Tasks">
-      <HintPath>..\Darc.Tasks\bin\Debug\Darc.Tasks.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Mvc">
@@ -54,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Darc.Commands\Darc.Commands.csproj">
+      <Project>{b3b434c0-e0e8-4ec6-9173-28a7cba29fcb}</Project>
+      <Name>Darc.Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Darc.Domain\Darc.Domain.csproj">
       <Project>{E034BE8B-3957-45AC-B63B-2485B02A501E}</Project>
       <Name>Darc.Domain</Name>

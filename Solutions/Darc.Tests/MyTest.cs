@@ -137,7 +137,7 @@
         public void CommandProcessor()
         {
             var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
-            var command = new AddExample(new Example()
+            var command = new AddExampleCommand(new Example()
             {
                 Age = new Random().Next(0,100),
                 Name = "Test command handler"
@@ -153,7 +153,7 @@
         public void CommandProcessorWithHandler()
         {
             var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
-            var command = new AddExample(new Example()
+            var command = new AddExampleCommand(new Example()
             {
                 Age = new Random().Next(0,100),
             });

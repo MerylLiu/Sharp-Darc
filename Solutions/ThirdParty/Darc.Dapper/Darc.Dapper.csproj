@@ -62,7 +62,7 @@
     <Compile Include="Common\DBType.cs" />
     <Compile Include="Common\ParamColumnModel.cs" />
     <Compile Include="DapperQuery.cs" />
-    <Compile Include="Common\DataSession.cs" />
+    <Compile Include="Common\DataContext.cs" />
     <Compile Include="Expressions\Queryable.cs" />
     <Compile Include="Expressions\QueryExtension.cs" />
     <Compile Include="Expressions\QueryProvider.cs" />

@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Runtime.Remoting.Messaging;
     using Contracts;
+    using Entities;
     using global::Castle.Core.Internal;
     using global::Castle.DynamicProxy;
     using Helpers;
@@ -18,16 +19,28 @@
             var methodName = invocation.Method.Name;
 
             var attributes = invocation.Method.GetAttributes<TransAttribute>();
-            var invocationAttributes = invocation.MethodInvocationTarget.GetAttributes<TransAttribute>();
+            var invocationAttr = invocation.MethodInvocationTarget.GetAttributes<TransAttribute>();
 
-            if (methodName.StartsWith("Do") || attributes.Any() || invocationAttributes.Any())
+            var dataSourceAttr = invocation.TargetType.GetAttributes<DataSourceAttribute>();
+            dataSourceAttr = dataSourceAttr.Any()
+                ? dataSourceAttr
+                : invocation.TargetType.BaseType.GetAttributes<DataSourceAttribute>();
+            var dataSource = dataSourceAttr.Select(p => p.DataSource).FirstOrDefault();
+            CallContext.LogicalSetData("$DataSource", dataSource);
+
+            if (methodName.StartsWith("Do") || attributes.Any() || invocationAttr.Any())
             {
-                var session = ServiceLocator.Current.GetInstance<IDataSession>();
-                CallContext.LogicalSetData("DataSession",session);
+                var session = ServiceLocator.Current.GetInstance<IDataContext>();
 
-                using (var conn = session.GetConnection())
+                using (var conn = session.GetConnection(dataSource))
                 {
                     var trans = conn.BeginTransaction();
+
+                    CallContext.LogicalSetData("$DataSession", new DataSessionItems
+                    {
+                        Connection = conn,
+                        Transaction = trans
+                    });
 
                     try
                     {

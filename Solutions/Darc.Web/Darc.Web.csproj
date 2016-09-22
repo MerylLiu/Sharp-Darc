@@ -68,6 +68,10 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Mvc">
       <HintPath>..\..\Lib\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>

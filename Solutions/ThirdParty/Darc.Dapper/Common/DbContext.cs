@@ -28,18 +28,19 @@ namespace Darc.Dapper.Common
             SetParamPrefix();
         }
 
-        public DbContext(IDbConnection connection)
+        public DbContext(IDbConnection connection, IDbTransaction transaction = null)
         {
             _dbFactory = DbProviderFactories.GetFactory((DbConnection)connection);
             DbConnection = connection;
-            if (DbConnection != null && DbConnection.State == ConnectionState.Closed)
-            {
-                DbConnection.Open();
-            }
+
+            if (DbConnection != null && DbConnection.State == ConnectionState.Closed) DbConnection.Open();
+
+            DbTransaction = transaction;
             SetParamPrefix();
         }
 
         public IDbConnection DbConnection { get; set; }
+        public IDbTransaction DbTransaction { get; set; }
         public string ParamPrefix { get; private set; } = "@";
         public string ProviderName { get; }
         public DbType DbType { get; private set; } = DbType.SqlServer;

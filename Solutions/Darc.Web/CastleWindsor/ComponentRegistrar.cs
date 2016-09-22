@@ -16,14 +16,14 @@
             AddCommentsTo(container);
             AddRepositoriesTo(container);
             AddQueryObjectsTo(container);
-            AddTaskTo(container);
+            AddTasksTo(container);
         }
 
         private static void AddCommentsTo(IWindsorContainer container)
         {
             container.Register(
-                Component.For(typeof (IDataSession))
-                    .ImplementedBy(typeof (DataSession))
+                Component.For(typeof (IDataContext))
+                    .ImplementedBy(typeof (DataContext))
                     .Named("DataSession"));
 
             container.Register(
@@ -32,7 +32,7 @@
                     .Named("Transaction"));
         }
 
-        private static void AddTaskTo(IWindsorContainer container)
+        private static void AddTasksTo(IWindsorContainer container)
         {
             container.Register(
                 AllTypes.FromAssemblyNamed("Darc.Commands")

@@ -1,17 +1,19 @@
 ﻿namespace Darc.Commands.Examples
 {
+    using Core.Helpers;
     using Dapper;
     using Domain;
 
-    public class AddExample : BaseCommand
+    public class AddExampleCommand : BaseCommand
     {
-        public AddExample(Example example)
+        public AddExampleCommand(Example example)
         {
             Example = example;
         }
 
         public Example Example { get; set; }
 
+        [Trans]
         public override object Handle<TResult>()
         {
             var data = DapperSession.Current.Save(Example);

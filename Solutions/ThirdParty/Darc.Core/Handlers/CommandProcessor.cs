@@ -4,7 +4,12 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using System.Runtime.Remoting.Messaging;
+    using Contracts;
     using Entities;
+    using global::Castle.Core.Internal;
+    using Helpers;
+    using Microsoft.Practices.ServiceLocation;
 
     public class CommandProcessor : ICommandProcessor
     {
@@ -29,7 +34,16 @@
 
             if (validationResults.Any()) throw new CommandHandlerException(validationResults);
 
+            var dataSourceAttr = command.GetType().GetAttributes<DataSourceAttribute>();
+            dataSourceAttr = dataSourceAttr.Any()
+                ? dataSourceAttr
+                : command.GetType().BaseType.GetAttributes<DataSourceAttribute>();
+            var dataSource = dataSourceAttr.Select(p => p.DataSource).FirstOrDefault();
+            CallContext.LogicalSetData("$DataSource", dataSource);
+
             command.Handle();
+
+            AspectHandler(command, command.Handle);
         }
 
         public TResult Process<TResult>(ICommand command)
@@ -53,14 +67,97 @@
 
             if (validationResults.Any()) throw new CommandHandlerException(validationResults);
 
-            var res = command.Handle<object>();
-
-            return (TResult) res;
+            return AspectHandler(command, () => (TResult)command.Handle<object>());
         }
 
         public void Process<T>(ICommand command, Action<T> resultHandler)
         {
             resultHandler(Process<T>(command));
+        }
+
+        private TResult AspectHandler<TResult>(ICommand command,Func<TResult> func)
+        {
+            var dataSourceAttr = command.GetType().GetAttributes<DataSourceAttribute>();
+            dataSourceAttr = dataSourceAttr.Any()
+                ? dataSourceAttr
+                : command.GetType().BaseType.GetAttributes<DataSourceAttribute>();
+            var dataSource = dataSourceAttr.Select(p => p.DataSource).FirstOrDefault();
+            CallContext.LogicalSetData("$DataSource", dataSource);
+
+            var attributes = command.GetType().GetAttributes<TransAttribute>();
+            var invocationAttr = command.GetType().GetMethod("Handle").GetAttributes<TransAttribute>();
+
+            if (attributes.Any() || invocationAttr.Any())
+            {
+                var session = ServiceLocator.Current.GetInstance<IDataContext>();
+
+                using (var conn = session.GetConnection(dataSource))
+                {
+                    var trans = conn.BeginTransaction();
+
+                    CallContext.LogicalSetData("$DataSession", new DataSessionItems
+                    {
+                        Connection = conn,
+                        Transaction = trans
+                    });
+
+                    try
+                    {
+                        var res = func();
+                        trans.Commit();
+                        return res;
+                    }
+                    catch (Exception)
+                    {
+                        trans.Rollback();
+                        throw;
+                    }
+                }
+            }
+
+            return func();
+        }
+
+        private void AspectHandler(ICommand command, Action action)
+        {
+            var dataSourceAttr = command.GetType().GetAttributes<DataSourceAttribute>();
+            dataSourceAttr = dataSourceAttr.Any()
+                ? dataSourceAttr
+                : command.GetType().BaseType.GetAttributes<DataSourceAttribute>();
+            var dataSource = dataSourceAttr.Select(p => p.DataSource).FirstOrDefault();
+            CallContext.LogicalSetData("$DataSource", dataSource);
+
+            var attributes = command.GetType().GetAttributes<TransAttribute>();
+            var invocationAttr = command.GetType().GetMethod("Handle").GetAttributes<TransAttribute>();
+
+            if (attributes.Any() || invocationAttr.Any())
+            {
+                var session = ServiceLocator.Current.GetInstance<IDataContext>();
+
+                using (var conn = session.GetConnection(dataSource))
+                {
+                    var trans = conn.BeginTransaction();
+
+                    CallContext.LogicalSetData("$DataSession", new DataSessionItems
+                    {
+                        Connection = conn,
+                        Transaction = trans
+                    });
+
+                    try
+                    {
+                        action();
+                        trans.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        trans.Rollback();
+                        throw;
+                    }
+                }
+            }
+
+            action();
         }
     }
 }

@@ -2,12 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Web.Mvc;
+    using Commands.Examples;
     using Core;
     using Domain;
     using Infrastructure.Extensions;
     using Infrastructure.Utilities;
     using Queries;
-    using Tasks.Commands.Examples;
 
     public class ExampleController : Controller
     {
