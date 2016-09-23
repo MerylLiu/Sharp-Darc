@@ -8,7 +8,7 @@
     using Contracts;
     using Entities;
     using global::Castle.Core.Internal;
-    using Helpers;
+    using Extensions;
     using Microsoft.Practices.ServiceLocation;
 
     public class CommandProcessor : ICommandProcessor
@@ -41,9 +41,9 @@
             var dataSource = dataSourceAttr.Select(p => p.DataSource).FirstOrDefault();
             CallContext.LogicalSetData("$DataSource", dataSource);
 
-            command.Handle();
+            command.Handler();
 
-            AspectHandler(command, command.Handle);
+            AspectHandler(command, command.Handler);
         }
 
         public TResult Process<TResult>(ICommand command)
@@ -67,7 +67,7 @@
 
             if (validationResults.Any()) throw new CommandHandlerException(validationResults);
 
-            return AspectHandler(command, () => (TResult)command.Handle<object>());
+            return AspectHandler(command, () => (TResult)command.Handler<object>());
         }
 
         public void Process<T>(ICommand command, Action<T> resultHandler)
@@ -85,7 +85,7 @@
             CallContext.LogicalSetData("$DataSource", dataSource);
 
             var attributes = command.GetType().GetAttributes<TransAttribute>();
-            var invocationAttr = command.GetType().GetMethod("Handle").GetAttributes<TransAttribute>();
+            var invocationAttr = command.GetType().GetMethod("Handler").GetAttributes<TransAttribute>();
 
             if (attributes.Any() || invocationAttr.Any())
             {
@@ -128,7 +128,7 @@
             CallContext.LogicalSetData("$DataSource", dataSource);
 
             var attributes = command.GetType().GetAttributes<TransAttribute>();
-            var invocationAttr = command.GetType().GetMethod("Handle").GetAttributes<TransAttribute>();
+            var invocationAttr = command.GetType().GetMethod("Handler").GetAttributes<TransAttribute>();
 
             if (attributes.Any() || invocationAttr.Any())
             {

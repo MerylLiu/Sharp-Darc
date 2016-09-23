@@ -17,12 +17,12 @@
             return validationResults;
         }
 
-        public virtual void Handle()
+        public virtual void Handler()
         {
             throw new CommandHandlerNotFoundException(typeof (ICommand));
         }
 
-        public virtual object Handle<TResult>()
+        public virtual object Handler<TResult>()
         {
             throw new CommandHandlerNotFoundException(typeof (ICommand));
         }

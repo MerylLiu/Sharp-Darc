@@ -7,7 +7,7 @@
     {
         bool IsValid();
         ICollection<ValidationResult> ValidationResults();
-        void Handle();
-        object Handle<TResult>();
+        void Handler();
+        object Handler<TResult>();
     }
 }

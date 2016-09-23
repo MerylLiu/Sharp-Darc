@@ -1,6 +1,6 @@
 ﻿namespace Darc.Commands.Examples
 {
-    using Core.Helpers;
+    using Core.Extensions;
     using Dapper;
     using Domain;
 
@@ -14,7 +14,7 @@
         public Example Example { get; set; }
 
         [Trans]
-        public override object Handle<TResult>()
+        public override object Handler<TResult>()
         {
             var data = DapperSession.Current.Save(Example);
             return data;

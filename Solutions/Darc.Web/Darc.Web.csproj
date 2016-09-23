@@ -173,7 +173,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="CastleWindsor\ComponentRegistrar.cs" />
     <Compile Include="CastleWindsor\WindsorControllerFactory.cs" />
     <Compile Include="CastleWindsor\WindsorExtension.cs" />
@@ -256,9 +255,9 @@
       <Project>{e4271a3f-c78a-450b-bf41-b01aa70f1965}</Project>
       <Name>Darc.Queries</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Darc.Web.Areas.Admin.Conrtollers\Darc.Web.Areas.Admin.Conrtollers.csproj">
+    <ProjectReference Include="..\Darc.Web.Areas.Admin\Darc.Web.Areas.Admin.csproj">
       <Project>{ef017214-86c2-4f41-b1b6-3372c908692a}</Project>
-      <Name>Darc.Web.Areas.Admin.Conrtollers</Name>
+      <Name>Darc.Web.Areas.Admin</Name>
     </ProjectReference>
     <ProjectReference Include="..\Darc.Web.Common\Darc.Web.Common.csproj">
       <Project>{00245cec-2f95-435e-8fec-c3df9a4c1e64}</Project>

@@ -1,4 +1,4 @@
-﻿namespace Darc.Core.Helpers
+﻿namespace Darc.Core.Extensions
 {
     using System;
 

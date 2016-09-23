@@ -1,4 +1,4 @@
-﻿namespace Darc.Web.Areas.Admin.Conrtollers
+﻿namespace Darc.Web.Areas.Admin.Controllers
 {
     using System.Collections.Generic;
     using System.Web.Mvc;

@@ -6,7 +6,7 @@ using Microsoft.Owin;
 namespace Darc.Web
 {
     using System.Web.Mvc;
-    using Areas.Admin.Conrtollers;
+    using Areas.Admin.Controllers;
     using Castle.Windsor;
     using CastleWindsor;
     using CommonServiceLocator.WindsorAdapter;
@@ -30,7 +30,7 @@ namespace Darc.Web
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
             container.RegisterControllers(typeof (HomeController).Assembly);
-            container.RegisterControllers(typeof (ExampleController).Assembly);
+            container.RegisterControllers(typeof (MainController).Assembly);
             ComponentRegistrar.AddComponentsTo(container);
 
             var windsorServiceLocator = new WindsorServiceLocator(container);

@@ -3,11 +3,11 @@
     using System;
     using System.Linq;
     using System.Runtime.Remoting.Messaging;
+    using Extensions;
     using Contracts;
     using Entities;
     using global::Castle.Core.Internal;
     using global::Castle.DynamicProxy;
-    using Helpers;
     using Microsoft.Practices.ServiceLocation;
 
     public class TransactionInterceptor : IInterceptor

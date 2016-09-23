@@ -40,7 +40,7 @@
 
                 return !string.IsNullOrEmpty(newDataSource)
                     ? new DapperSession(newDataSource)
-                    : new DapperSession(DataSource);
+                    : Lazy.Value;
             }
         }
     }
