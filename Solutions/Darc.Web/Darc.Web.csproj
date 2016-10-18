@@ -75,6 +75,9 @@
     <Reference Include="Microsoft.Web.Mvc">
       <HintPath>..\..\Lib\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\Lib\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.121.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Oracle.ManagedDataAccess.dll</HintPath>
