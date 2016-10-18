@@ -1,33 +1,32 @@
-﻿namespace Darc.Web.CastleWindsor
+﻿namespace Darc.Core.Castle
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Web.Mvc;
-    using Castle.Core;
-    using Castle.MicroKernel.Registration;
-    using Castle.Windsor;
+    using global::Castle.Core;
+    using global::Castle.MicroKernel.Registration;
+    using global::Castle.Windsor;
 
     public static class WindsorExtension
     {
         public static BasedOnDescriptor FirstNonGenericCoreInterface(this ServiceDescriptor descriptor,
-                                                                     string interfaceNamespace)
+            string interfaceNamespace)
         {
             return descriptor.Select(
                 delegate(Type type, Type[] baseType)
+                {
+                    var interfaces = type.GetInterfaces().Where(
+                        t => t.IsGenericType == false
+                             && t.Namespace.StartsWith(interfaceNamespace)).ToList();
+
+                    if (interfaces.Any())
                     {
-                        IEnumerable<Type> interfaces =
-                            type.GetInterfaces().Where(
-                                t => t.IsGenericType == false && t.Namespace.StartsWith(interfaceNamespace));
+                        return new[] {interfaces.ElementAt(0)};
+                    }
 
-                        if (interfaces.Count() > 0)
-                        {
-                            return new[] {interfaces.ElementAt(0)};
-                        }
-
-                        return null;
-                    });
+                    return null;
+                });
         }
 
         public static IWindsorContainer RegisterController<T>(this IWindsorContainer container) where T : IController
@@ -37,9 +36,9 @@
         }
 
         public static IWindsorContainer RegisterControllers(this IWindsorContainer container,
-                                                            params Type[] controllerTypes)
+            params Type[] controllerTypes)
         {
-            foreach (Type type in controllerTypes)
+            foreach (var type in controllerTypes)
             {
                 if (type != null
                     && type.Name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase)
@@ -55,9 +54,9 @@
         }
 
         public static IWindsorContainer RegisterControllers(this IWindsorContainer container,
-                                                            params Assembly[] assemblies)
+            params Assembly[] assemblies)
         {
-            foreach (Assembly assembly in assemblies)
+            foreach (var assembly in assemblies)
             {
                 container.RegisterControllers(assembly.GetExportedTypes());
             }

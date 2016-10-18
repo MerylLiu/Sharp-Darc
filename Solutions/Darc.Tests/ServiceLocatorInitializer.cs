@@ -5,8 +5,10 @@
     using Castle.Windsor;
     using CommonServiceLocator.WindsorAdapter;
     using Core;
+    using Core.Contracts;
     using Core.Interceptor;
     using Dapper;
+    using Dapper.Common;
     using Microsoft.Practices.ServiceLocation;
 
     public class ServiceLocatorInitializer
@@ -14,7 +16,7 @@
         public static void Init()
         {
             IWindsorContainer container = new WindsorContainer();
-            //AddCustomRepositoriesTo(container);
+
             AddCommentsTo(container);
             AddGenericRepositoriesTo(container);
             AddQueryObjectsTo(container);
@@ -26,18 +28,15 @@
         private static void AddCommentsTo(IWindsorContainer container)
         {
             container.Register(
+                Component.For(typeof (IDataContext))
+                    .ImplementedBy(typeof (DataContext))
+                    .Named("DataSession"));
+
+            container.Register(
                 Component.For<IInterceptor>()
                     .ImplementedBy<TransactionInterceptor>()
                     .Named("Transaction"));
         }
-
-        //private static void AddCustomRepositoriesTo(IWindsorContainer container)
-        //{
-        //    container.Register(
-        //        AllTypes.FromAssemblyNamed("FS.Repository")
-        //                .BasedOn<Repository.Repository>()
-        //                .WithService.DefaultInterfaces());
-        //}
 
         private static void AddGenericRepositoriesTo(IWindsorContainer container)
         {

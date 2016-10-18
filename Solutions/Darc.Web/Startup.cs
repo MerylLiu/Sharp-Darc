@@ -11,6 +11,7 @@ namespace Darc.Web
     using CastleWindsor;
     using CommonServiceLocator.WindsorAdapter;
     using Controllers;
+    using Core.Castle;
     using Microsoft.Practices.ServiceLocation;
     using Owin;
 
@@ -19,8 +20,6 @@ namespace Darc.Web
         public void Configuration(IAppBuilder app)
         {
             InitializeServiceLocator();
-
-            ConfigureAuth(app);
         }
 
         protected void InitializeServiceLocator()
@@ -31,7 +30,7 @@ namespace Darc.Web
 
             container.RegisterControllers(typeof (HomeController).Assembly);
             container.RegisterControllers(typeof (MainController).Assembly);
-            ComponentRegistrar.AddComponentsTo(container);
+            ComponentRegistrer.AddComponentsTo(container);
 
             var windsorServiceLocator = new WindsorServiceLocator(container);
             ServiceLocator.SetLocatorProvider(() => windsorServiceLocator);

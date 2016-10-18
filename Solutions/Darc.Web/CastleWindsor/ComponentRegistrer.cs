@@ -9,7 +9,7 @@
     using Dapper;
     using Dapper.Common;
 
-    public class ComponentRegistrar
+    public class ComponentRegistrer
     {
         public static void AddComponentsTo(IWindsorContainer container)
         {
