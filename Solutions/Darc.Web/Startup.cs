@@ -5,35 +5,39 @@ using Microsoft.Owin;
 
 namespace Darc.Web
 {
-    using System.Web.Mvc;
     using Areas.Admin.Controllers;
-    using Castle.Windsor;
-    using CastleWindsor;
-    using CommonServiceLocator.WindsorAdapter;
+    using Castle.MicroKernel.Registration;
     using Controllers;
+    using Core;
     using Core.Castle;
-    using Microsoft.Practices.ServiceLocation;
+    using Dapper;
     using Owin;
 
-    public partial class Startup
+    public class Startup
     {
         public void Configuration(IAppBuilder app)
         {
-            InitializeServiceLocator();
+            RegisterComponents();
         }
 
-        protected void InitializeServiceLocator()
+        private void RegisterComponents()
         {
-            IWindsorContainer container = new WindsorContainer();
+            var defaultControllers = new[]
+            {
+                typeof (HomeController).Assembly,
+                typeof (MainController).Assembly
+            };
 
-            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
+            CastleRegistrer.Initialize(defaultControllers).AddComponentsTo(p =>
+            {
+                p.Register(AllTypes.FromAssemblyNamed("Darc.Commands")
+                    .BasedOn(typeof (CommandBase))
+                    .WithService.FirstInterface());
 
-            container.RegisterControllers(typeof (HomeController).Assembly);
-            container.RegisterControllers(typeof (MainController).Assembly);
-            ComponentRegistrer.AddComponentsTo(container);
-
-            var windsorServiceLocator = new WindsorServiceLocator(container);
-            ServiceLocator.SetLocatorProvider(() => windsorServiceLocator);
+                p.Register(AllTypes.FromAssemblyNamed("Darc.Queries")
+                    .BasedOn(typeof (DapperQuery))
+                    .WithService.DefaultInterfaces());
+            });
         }
     }
 }
