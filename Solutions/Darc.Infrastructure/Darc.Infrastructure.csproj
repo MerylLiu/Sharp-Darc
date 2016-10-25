@@ -60,18 +60,12 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Extensions\CryptoExtension.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\ExecuteHelper.cs" />
-    <Compile Include="Utilities\ImageUtil.cs" />
-    <Compile Include="Utilities\JsonUtil.cs" />
-    <Compile Include="Utilities\LogUtil.cs" />
-    <Compile Include="Utilities\XmlUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThirdParty\Darc.Core\Darc.Core.csproj">

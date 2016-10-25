@@ -1,4 +1,4 @@
-﻿namespace Darc.Infrastructure.Utilities
+﻿namespace Darc.Core.Utilities
 {
     using System.IO;
     using System.Runtime.Serialization.Json;

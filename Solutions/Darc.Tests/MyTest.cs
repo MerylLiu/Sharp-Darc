@@ -3,14 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Commands.Examples;
     using Core;
+    using Core.Utilities;
     using Dapper;
     using Domain;
     using global::Dapper;
-    using Infrastructure.Utilities;
     using Microsoft.Practices.ServiceLocation;
     using NUnit.Framework;
-    using Commands.Examples;
 
     [TestFixture]
     [Category("MyTest")]
@@ -26,8 +26,6 @@
         {
         }
 
-        #region Serialize the result.
-
         private string ToBlock(Example data)
         {
             var res = $"The result is :\n{JsonUtil.JsonSerialize(data)}";
@@ -39,8 +37,6 @@
             var res = $"The result is :\n{JsonUtil.JsonSerialize(data)}";
             return res;
         }
-
-        #endregion
 
         [Test]
         public void Add()
@@ -59,9 +55,40 @@
         }
 
         [Test]
+        public void CommandProcessor()
+        {
+            var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
+            var command = new AddExampleCommand(new Example
+            {
+                Age = new Random().Next(0, 100),
+                Name = "Test command handler"
+            });
+
+            var res = commandProcessor.Process<Example>(command);
+
+            Console.WriteLine(ToBlock(res));
+            Assert.IsNotNull(res);
+        }
+
+        [Test]
+        public void CommandProcessorWithHandler()
+        {
+            var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
+            var command = new AddExampleCommand(new Example
+            {
+                Age = new Random().Next(0, 100)
+            });
+
+            commandProcessor.Process<Example>(command, p =>
+            {
+                //Do something with the p(Example)
+            });
+        }
+
+        [Test]
         public void Delete()
         {
-            var res = DapperSession.Current.Delete<Example>(p => p.Id == (object)2);
+            var res = DapperSession.Current.Delete<Example>(p => p.Id == (object) 2);
 
             Console.WriteLine($"Delete is {(res ? "successful" : "failed")}");
             Assert.AreEqual(true, res);
@@ -131,37 +158,6 @@
 
             Console.WriteLine(ToBlock(res));
             Assert.IsNotNull(res);
-        }
-
-        [Test]
-        public void CommandProcessor()
-        {
-            var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
-            var command = new AddExampleCommand(new Example()
-            {
-                Age = new Random().Next(0,100),
-                Name = "Test command handler"
-            });
-
-            var res = commandProcessor.Process<Example>(command);
-
-            Console.WriteLine(ToBlock(res));
-            Assert.IsNotNull(res);
-        }
-
-        [Test]
-        public void CommandProcessorWithHandler()
-        {
-            var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
-            var command = new AddExampleCommand(new Example()
-            {
-                Age = new Random().Next(0,100),
-            });
-
-            commandProcessor.Process<Example>(command, p =>
-            {
-                //Do something with the p(Example)
-            });
         }
 
         [Test]

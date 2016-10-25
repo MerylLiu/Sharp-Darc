@@ -5,9 +5,9 @@
     using System.Web.Mvc;
     using Commands.Examples;
     using Core;
+    using Core.Extensions;
+    using Core.Utilities;
     using Domain;
-    using Infrastructure.Extensions;
-    using Infrastructure.Utilities;
     using Queries;
 
     public class HomeController : Controller
@@ -30,7 +30,7 @@
 
             Try.CatchBiz(() =>
             {
-                var command = new AddExampleCommand(new Example()
+                var command = new AddExampleCommand(new Example
                 {
                     Age = new Random().Next(0, 100),
                     Name = "Test command handler"
@@ -43,9 +43,9 @@
 
             if (messages.Count == 0)
             {
-                return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+                return Json(new {result = true}, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { result = false, message = messages.ToHtml() }, JsonRequestBehavior.AllowGet);
+            return Json(new {result = false, message = messages.ToHtml()}, JsonRequestBehavior.AllowGet);
         }
     }
 }

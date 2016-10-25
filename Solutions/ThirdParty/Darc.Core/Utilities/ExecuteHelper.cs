@@ -1,26 +1,18 @@
-﻿namespace Darc.Infrastructure.Utilities
+﻿namespace Darc.Core.Utilities
 {
     using System;
     using ComLib;
-    using Core.Exceptions;
+    using Exceptions;
 
     /// <summary>
     ///     Wrapper class to simplify lines of code around Try/Catch blocks with various customized behaviour.
     /// </summary>
     public class Try
     {
-        private static LamdaLogger _logger = new LamdaLogger();
-
-
         /// <summary>
         ///     Initialize logging lamda.
         /// </summary>
-        public static LamdaLogger Logger
-        {
-            get { return _logger; }
-            set { _logger = value; }
-        }
-
+        public static LamdaLogger Logger { get; set; } = new LamdaLogger();
 
         /// <summary>
         ///     Calls the action and logs any exception that occurrs
@@ -34,10 +26,9 @@
             }
             catch (Exception ex)
             {
-                _logger.Error(null, ex, null);
+                Logger.Error(null, ex, null);
             }
         }
-
 
         /// <summary>
         ///     Executes an action inside a try catch and logs any exceptions.
@@ -52,10 +43,9 @@
             }
             catch (Exception ex)
             {
-                _logger.Error(errorMessage, ex, null);
+                Logger.Error(errorMessage, ex, null);
             }
         }
-
 
         /// <summary>
         ///     Calls the action and logs any exception that occurrs and rethrows the exception.
@@ -69,11 +59,10 @@
             }
             catch (Exception ex)
             {
-                _logger.Error(null, ex, null);
+                Logger.Error(null, ex, null);
                 throw ex;
             }
         }
-
 
         /// <summary>
         ///     Executes an action inside a try catch and logs any exceptions.
@@ -94,7 +83,6 @@
             }
         }
 
-
         /// <summary>
         ///     Executes an action inside a try catch and logs any exceptions.
         /// </summary>
@@ -113,7 +101,6 @@
             }
         }
 
-
         /// <summary>
         ///     Executes an action inside a try catch and logs any exceptions.
         /// </summary>
@@ -122,7 +109,7 @@
         /// <param name="exceptionHandler">The action to use for handling the exception</param>
         /// <param name="finallyHandler">The action to use in the finally block</param>
         public static void CatchHandle(string errorMessage, Action action, Action<Exception> exceptionHandler,
-                                       Action finallyHandler)
+            Action finallyHandler)
         {
             try
             {
@@ -142,17 +129,15 @@
             }
         }
 
-
         public static T CatchLogGet<T>(string errorMessage, Func<T> action)
         {
             return CatchLogGet(errorMessage, false, action, null);
         }
 
-
         public static T CatchLogGet<T>(string errorMessage, bool rethrow, Func<T> action,
-                                       Action<object, Exception, object[]> logger)
+            Action<object, Exception, object[]> logger)
         {
-            T result = default(T);
+            var result = default(T);
             try
             {
                 result = action();
@@ -161,8 +146,8 @@
             {
                 if (logger != null)
                     logger(errorMessage, ex, null);
-                else if (_logger != null)
-                    _logger.Error(errorMessage, ex, null);
+                else if (Logger != null)
+                    Logger.Error(errorMessage, ex, null);
 
                 if (rethrow) throw ex;
             }
@@ -182,7 +167,7 @@
         }
 
         public static void CatchBiz(Action action, Action<BizException> bizExceptionHandler,
-                                    Action<Exception> exceptionHandler)
+            Action<Exception> exceptionHandler)
         {
             try
             {
@@ -194,7 +179,7 @@
             }
             catch (Exception ex)
             {
-                _logger.Error("Exception occurs in json action.", ex);
+                Logger.Error("Exception occurs in json action.", ex);
                 exceptionHandler(ex);
             }
         }

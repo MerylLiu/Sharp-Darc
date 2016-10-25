@@ -1,6 +1,6 @@
 ﻿namespace Darc.Commands.Examples
 {
-    using Core.Extensions;
+    using Core.Attributes;
     using Dapper;
     using Domain;
 

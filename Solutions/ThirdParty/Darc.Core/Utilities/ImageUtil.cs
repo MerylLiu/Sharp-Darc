@@ -1,4 +1,4 @@
-﻿namespace Darc.Infrastructure.Utilities
+﻿namespace Darc.Core.Utilities
 {
     using System.ComponentModel;
     using System.Drawing;

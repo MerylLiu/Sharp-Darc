@@ -1,4 +1,4 @@
-﻿namespace Darc.Core.Extensions
+﻿namespace Darc.Core.Attributes
 {
     using System;
 

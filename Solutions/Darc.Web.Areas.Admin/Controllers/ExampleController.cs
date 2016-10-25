@@ -4,9 +4,9 @@
     using System.Web.Mvc;
     using Commands.Examples;
     using Core;
+    using Core.Extensions;
+    using Core.Utilities;
     using Domain;
-    using Infrastructure.Extensions;
-    using Infrastructure.Utilities;
     using Queries;
 
     public class ExampleController : Controller
