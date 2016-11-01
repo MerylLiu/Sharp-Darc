@@ -97,6 +97,7 @@
     <Compile Include="..\..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Attributes\HandleExceptionAttribute.cs" />
     <Compile Include="Castle\CastleRegistrer.cs" />
     <Compile Include="Castle\WindsorControllerFactory.cs" />
     <Compile Include="Castle\WindsorExtension.cs" />

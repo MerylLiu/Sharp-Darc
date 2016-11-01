@@ -17,5 +17,10 @@
         {
             return LogManager.GetLogger(typeof (T));
         }
+
+        public static ILog Log(Type controllerType)
+        {
+            return LogManager.GetLogger(controllerType);
+        }
     }
 }

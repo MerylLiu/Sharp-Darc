@@ -5,6 +5,7 @@ using Microsoft.Owin;
 
 namespace Darc.Web
 {
+    using System.Web.Mvc;
     using Areas.Admin.Controllers;
     using Castle.MicroKernel.Registration;
     using Controllers;
@@ -18,6 +19,8 @@ namespace Darc.Web
         public void Configuration(IAppBuilder app)
         {
             RegisterComponents();
+
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
         }
 
         private void RegisterComponents()

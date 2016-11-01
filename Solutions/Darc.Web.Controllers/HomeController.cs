@@ -5,6 +5,7 @@
     using System.Web.Mvc;
     using Commands.Examples;
     using Core;
+    using Core.Exceptions;
     using Core.Extensions;
     using Core.Utilities;
     using Domain;
@@ -19,6 +20,7 @@
         {
             var data = ExampleQuery.DoGetQueries();
 
+            throw new BizException("test es");
             LogUtil.Log<HomeController>().Error("Log4net test.");
 
             return View(data);

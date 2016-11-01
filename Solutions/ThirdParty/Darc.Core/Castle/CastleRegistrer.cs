@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Web.Mvc;
+    using Attributes;
     using CommonServiceLocator.WindsorAdapter;
     using Contracts;
     using global::Castle.DynamicProxy;
@@ -26,12 +27,15 @@
             IWindsorContainer container = new WindsorContainer();
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
-            container.RegisterControllers(controllerAssemblies);
-
             if (controllerAssemblies != null && controllerAssemblies.Any())
             {
-                AddDefaultComponentsTo(container);
+                container.RegisterControllers(controllerAssemblies);
             }
+
+            AddDefaultComponentsTo(container);
+
+            //Add global exception filters
+            GlobalFilters.Filters.Add(new HandleExceptionAttribute());
 
             return new CastleRegistrer(container);
         }
