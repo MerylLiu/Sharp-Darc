@@ -18,9 +18,8 @@
 
         public ActionResult Index()
         {
-            var data = ExampleQuery.DoGetQueries();
+            var data = ExampleQuery.GetQueries();
 
-            throw new BizException("test es");
             LogUtil.Log<HomeController>().Error("Log4net test.");
 
             return View(data);
