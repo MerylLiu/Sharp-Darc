@@ -32,7 +32,7 @@
             return res;
         }
 
-        private string ToBlock(IList<Example> data)
+        private string ToBlock(IEnumerable<Example> data)
         {
             var res = $"The result is :\n{JsonUtil.JsonSerialize(data)}";
             return res;
@@ -95,42 +95,21 @@
         }
 
         [Test]
-        public void ExecuteWithoutReturns()
+        public void ExecuteSql()
         {
-            DapperSession.Current.Call(p =>
-            {
-                var rows = p.Execute("delete from mytest where id = ?Id", new {Id = 40});
+            var rows = DapperSession.Current.Execute("delete from mytest where id = ?Id", new { Id = 20 });
 
-                Console.WriteLine($"Execute is {(rows > 0 ? "successful" : "failed")}");
-                Assert.AreEqual(true, rows > 0);
-            });
+            Console.WriteLine($"Execute is {(rows > 0 ? "successful" : "failed")}");
+            Assert.AreEqual(true, rows > 0);
         }
 
         [Test]
-        public void ExecuteWithReturns()
+        public void ExecuteSqlQuery()
         {
-            var res = DapperSession.Current.Call(p =>
-            {
-                var data = p.Query<Example>("select * from mytest").ToList();
-                return data;
-            });
-            /*DapperSession.Current.ExecuteSql(p => p.Query<Example>("select * from mytest")
-                .ToList());*/
+            var res = DapperSession.Current.Query<Example>("select * from mytest where id=:Id", new {Id = 3});
 
             Console.WriteLine(ToBlock(res));
             Assert.IsNotNull(res);
-        }
-
-        [Test]
-        public void ExecuteWithTransaction()
-        {
-            DapperSession.Current.Call((p, t) =>
-            {
-                var rows = p.Execute("delete from mytest where id = ?Id", new {Id = 40}, t);
-
-                Console.WriteLine($"Execute is {(rows > 0 ? "successful" : "failed")}");
-                Assert.AreEqual(true, rows > 0);
-            });
         }
 
         [Test]

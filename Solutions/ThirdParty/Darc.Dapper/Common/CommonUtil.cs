@@ -198,15 +198,15 @@
 
         public static string GetSequence<T>()
         {
-            var ty = typeof (T);
-            var arri = ty.GetCustomAttributes(typeof (BaseAttribute), true)
+            var type = typeof (T);
+            var arri = type.GetCustomAttributes(typeof (BaseAttribute), true)
                 .FirstOrDefault(p => p.GetType() == typeof (SequenceAttribute));
 
             if (!string.IsNullOrEmpty((arri as SequenceAttribute)?.Sequence))
             {
                 return (arri as SequenceAttribute).Sequence;
             }
-            return ty.Name;
+            return type.Name;
         }
 
         public static string UnitMoreSpace(string str)

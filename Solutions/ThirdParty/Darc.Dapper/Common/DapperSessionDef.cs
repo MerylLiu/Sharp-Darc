@@ -187,84 +187,6 @@
             });
         }
 
-        /// <summary>
-        ///     Execute sql
-        /// </summary>
-        /// <param name="func"></param>
-        public void Call(Action<IDbConnection> func)
-        {
-            using (var conn = _context.DbConnection)
-            {
-                func(conn);
-            }
-        }
-
-        /// <summary>
-        ///     Execute sql
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        public TResult Call<TResult>(Func<IDbConnection, TResult> func)
-        {
-            using (var conn = _context.DbConnection)
-            {
-                return func(conn);
-            }
-        }
-
-        /// <summary>
-        ///     Execute sql
-        /// </summary>
-        /// <param name="func"></param>
-        /// <param name="commandTimeout"></param>
-        public void Call(Action<IDbConnection, IDbTransaction> func, int? commandTimeout = null)
-        {
-            using (var conn = _context.DbConnection)
-            {
-                var trans = conn.BeginTransaction();
-
-                try
-                {
-                    func(conn, trans);
-                    trans.Commit();
-                }
-                catch (Exception)
-                {
-                    trans.Rollback();
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Execute sql
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="func"></param>
-        /// <param name="commandTimeout"></param>
-        /// <returns></returns>
-        public TResult Call<TResult>(Func<IDbConnection, IDbTransaction, TResult> func,
-            int? commandTimeout = null)
-        {
-            using (var conn = _context.DbConnection)
-            {
-                var result = default(TResult);
-                var trans = conn.BeginTransaction();
-
-                try
-                {
-                    result = func(conn, trans);
-                    trans.Commit();
-                }
-                catch (Exception)
-                {
-                    trans.Rollback();
-                }
-
-                return result;
-            }
-        }
-
         public TResult Procedure<TResult>(string name, SqlMapper.IDynamicParameters parameters)
         {
             return default(TResult);
@@ -293,6 +215,63 @@
             {
                 return func(conn);
             }
+        }
+
+        /// <summary>
+        ///     Execute sql
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cnn"></param>
+        /// <param name="sql"></param>
+        /// <param name="param"></param>
+        /// <param name="transaction"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType"></param>
+        /// <returns></returns>
+        public int Execute(
+#if CSHARP30
+ string sql, object param, int? commandTimeout, CommandType? commandType
+#else
+            string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null
+#endif
+            )
+        {
+            sql = sql.Replace("@", _context.ParamPrefix)
+                .Replace(":", _context.ParamPrefix)
+                .Replace("?", _context.ParamPrefix);
+
+            return (int) ExecProcess(_context.DbConnection,
+                conn => conn.Execute(sql, param, _context.DbTransaction,
+                    commandTimeout, commandType));
+        }
+
+        /// <summary>
+        /// Execute sql query
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="param"></param>
+        /// <param name="transaction"></param>
+        /// <param name="buffered"></param>
+        /// <param name="commandTimeout"></param>
+        /// <param name="commandType"></param>
+        /// <returns></returns>
+        public IEnumerable<T> Query<T>(
+#if CSHARP30
+this IDbConnection cnn, string sql, object param, IDbTransaction transaction, bool buffered, int? commandTimeout, CommandType? commandType
+#else
+            string sql, object param = null, IDbTransaction transaction = null,
+            bool buffered = true, int? commandTimeout = null, CommandType? commandType = null
+#endif
+            ) where T : new()
+        {
+            sql = sql.Replace("@", _context.ParamPrefix)
+                .Replace(":", _context.ParamPrefix)
+                .Replace("?", _context.ParamPrefix);
+
+            return (IEnumerable<T>) ExecProcess(_context.DbConnection,
+                conn => conn.Query<T>(sql, param, _context.DbTransaction, buffered,
+                    commandTimeout, commandType));
         }
 
         #region Generate Sql
