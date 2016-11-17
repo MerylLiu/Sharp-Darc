@@ -1,5 +1,6 @@
 ﻿namespace Darc.Core.Attributes
 {
+    using System.Configuration;
     using System.Linq;
     using System.Web.Mvc;
     using Exceptions;
@@ -44,9 +45,11 @@
                 }
 
                 LogUtil.Log(controller.GetType()).Error(errorMsg);
+                var globalException = ConfigurationManager.AppSettings["GlobalException"];
 
                 if (!filterContext.Controller.GetType()
-                    .GetCustomAttributes(typeof (HttpPostAttribute), false).Any())
+                    .GetCustomAttributes(typeof (HttpPostAttribute), false).Any()
+                    && globalException.ToLower() == "true")
                 {
                     string controllerName = (string)filterContext.RouteData.Values["controller"];
                     string actionName = (string)filterContext.RouteData.Values["action"];
