@@ -13,7 +13,9 @@
 
         public override void OnException(ExceptionContext filterContext)
         {
-            if (!filterContext.ExceptionHandled)
+            var globalException = ConfigurationManager.AppSettings["GlobalException"];
+
+            if (!filterContext.ExceptionHandled && (globalException != null && globalException.ToLower() == "true"))
             {
                 var controller = filterContext.Controller;
                 string errorMsg;
@@ -45,11 +47,9 @@
                 }
 
                 LogUtil.Log(controller.GetType()).Error(errorMsg);
-                var globalException = ConfigurationManager.AppSettings["GlobalException"];
 
                 if (!filterContext.Controller.GetType()
-                    .GetCustomAttributes(typeof (HttpPostAttribute), false).Any()
-                    && globalException.ToLower() == "true")
+                    .GetCustomAttributes(typeof (HttpPostAttribute), false).Any() )
                 {
                     string controllerName = (string)filterContext.RouteData.Values["controller"];
                     string actionName = (string)filterContext.RouteData.Values["action"];
