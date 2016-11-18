@@ -15,7 +15,7 @@
         {
             var globalException = ConfigurationManager.AppSettings["GlobalException"];
 
-            if (!filterContext.ExceptionHandled && (globalException != null && globalException.ToLower() == "true"))
+            if (!filterContext.ExceptionHandled && (globalException == null || globalException.ToLower() == "true"))
             {
                 var controller = filterContext.Controller;
                 string errorMsg;
@@ -57,7 +57,7 @@
 
                     filterContext.Result = new ViewResult()
                     {
-                        ViewName = "/Views/Shared/Error.cshtml",
+                        ViewName = "Error",
                         ViewData = new ViewDataDictionary<HandleErrorInfo>(info)
                     };
                     filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
