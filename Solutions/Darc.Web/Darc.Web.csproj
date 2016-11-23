@@ -72,9 +72,6 @@
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Web.Mvc">
-      <HintPath>..\..\Lib\Microsoft.Web.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\..\Lib\MySql.Data.dll</HintPath>
     </Reference>
@@ -828,7 +825,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

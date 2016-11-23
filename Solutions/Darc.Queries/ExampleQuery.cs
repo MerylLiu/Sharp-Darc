@@ -11,7 +11,6 @@
         public IList<Example> GetQueries()
         {
             var data = Session.All<Example>().OrderBy(p => p.Id).ToList();
-            throw new BizException("ddd");
             return data;
         }
 
