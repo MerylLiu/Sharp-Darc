@@ -70,3 +70,369 @@ InnoDB: for how to resolve the issue.
 2016-11-23 13:22:18 10360 [Note] Event Scheduler: Loaded 0 events
 2016-11-23 13:22:18 10360 [Note] D:\Projects\Net\Sharp-Darc\Database/mysql/bin/mysqld.exe: ready for connections.
 Version: '5.6.13'  socket: ''  port: 3307  MySQL Community Server (GPL)
+2016-11-24 15:02:35 17224 [Note] Plugin 'FEDERATED' is disabled.
+2016-11-24 15:02:35 17224 [Note] InnoDB: The InnoDB memory heap is disabled
+2016-11-24 15:02:35 17224 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2016-11-24 15:02:35 17224 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2016-11-24 15:02:35 17224 [Note] InnoDB: Not using CPU crc32 instructions
+2016-11-24 15:02:35 17224 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2016-11-24 15:02:35 17224 [Note] InnoDB: Completed initialization of buffer pool
+2016-11-24 15:02:35 17224 [Note] InnoDB: Highest supported file format is Barracuda.
+2016-11-24 15:02:35 17224 [Note] InnoDB: The log sequence numbers 2945140 and 2945140 in ibdata files do not match the log sequence number 2951301 in the ib_logfiles!
+2016-11-24 15:02:35 17224 [Note] InnoDB: Database was not shutdown normally!
+2016-11-24 15:02:35 17224 [Note] InnoDB: Starting crash recovery.
+2016-11-24 15:02:35 17224 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2016-11-24 15:02:35 17224 [Note] InnoDB: Restoring possible half-written data pages 
+2016-11-24 15:02:35 17224 [Note] InnoDB: from the doublewrite buffer...
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/sys_menu in the InnoDB data dictionary has tablespace id 38, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/sys_orgnization in the InnoDB data dictionary has tablespace id 35, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/sys_role in the InnoDB data dictionary has tablespace id 32, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/sys_rolemenu in the InnoDB data dictionary has tablespace id 37, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/sys_userorgnization in the InnoDB data dictionary has tablespace id 36, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/sys_userrole in the InnoDB data dictionary has tablespace id 33, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/sys_users in the InnoDB data dictionary has tablespace id 30, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/wf_processes in the InnoDB data dictionary has tablespace id 22, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/wf_processinstances in the InnoDB data dictionary has tablespace id 26, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/wf_taskinstances in the InnoDB data dictionary has tablespace id 27, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/wf_tasks in the InnoDB data dictionary has tablespace id 24, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [ERROR] InnoDB: Table darc/wf_transforms in the InnoDB data dictionary has tablespace id 25, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:02:36 17224 [Note] InnoDB: 128 rollback segment(s) are active.
+2016-11-24 15:02:36 17224 [Note] InnoDB: Waiting for purge to start
+2016-11-24 15:02:36 17224 [Note] InnoDB: 5.6.13 started; log sequence number 2951301
+2016-11-24 15:02:36 17224 [Note] Server hostname (bind-address): '*'; port: 3307
+2016-11-24 15:02:36 17224 [Note] IPv6 is available.
+2016-11-24 15:02:36 17224 [Note]   - '::' resolves to '::';
+2016-11-24 15:02:36 17224 [Note] Server socket created on IP: '::'.
+2016-11-24 15:02:36 17224 [Note] Event Scheduler: Loaded 0 events
+2016-11-24 15:02:36 17224 [Note] D:\Projects\Net\Sharp-Darc\Database/mysql/bin/mysqld.exe: ready for connections.
+Version: '5.6.13'  socket: ''  port: 3307  MySQL Community Server (GPL)
+2016-11-24 15:05:02 18352 [Note] Plugin 'FEDERATED' is disabled.
+2016-11-24 15:05:02 18352 [Note] InnoDB: The InnoDB memory heap is disabled
+2016-11-24 15:05:02 18352 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2016-11-24 15:05:02 18352 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2016-11-24 15:05:02 18352 [Note] InnoDB: Not using CPU crc32 instructions
+2016-11-24 15:05:02 18352 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2016-11-24 15:05:02 18352 [Note] InnoDB: Completed initialization of buffer pool
+2016-11-24 15:05:02 18352 [Note] InnoDB: Highest supported file format is Barracuda.
+2016-11-24 15:05:02 18352 [Note] InnoDB: The log sequence numbers 2945140 and 2945140 in ibdata files do not match the log sequence number 2951311 in the ib_logfiles!
+2016-11-24 15:05:02 18352 [Note] InnoDB: Database was not shutdown normally!
+2016-11-24 15:05:02 18352 [Note] InnoDB: Starting crash recovery.
+2016-11-24 15:05:02 18352 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2016-11-24 15:05:02 18352 [Note] InnoDB: Restoring possible half-written data pages 
+2016-11-24 15:05:02 18352 [Note] InnoDB: from the doublewrite buffer...
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/sys_menu in the InnoDB data dictionary has tablespace id 38, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/sys_orgnization in the InnoDB data dictionary has tablespace id 35, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/sys_role in the InnoDB data dictionary has tablespace id 32, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/sys_rolemenu in the InnoDB data dictionary has tablespace id 37, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/sys_userorgnization in the InnoDB data dictionary has tablespace id 36, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/sys_userrole in the InnoDB data dictionary has tablespace id 33, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/sys_users in the InnoDB data dictionary has tablespace id 30, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/wf_processes in the InnoDB data dictionary has tablespace id 22, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/wf_processinstances in the InnoDB data dictionary has tablespace id 26, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/wf_taskinstances in the InnoDB data dictionary has tablespace id 27, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/wf_tasks in the InnoDB data dictionary has tablespace id 24, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [ERROR] InnoDB: Table darc/wf_transforms in the InnoDB data dictionary has tablespace id 25, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:05:02 18352 [Note] InnoDB: 128 rollback segment(s) are active.
+2016-11-24 15:05:02 18352 [Note] InnoDB: Waiting for purge to start
+2016-11-24 15:05:02 18352 [Note] InnoDB: 5.6.13 started; log sequence number 2951311
+2016-11-24 15:05:02 18352 [Note] Server hostname (bind-address): '*'; port: 3307
+2016-11-24 15:05:02 18352 [Note] IPv6 is available.
+2016-11-24 15:05:02 18352 [Note]   - '::' resolves to '::';
+2016-11-24 15:05:02 18352 [Note] Server socket created on IP: '::'.
+2016-11-24 15:05:02 18352 [Note] Event Scheduler: Loaded 0 events
+2016-11-24 15:05:02 18352 [Note] D:\Projects\Net\Sharp-Darc\Database/mysql/bin/mysqld.exe: ready for connections.
+Version: '5.6.13'  socket: ''  port: 3307  MySQL Community Server (GPL)
+2016-11-24 15:20:10 11620 [Warning] Buffered warning: option 'table_definition_cache': unsigned value 200 adjusted to 400
+
+2016-11-24 15:20:10 11620 [Note] Plugin 'FEDERATED' is disabled.
+2016-11-24 15:20:10 11620 [Note] InnoDB: The InnoDB memory heap is disabled
+2016-11-24 15:20:10 11620 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2016-11-24 15:20:10 11620 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2016-11-24 15:20:10 11620 [Note] InnoDB: Not using CPU crc32 instructions
+2016-11-24 15:20:10 11620 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2016-11-24 15:20:10 11620 [Note] InnoDB: Completed initialization of buffer pool
+2016-11-24 15:20:10 11620 [Note] InnoDB: Highest supported file format is Barracuda.
+2016-11-24 15:20:10 11620 [Note] InnoDB: The log sequence numbers 2945140 and 2945140 in ibdata files do not match the log sequence number 2951321 in the ib_logfiles!
+2016-11-24 15:20:10 11620 [Note] InnoDB: Database was not shutdown normally!
+2016-11-24 15:20:10 11620 [Note] InnoDB: Starting crash recovery.
+2016-11-24 15:20:10 11620 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2016-11-24 15:20:10 11620 [Note] InnoDB: Restoring possible half-written data pages 
+2016-11-24 15:20:10 11620 [Note] InnoDB: from the doublewrite buffer...
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/sys_menu in the InnoDB data dictionary has tablespace id 38, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/sys_orgnization in the InnoDB data dictionary has tablespace id 35, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/sys_role in the InnoDB data dictionary has tablespace id 32, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/sys_rolemenu in the InnoDB data dictionary has tablespace id 37, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/sys_userorgnization in the InnoDB data dictionary has tablespace id 36, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/sys_userrole in the InnoDB data dictionary has tablespace id 33, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/sys_users in the InnoDB data dictionary has tablespace id 30, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/wf_processes in the InnoDB data dictionary has tablespace id 22, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/wf_processinstances in the InnoDB data dictionary has tablespace id 26, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/wf_taskinstances in the InnoDB data dictionary has tablespace id 27, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/wf_tasks in the InnoDB data dictionary has tablespace id 24, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [ERROR] InnoDB: Table darc/wf_transforms in the InnoDB data dictionary has tablespace id 25, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:20:10 11620 [Note] InnoDB: 128 rollback segment(s) are active.
+2016-11-24 15:20:10 11620 [Note] InnoDB: Waiting for purge to start
+2016-11-24 15:20:10 11620 [Note] InnoDB: 5.6.13 started; log sequence number 2951321
+2016-11-24 15:20:10 11620 [Note] Server hostname (bind-address): '*'; port: 3307
+2016-11-24 15:20:10 11620 [Note] IPv6 is available.
+2016-11-24 15:20:10 11620 [Note]   - '::' resolves to '::';
+2016-11-24 15:20:10 11620 [Note] Server socket created on IP: '::'.
+2016-11-24 15:20:10 11620 [Note] Event Scheduler: Loaded 0 events
+2016-11-24 15:20:10 11620 [Note] D:\Projects\Net\Sharp-Darc\Database/mysql/bin/mysqld.exe: ready for connections.
+Version: '5.6.13'  socket: ''  port: 3307  MySQL Community Server (GPL)
+2016-11-24 15:50:54 13320 [Warning] Buffered warning: option 'table_definition_cache': unsigned value 200 adjusted to 400
+
+2016-11-24 15:50:54 13320 [Note] Plugin 'FEDERATED' is disabled.
+2016-11-24 15:50:54 13320 [Note] InnoDB: The InnoDB memory heap is disabled
+2016-11-24 15:50:54 13320 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2016-11-24 15:50:54 13320 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2016-11-24 15:50:54 13320 [Note] InnoDB: Not using CPU crc32 instructions
+2016-11-24 15:50:54 13320 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2016-11-24 15:50:54 13320 [Note] InnoDB: Completed initialization of buffer pool
+2016-11-24 15:50:54 13320 [Note] InnoDB: Highest supported file format is Barracuda.
+2016-11-24 15:50:54 13320 [Note] InnoDB: The log sequence numbers 2945140 and 2945140 in ibdata files do not match the log sequence number 2951331 in the ib_logfiles!
+2016-11-24 15:50:54 13320 [Note] InnoDB: Database was not shutdown normally!
+2016-11-24 15:50:54 13320 [Note] InnoDB: Starting crash recovery.
+2016-11-24 15:50:54 13320 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2016-11-24 15:50:54 13320 [Note] InnoDB: Restoring possible half-written data pages 
+2016-11-24 15:50:54 13320 [Note] InnoDB: from the doublewrite buffer...
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/sys_menu in the InnoDB data dictionary has tablespace id 38, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/sys_orgnization in the InnoDB data dictionary has tablespace id 35, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/sys_role in the InnoDB data dictionary has tablespace id 32, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/sys_rolemenu in the InnoDB data dictionary has tablespace id 37, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/sys_userorgnization in the InnoDB data dictionary has tablespace id 36, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/sys_userrole in the InnoDB data dictionary has tablespace id 33, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/sys_users in the InnoDB data dictionary has tablespace id 30, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/wf_processes in the InnoDB data dictionary has tablespace id 22, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/wf_processinstances in the InnoDB data dictionary has tablespace id 26, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/wf_taskinstances in the InnoDB data dictionary has tablespace id 27, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/wf_tasks in the InnoDB data dictionary has tablespace id 24, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [ERROR] InnoDB: Table darc/wf_transforms in the InnoDB data dictionary has tablespace id 25, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 15:50:55 13320 [Note] InnoDB: 128 rollback segment(s) are active.
+2016-11-24 15:50:55 13320 [Note] InnoDB: Waiting for purge to start
+2016-11-24 15:50:55 13320 [Note] InnoDB: 5.6.13 started; log sequence number 2951331
+2016-11-24 15:50:55 13320 [Note] Server hostname (bind-address): '*'; port: 3307
+2016-11-24 15:50:55 13320 [Note] IPv6 is available.
+2016-11-24 15:50:55 13320 [Note]   - '::' resolves to '::';
+2016-11-24 15:50:55 13320 [Note] Server socket created on IP: '::'.
+2016-11-24 15:50:55 13320 [Note] Event Scheduler: Loaded 0 events
+2016-11-24 15:50:55 13320 [Note] D:\Projects\Net\Sharp-Darc\Database/mysql/bin/mysqld.exe: ready for connections.
+Version: '5.6.13'  socket: ''  port: 3307  MySQL Community Server (GPL)
+2016-11-24 16:36:33 7108 [Warning] Buffered warning: option 'table_definition_cache': unsigned value 200 adjusted to 400
+
+2016-11-24 16:36:33 7108 [Note] Plugin 'FEDERATED' is disabled.
+2016-11-24 16:36:33 7108 [Note] InnoDB: The InnoDB memory heap is disabled
+2016-11-24 16:36:33 7108 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2016-11-24 16:36:33 7108 [Note] InnoDB: Compressed tables use zlib 1.2.3
+2016-11-24 16:36:33 7108 [Note] InnoDB: Not using CPU crc32 instructions
+2016-11-24 16:36:33 7108 [Note] InnoDB: Initializing buffer pool, size = 128.0M
+2016-11-24 16:36:33 7108 [Note] InnoDB: Completed initialization of buffer pool
+2016-11-24 16:36:33 7108 [Note] InnoDB: Highest supported file format is Barracuda.
+2016-11-24 16:36:33 7108 [Note] InnoDB: The log sequence numbers 2945140 and 2945140 in ibdata files do not match the log sequence number 2951341 in the ib_logfiles!
+2016-11-24 16:36:33 7108 [Note] InnoDB: Database was not shutdown normally!
+2016-11-24 16:36:33 7108 [Note] InnoDB: Starting crash recovery.
+2016-11-24 16:36:33 7108 [Note] InnoDB: Reading tablespace information from the .ibd files...
+2016-11-24 16:36:33 7108 [Note] InnoDB: Restoring possible half-written data pages 
+2016-11-24 16:36:33 7108 [Note] InnoDB: from the doublewrite buffer...
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/sys_menu in the InnoDB data dictionary has tablespace id 38, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/sys_orgnization in the InnoDB data dictionary has tablespace id 35, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/sys_role in the InnoDB data dictionary has tablespace id 32, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/sys_rolemenu in the InnoDB data dictionary has tablespace id 37, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/sys_userorgnization in the InnoDB data dictionary has tablespace id 36, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/sys_userrole in the InnoDB data dictionary has tablespace id 33, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/sys_users in the InnoDB data dictionary has tablespace id 30, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/wf_processes in the InnoDB data dictionary has tablespace id 22, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/wf_processinstances in the InnoDB data dictionary has tablespace id 26, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/wf_taskinstances in the InnoDB data dictionary has tablespace id 27, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/wf_tasks in the InnoDB data dictionary has tablespace id 24, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [ERROR] InnoDB: Table darc/wf_transforms in the InnoDB data dictionary has tablespace id 25, but tablespace with that id or name does not exist. Have you deleted or moved .ibd files? This may also be a table created with CREATE TEMPORARY TABLE whose .ibd and .frm files MySQL automatically removed, but the table still exists in the InnoDB internal data dictionary.
+InnoDB: Please refer to
+InnoDB: http://dev.mysql.com/doc/refman/5.6/en/innodb-troubleshooting-datadict.html
+InnoDB: for how to resolve the issue.
+2016-11-24 16:36:33 7108 [Note] InnoDB: 128 rollback segment(s) are active.
+2016-11-24 16:36:33 7108 [Note] InnoDB: Waiting for purge to start
+2016-11-24 16:36:33 7108 [Note] InnoDB: 5.6.13 started; log sequence number 2951341
+2016-11-24 16:36:33 7108 [Note] Server hostname (bind-address): '*'; port: 3307
+2016-11-24 16:36:33 7108 [Note] IPv6 is available.
+2016-11-24 16:36:33 7108 [Note]   - '::' resolves to '::';
+2016-11-24 16:36:33 7108 [Note] Server socket created on IP: '::'.
+2016-11-24 16:36:33 7108 [Note] Event Scheduler: Loaded 0 events
+2016-11-24 16:36:33 7108 [Note] D:\Projects\Net\Sharp-Darc\Database/mysql/bin/mysqld_darc.exe: ready for connections.
+Version: '5.6.13'  socket: ''  port: 3307  MySQL Community Server (GPL)
