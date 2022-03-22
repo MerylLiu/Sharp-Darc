@@ -156,6 +156,45 @@
 
             return listItems;
         }
+        
+                public static T GetByIndex<T>(this IEnumerable<T> list, int index)
+        {
+            if (list == null || index >= list.Count() || index < 0) return default(T);
+            return list.ToArray()[index];
+        }
+
+        public static T GetEnumByDesc<T>(string description) where T : Enum
+        {
+            FieldInfo[] fields = typeof(T).GetFields();
+            foreach (FieldInfo field in fields)
+            {
+                object[] objs = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (objs.Length > 0 && (objs[0] as DescriptionAttribute)?.Description == description)
+                {
+                    return (T)field.GetValue(null);
+                }
+            }
+
+            throw new ArgumentException($"{description} 未能找到对应的枚举.", "Description");
+        }
+
+        public static T GetEnumByName<T>(string name) where T : Enum
+        {
+            var res = (T) Enum.Parse(typeof(T), name);
+            return res;
+        }
+
+        public static T GetEnumByValue<T>(object value) where T : Enum
+        {
+            var values = Enum.GetValues(typeof(T));
+
+            foreach (var item in values)
+            {
+                if (Convert.ToInt32(value).Equals(Convert.ToInt32(item))) return (T) item;
+            }
+
+            return default(T);
+        }
     }
 
     public class ComboListItem
