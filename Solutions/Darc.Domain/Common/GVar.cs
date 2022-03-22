@@ -157,7 +157,7 @@
             return listItems;
         }
         
-                public static T GetByIndex<T>(this IEnumerable<T> list, int index)
+        public static T GetByIndex<T>(this IEnumerable<T> list, int index)
         {
             if (list == null || index >= list.Count() || index < 0) return default(T);
             return list.ToArray()[index];
